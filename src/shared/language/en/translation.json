@@ -1,0 +1,89 @@
+{
+	"notFound": {
+		"title": "404",
+		"message": "Oops! The page you are looking for does not exist.",
+		"goHome": "Go Home"
+	},
+	"login": {
+		"email": "Email",
+		"password": "Password",
+		"or": "or continue with",
+		"google": "Google",
+		"forgot": "Forgot password?",
+		"submit": "Login",
+		"noAccount": "Don't have an account?",
+		"register": "Register",
+		"captcha": "Please submit Captcha",
+		"success": "Welcome, {{username}}!",
+		"error": "Login error"
+	},
+	"register": {
+		"title": "Registration",
+		"username": "Username",
+		"email": "Email",
+		"password": "Password",
+		"confirmPassword": "Confirm password",
+		"or": "or continue with",
+		"google": "Google",
+		"submit": "Register",
+		"alreadyHaveAccount": "Already have an account?",
+		"login": "Login",
+		"captcha": "Please submit Captcha",
+		"success": "You have registered successfully. Please verify your account.",
+		"error": "Registration error"
+	},
+	"verification": {
+		"title": "Verification",
+		"success": "Account verified successfully",
+		"error": "Verification error"
+	},
+	"passwordReset": {
+		"emailLabel": "Email",
+		"submitButton": "Send reset email",
+		"emailSent": "A password reset email has been successfully sent to {{email}}.",
+		"resetSuccess": "Password reset successfully, you can now login to your account",
+		"resetError": "Password reset error",
+		"notificationTitle": "Password Reset Email Sent"
+	},
+	"verifyAccount": {
+		"emailLabel": "Email",
+		"submitButton": "Send verify email",
+		"verificationSent": "Verification email sent successfully",
+		"verificationError": "Verification error",
+		"verificationSuccess": "You have successfully verified your account. You can now log in."
+	},
+	"resetPasswordModal": {
+		"title": "Reset your password",
+		"message": "We've sent a verification code to {{email}}. Please enter the code below to reset your password.",
+		"passwordLabel": "Password",
+		"confirmPasswordLabel": "Confirm password",
+		"resendCode": "Resend code",
+		"changePassword": "Change password",
+		"resendSuccess": "Email with verify code sent successfully, please check your email",
+		"resendError": "Error sending verification code"
+	},
+	"verificationCodeModal": {
+		"title": "Verify your email",
+		"message": "We've sent a verification code to {{email}}. Please enter the code below to verify your account.",
+		"resendCode": "Resend code",
+		"verify": "Verify",
+		"resendSuccess": "Email with verify code sent successfully, please check your email",
+		"resendError": "Error sending verification code",
+		"invalidCode": "Invalid verification code"
+	},
+	"header": {
+		"verify": "Verify"
+	},
+	"authPages": {
+		"login": "Sign in",
+		"register": "Sign up",
+		"resetPassword": {
+			"title": "Reset password",
+			"text": "Enter your email address to reset your password"
+		},
+		"verifyAccount": {
+			"title": "Reset password",
+			"text": "Enter your email address to verify your account"
+		}
+	}
+}

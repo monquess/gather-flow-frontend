@@ -1,0 +1,89 @@
+{
+	"notFound": {
+		"title": "404",
+		"message": "Ups! Strona, której szukasz, nie istnieje.",
+		"goHome": "Wróć do strony głównej"
+	},
+	"login": {
+		"email": "Email",
+		"password": "Hasło",
+		"or": "lub kontynuuj za pomocą",
+		"google": "Google",
+		"forgot": "Zapomniałeś hasła?",
+		"submit": "Zaloguj się",
+		"noAccount": "Nie masz konta?",
+		"register": "Zarejestruj się",
+		"captcha": "Proszę potwierdzić Captcha",
+		"success": "Witaj, {{username}}!",
+		"error": "Błąd logowania"
+	},
+	"register": {
+		"title": "Rejestracja",
+		"username": "Nazwa użytkownika",
+		"email": "Email",
+		"password": "Hasło",
+		"confirmPassword": "Potwierdź hasło",
+		"or": "lub kontynuuj za pomocą",
+		"google": "Google",
+		"submit": "Zarejestruj",
+		"alreadyHaveAccount": "Masz już konto?",
+		"login": "Zaloguj się",
+		"captcha": "Proszę przesłać Captcha",
+		"success": "Zarejestrowałeś się pomyślnie. Proszę zweryfikować swoje konto.",
+		"error": "Błąd rejestracji"
+	},
+	"verification": {
+		"title": "Weryfikacja",
+		"success": "Konto zostało pomyślnie zweryfikowane",
+		"error": "Błąd weryfikacji"
+	},
+	"passwordReset": {
+		"emailLabel": "Email",
+		"submitButton": "Wyślij e-mail resetowania hasła",
+		"emailSent": "E-mail resetowania hasła został pomyślnie wysłany na {{email}}.",
+		"resetSuccess": "Hasło zostało pomyślnie zresetowane, teraz możesz zalogować się na swoje konto",
+		"resetError": "Błąd resetowania hasła",
+		"notificationTitle": "E-mail z resetowaniem hasła wysłany"
+	},
+	"verifyAccount": {
+		"emailLabel": "Email",
+		"submitButton": "Wyślij e-mail weryfikacyjny",
+		"verificationSent": "E-mail weryfikacyjny wysłany pomyślnie",
+		"verificationError": "Błąd weryfikacji",
+		"verificationSuccess": "Twoje konto zostało pomyślnie zweryfikowane. Możesz teraz się zalogować."
+	},
+	"resetPasswordModal": {
+		"title": "Zresetuj swoje hasło",
+		"message": "Wysłaliśmy kod weryfikacyjny na adres {{email}}. Proszę wprowadź kod poniżej, aby zresetować swoje hasło.",
+		"passwordLabel": "Hasło",
+		"confirmPasswordLabel": "Potwierdź hasło",
+		"resendCode": "Wyślij kod ponownie",
+		"changePassword": "Zmień hasło",
+		"resendSuccess": "E-mail z kodem weryfikacyjnym wysłany pomyślnie, sprawdź swoją skrzynkę pocztową",
+		"resendError": "Błąd wysyłania kodu weryfikacyjnego"
+	},
+	"verificationCodeModal": {
+		"title": "Zweryfikuj swój email",
+		"message": "Wysłaliśmy kod weryfikacyjny na adres {{email}}. Proszę wprowadź kod poniżej, aby zweryfikować swoje konto.",
+		"resendCode": "Wyślij kod ponownie",
+		"verify": "Zweryfikuj",
+		"resendSuccess": "E-mail z kodem weryfikacyjnym wysłany pomyślnie, sprawdź swoją skrzynkę pocztową",
+		"resendError": "Błąd wysyłania kodu weryfikacyjnego",
+		"invalidCode": "Nieprawidłowy kod weryfikacyjny"
+	},
+	"header": {
+		"verify": "Zweryfikuj"
+	},
+	"authPages": {
+		"login": "Zaloguj się",
+		"register": "Zarejestruj się",
+		"resetPassword": {
+			"title": "Zresetuj hasło",
+			"text": "Wprowadź swój adres e-mail, aby zresetować hasło"
+		},
+		"verifyAccount": {
+			"title": "Zweryfikuj konto",
+			"text": "Wprowadź swój adres e-mail, aby zweryfikować konto"
+		}
+	}
+}
