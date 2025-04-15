@@ -17,6 +17,7 @@ import EventsPage from './pages/event/events-page'
 import Homepage from './pages/homepage'
 import LandingPage from './pages/landing-page'
 import NotFound from './pages/not-found-page'
+import UserProfilePage from './pages/profile-page'
 import { theme } from './theme'
 
 const queryClient = new QueryClient()
@@ -37,6 +38,7 @@ function App() {
 					<Route path="/home" element={<Homepage />} />
 					<Route path="/events" element={<EventsPage />} />
 					<Route path="/companies" element={<CompaniesPage />} />
+					<Route path="/profile" element={<UserProfilePage />} />
 				</Routes>
 			</MantineProvider>
 		</QueryClientProvider>
