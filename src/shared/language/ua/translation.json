@@ -1,0 +1,89 @@
+{
+	"notFound": {
+		"title": "404",
+		"message": "Ой! Сторінка, яку ви шукаєте, не існує.",
+		"goHome": "На головну"
+	},
+	"login": {
+		"email": "Електронна пошта",
+		"password": "Пароль",
+		"or": "або увійдіть через",
+		"google": "Google",
+		"forgot": "Забули пароль?",
+		"submit": "Увійти",
+		"noAccount": "Ще не маєте облікового запису?",
+		"register": "Зареєструватися",
+		"captcha": "Будь ласка, підтвердіть Captcha",
+		"success": "Вітаємо, {{username}}!",
+		"error": "Помилка входу"
+	},
+	"register": {
+		"title": "Реєстрація",
+		"username": "Ім'я користувача",
+		"email": "Електронна пошта",
+		"password": "Пароль",
+		"confirmPassword": "Підтвердьте пароль",
+		"or": "або продовжіть за допомогою",
+		"google": "Google",
+		"submit": "Зареєструватися",
+		"alreadyHaveAccount": "Уже маєте обліковий запис?",
+		"login": "Увійти",
+		"captcha": "Будь ласка, надайте Captcha",
+		"success": "Ви успішно зареєстровані. Будь ласка, перевірте свою електронну пошту.",
+		"error": "Помилка реєстрації"
+	},
+	"verification": {
+		"title": "Верифікація",
+		"success": "Обліковий запис успішно перевірено",
+		"error": "Помилка верифікації"
+	},
+	"passwordReset": {
+		"emailLabel": "Електронна пошта",
+		"submitButton": "Надіслати mail для скидання пароля",
+		"emailSent": "Email для скидання пароля успішно надіслано на {{email}}.",
+		"resetSuccess": "Пароль успішно скинуто, тепер ви можете увійти до свого облікового запису",
+		"resetError": "Помилка скидання пароля",
+		"notificationTitle": "Email для скидання пароля надіслано"
+	},
+	"verifyAccount": {
+		"emailLabel": "Електронна пошта",
+		"submitButton": "Надіслати електронний лист для підтвердження",
+		"verificationSent": "Лист для підтвердження успішно надіслано",
+		"verificationError": "Помилка підтвердження",
+		"verificationSuccess": "Ви успішно підтвердили свій обліковий запис. Тепер ви можете увійти в систему."
+	},
+	"resetPasswordModal": {
+		"title": "Скинути ваш пароль",
+		"message": "Ми надіслали код підтвердження на {{email}}. Будь ласка, введіть код нижче, щоб скинути свій пароль.",
+		"passwordLabel": "Пароль",
+		"confirmPasswordLabel": "Підтвердження пароля",
+		"resendCode": "Надіслати код знову",
+		"changePassword": "Змінити пароль",
+		"resendSuccess": "Лист з кодом підтвердження успішно надіслано, перевірте свою електронну пошту",
+		"resendError": "Помилка при відправці коду підтвердження"
+	},
+	"verificationCodeModal": {
+		"title": "Zweryfikuj swój email",
+		"message": "Wysłaliśmy kod weryfikacyjny na adres {{email}}. Proszę wprowadź kod poniżej, aby zweryfikować swoje konto.",
+		"resendCode": "Wyślij kod ponownie",
+		"verify": "Zweryfikuj",
+		"resendSuccess": "E-mail z kodem weryfikacyjnym wysłany pomyślnie, sprawdź swoją skrzynkę pocztową",
+		"resendError": "Błąd wysyłania kodu weryfikacyjnego",
+		"invalidCode": "Nieprawidłowy kod weryfikacyjny"
+	},
+	"header": {
+		"verify": "Підтвердити"
+	},
+	"authPages": {
+		"login": "Увійти",
+		"register": "Зареєструватися",
+		"resetPassword": {
+			"title": "Скинути пароль",
+			"text": "Введіть свою електронну адресу, щоб скинути пароль"
+		},
+		"verifyAccount": {
+			"title": "Перевірте акаунт",
+			"text": "Введіть свою електронну адресу, щоб перевірити акаунт"
+		}
+	}
+}

@@ -1,0 +1,208 @@
+import {
+	Button,
+	Divider,
+	Group,
+	PasswordInput,
+	Text,
+	TextInput,
+} from '@mantine/core'
+import { useForm, zodResolver } from '@mantine/form'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { FcGoogle } from 'react-icons/fc'
+
+import axios, { AxiosError } from 'axios'
+import ReCAPTCHA from 'react-google-recaptcha'
+
+import { config } from '@/config/config'
+import { useResponsive } from '@/hooks/use-responsive'
+import { showNotification } from '@/shared/helpers/show-notification'
+import { registerSchema } from '@/shared/validations'
+
+import { useTranslation } from 'react-i18next'
+import GoogleRecaptchaModal from './modals/google-recaptcha-modal'
+import VerificationCodeModal from './modals/verify-code-modal'
+
+const RegisterForm: React.FC = () => {
+	const { t } = useTranslation()
+	const navigate = useNavigate()
+	const { isMobile } = useResponsive()
+	const [verificationModalOpened, setVerificationModalOpened] =
+		React.useState(false)
+	const [recaptchaModalOpened, setRecaptchaModalOpened] = React.useState(false)
+	const [registeredEmail, setRegisteredEmail] = React.useState('')
+	const [loading, setLoading] = useState<boolean>(false)
+
+	const recaptcha = React.useRef<ReCAPTCHA>(null)
+
+	const form = useForm({
+		mode: 'uncontrolled',
+		validate: zodResolver(registerSchema),
+		initialValues: {
+			fullname: '',
+			email: '',
+			password: '',
+			confirmPassword: '',
+		},
+		validateInputOnChange: true,
+	})
+
+	const handleCaptchaSubmit = () => {
+		const values = form.getValues()
+		handleSubmit(values)
+		setRecaptchaModalOpened(false)
+	}
+
+	const handleSubmit = async (values: typeof form.values) => {
+		if (!recaptcha.current?.getValue()) {
+			showNotification('Register', t('register.captcha'), 'red')
+		} else {
+			try {
+				setLoading(true)
+				await axios.post(
+					`${config.API_BASE_URL}/auth/register`,
+					{
+						username: values.fullname,
+						email: values.email,
+						password: values.password,
+					},
+					{
+						headers: {
+							'x-recaptcha-token': recaptcha.current.getValue(),
+						},
+					}
+				)
+				setRegisteredEmail(values.email)
+				setVerificationModalOpened(true)
+				form.reset()
+				showNotification(t('register.title'), t('register.success'), 'green')
+			} catch (error) {
+				if (error instanceof AxiosError && error.response) {
+					showNotification(
+						t('register.error'),
+						error.response.data.message,
+						'red'
+					)
+				}
+			} finally {
+				setLoading(false)
+			}
+		}
+	}
+
+	const handleVerify = async (token: string) => {
+		try {
+			await axios.post(`${config.API_BASE_URL}/auth/verify-email`, {
+				token,
+				email: registeredEmail,
+			})
+			navigate('/login')
+			showNotification(
+				t('verification.title'),
+				t('verification.success'),
+				'green'
+			)
+		} catch (error) {
+			if (error instanceof AxiosError && error.response) {
+				showNotification(
+					t('verification.error'),
+					error.response.data.message,
+					'red'
+				)
+			}
+		}
+	}
+
+	return (
+		<>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault()
+					const formError = form.validate()
+					if (!formError.hasErrors) {
+						setRecaptchaModalOpened(true)
+					}
+				}}
+			>
+				<TextInput
+					label={t('register.username')}
+					mt="md"
+					size={isMobile ? 'sm' : 'md'}
+					key={form.key('fullname')}
+					{...form.getInputProps('fullname')}
+				/>
+				<TextInput
+					label={t('register.email')}
+					mt="md"
+					size={isMobile ? 'sm' : 'md'}
+					key={form.key('email')}
+					{...form.getInputProps('email')}
+				/>
+				<PasswordInput
+					label={t('register.password')}
+					mt="md"
+					size={isMobile ? 'sm' : 'md'}
+					key={form.key('password')}
+					{...form.getInputProps('password')}
+				/>
+				<PasswordInput
+					label={t('register.confirmPassword')}
+					mt="md"
+					size={isMobile ? 'sm' : 'md'}
+					key={form.key('confirmPassword')}
+					{...form.getInputProps('confirmPassword')}
+				/>
+				<Divider my="lg" label={t('register.or')} labelPosition="center" />
+				<Group mt={isMobile ? 'sm' : 'md'} justify="center" grow={isMobile}>
+					<Button
+						type="button"
+						variant="light"
+						size={isMobile ? 'xs' : 'sm'}
+						w="100%"
+					>
+						<Group gap={6} justify="center">
+							<FcGoogle />
+							{t('register.google')}
+						</Group>
+					</Button>
+				</Group>
+				<Button
+					type="submit"
+					fullWidth
+					mt={isMobile ? 'md' : 'lg'}
+					size={isMobile ? 'sm' : 'md'}
+					loading={loading}
+				>
+					{t('register.submit')}
+				</Button>
+				<Text size={isMobile ? 'xs' : 'sm'} ta="center" mt="sm">
+					{t('register.alreadyHaveAccount')}{' '}
+					<Text
+						component="a"
+						href="/login"
+						style={{ textDecoration: 'none' }}
+						inherit
+						c="brand.8"
+					>
+						{t('register.login')}
+					</Text>
+				</Text>
+			</form>
+			<VerificationCodeModal
+				opened={verificationModalOpened}
+				onClose={() => setVerificationModalOpened(false)}
+				email={registeredEmail}
+				onVerify={handleVerify}
+			/>
+			<GoogleRecaptchaModal
+				opened={recaptchaModalOpened}
+				onClose={() => setRecaptchaModalOpened(false)}
+				ref={recaptcha}
+				onSubmit={handleCaptchaSubmit}
+			/>
+		</>
+	)
+}
+
+export default React.memo(RegisterForm)
