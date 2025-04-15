@@ -1,57 +1,77 @@
 import LanguageSwitcher from '@/components/buttons/language-switcher'
 import ThemeSwitch from '@/components/buttons/theme-switch'
-import EventCard from '@/components/events/event-card'
+import CompanyCard from '@/components/company/company-card'
+import EventCard from '@/components/event/event-card'
 import { apiClient } from '@/shared/api/axios'
+import classes from '@/shared/styles/slider.module.css'
+import { CompaniesResponse } from '@/shared/types/companies'
 import { EventsResponse } from '@/shared/types/events'
+import { Carousel } from '@mantine/carousel'
 import {
 	Avatar,
+	Button,
 	Center,
 	Container,
 	Group,
 	Input,
 	Loader,
-	Pagination,
-	SimpleGrid,
 	Text,
+	Title,
 } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
-import React, { useState } from 'react'
+import Autoplay from 'embla-carousel-autoplay'
+import React, { useRef } from 'react'
+import { useNavigate } from 'react-router'
 
 const Homepage: React.FC = () => {
-	const [page, setPage] = useState(1)
+	const autoplayCompanies = useRef(Autoplay({ delay: 2400 }))
+	const autoplayEvents = useRef(Autoplay({ delay: 2000 }))
+	const navigate = useNavigate()
 
-	const fetchEvents = async (page: number): Promise<EventsResponse> => {
-		const { data } = await apiClient(`/events?page=${page}&limit=15`)
-		return data
-	}
-
-	const { data, isLoading, error } = useQuery({
-		queryKey: ['events', page],
-		queryFn: () => fetchEvents(page),
+	const { data: eventsData, isLoading: isLoadingEvents } = useQuery({
+		queryKey: ['homepage-events'],
+		queryFn: async (): Promise<EventsResponse> => {
+			const { data } = await apiClient('/events?page=1&limit=10')
+			return data
+		},
 	})
 
-	if (isLoading)
+	const { data: companiesData, isLoading: isLoadingCompanies } = useQuery({
+		queryKey: ['homepage-companies'],
+		queryFn: async (): Promise<CompaniesResponse> => {
+			const { data } = await apiClient('/companies?page=1&limit=10')
+			return data
+		},
+	})
+
+	if (isLoadingEvents || isLoadingCompanies) {
 		return (
-			<Center>
+			<Center py="xl">
 				<Loader />
 			</Center>
 		)
-	if (error)
-		return (
-			<Center>
-				<Text>Error loading events</Text>
-			</Center>
-		)
+	}
 
 	return (
 		<Container size="xl" py="md">
 			<header>
-				<Group justify="space-between" mb="md">
+				<Group justify="space-between" mb="lg">
 					<Text fw={600} size="xl">
 						Gather Flow
 					</Text>
+					<Center>
+						<Button variant="subtle" onClick={() => navigate('/home')}>
+							Home
+						</Button>
+						<Button variant="subtle" onClick={() => navigate('/events')}>
+							Events
+						</Button>
+						<Button variant="subtle" onClick={() => navigate('/companies')}>
+							Companies
+						</Button>
+					</Center>
 					<Group>
-						<Input placeholder="Search events..." />
+						<Input placeholder="Search..." />
 						<ThemeSwitch />
 						<LanguageSwitcher />
 						<Avatar />
@@ -59,25 +79,49 @@ const Homepage: React.FC = () => {
 				</Group>
 			</header>
 
-			<SimpleGrid
-				cols={{ base: 1, sm: 2, md: 3 }}
-				spacing="lg"
-				verticalSpacing="xl"
+			<Title order={3} mb="xs">
+				Trending Events
+			</Title>
+			<Carousel
+				slideSize="100%"
+				slideGap="md"
+				loop
+				withControls
+				align="start"
+				draggable
+				plugins={[autoplayEvents.current]}
+				onMouseEnter={autoplayEvents.current.stop}
+				onMouseLeave={autoplayEvents.current.reset}
+				classNames={classes}
 			>
-				{data?.data.map((event) => (
-					<EventCard key={event.id} event={event} />
+				{eventsData?.data.map((event) => (
+					<Carousel.Slide key={event.id}>
+						<EventCard event={event} />
+					</Carousel.Slide>
 				))}
-			</SimpleGrid>
+			</Carousel>
 
-			<Center mt="xl" p="center">
-				<Pagination
-					total={data?.meta.pageCount || 1}
-					value={page}
-					onChange={setPage}
-					size="md"
-					radius="xl"
-				/>
-			</Center>
+			<Title order={3} mt="xl" mb="xs">
+				Popular Companies
+			</Title>
+			<Carousel
+				slideSize="100%"
+				slideGap="md"
+				loop
+				withControls
+				align="start"
+				draggable
+				classNames={classes}
+				plugins={[autoplayCompanies.current]}
+				onMouseEnter={autoplayCompanies.current.stop}
+				onMouseLeave={autoplayCompanies.current.reset}
+			>
+				{companiesData?.data.map((company) => (
+					<Carousel.Slide key={company.id}>
+						<CompanyCard company={company} />
+					</Carousel.Slide>
+				))}
+			</Carousel>
 		</Container>
 	)
 }
