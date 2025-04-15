@@ -26,6 +26,11 @@ const GoogleRecaptchaModal: React.FC<GoogleRecaptchaModalProps> = ({
 			withCloseButton={false}
 			closeOnEscape={false}
 			centered
+			transitionProps={{
+				transition: 'fade',
+				duration: 600,
+				timingFunction: 'linear',
+			}}
 		>
 			<Stack align="center" justify="center" style={{ padding: 5 }}>
 				<ReCAPTCHA

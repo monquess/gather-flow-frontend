@@ -95,6 +95,11 @@ const VerificationCodeModal: React.FC<VerificationCodeModalProps> = ({
 			withCloseButton={false}
 			closeOnClickOutside={false}
 			closeOnEscape={false}
+			transitionProps={{
+				transition: 'fade',
+				duration: 600,
+				timingFunction: 'linear',
+			}}
 		>
 			<form onSubmit={form.onSubmit(handleSubmit)}>
 				<Stack pos="relative">
