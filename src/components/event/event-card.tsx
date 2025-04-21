@@ -3,6 +3,7 @@ import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
 import React from 'react'
+import { MdCalendarToday } from 'react-icons/md'
 
 interface EventCardProps {
 	event: EventItem
@@ -10,7 +11,7 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
 	return (
-		<Card withBorder shadow="xl" radius="md" padding="md">
+		<Card withBorder shadow="xl" radius="md" padding="md" h="450px">
 			<motion.div
 				whileHover={{ scale: 1.02 }}
 				whileTap={{ scale: 0.98 }}
@@ -29,7 +30,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
 				<Stack mt="md">
 					<Group p="apart">
-						<Text size="lg" w={700} lineClamp={1}>
+						<Text size="lg" fw={700} lineClamp={1}>
 							{event.title}
 						</Text>
 						<Badge variant="light" size="sm">
@@ -41,8 +42,8 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 						{event.description}
 					</Text>
 
-					<Group mt="xs" align="center">
-						{/* <IconCalendarEvent size={16} stroke={1.5} /> */}
+					<Group mt="xs" align="center" gap="xs">
+						{<MdCalendarToday size={16} />}
 						<Text size="xs">
 							{dayjs(event.startDate).format('DD MMM YYYY')}
 						</Text>

@@ -10,7 +10,7 @@ interface CompanyCardProps {
 
 const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 	return (
-		<Card withBorder shadow="xl" radius="md" padding="md">
+		<Card withBorder shadow="xl" radius="md" padding="md" h="225px">
 			<motion.div
 				whileHover={{ scale: 1.02 }}
 				whileTap={{ scale: 0.98 }}

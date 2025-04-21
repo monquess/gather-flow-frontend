@@ -97,7 +97,7 @@ const Homepage: React.FC = () => {
 				Popular Companies
 			</Title>
 			<Carousel
-				slideSize="100%"
+				slideSize="33.333333%"
 				slideGap="md"
 				loop
 				withControls

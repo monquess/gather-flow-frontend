@@ -9,10 +9,11 @@ interface CarouselEventProps {
 	events: EventItem[] | undefined
 }
 const CarouselEvent: React.FC<CarouselEventProps> = ({ events }) => {
+	//const { isMobile } = useResponsive()
 	const autoplay = useRef(Autoplay({ delay: 2000 }))
 	return (
 		<Carousel
-			slideSize="100%"
+			slideSize="50%"
 			slideGap="md"
 			loop
 			withControls

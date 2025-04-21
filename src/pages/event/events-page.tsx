@@ -3,27 +3,65 @@ import MainHeader from '@/components/general/main-header'
 import { apiClient } from '@/shared/api/axios'
 import { EventsResponse } from '@/shared/types/events'
 import {
+	Accordion,
+	Button,
 	Center,
 	Container,
+	Group,
 	Loader,
 	Pagination,
+	Select,
 	SimpleGrid,
+	Stack,
 	Text,
+	TextInput,
 } from '@mantine/core'
+import { DatePickerInput } from '@mantine/dates'
 import { useQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 const EventsPage: React.FC = () => {
-	const [page, setPage] = useState(1)
+	const [searchParams, setSearchParams] = useSearchParams()
 
-	const fetchEvents = async (page: number): Promise<EventsResponse> => {
-		const { data } = await apiClient(`/events?page=${page}&limit=15`)
+	const page = Number(searchParams.get('page')) || 1
+	const limit = Number(searchParams.get('limit')) || 15
+	const title = searchParams.get('title') || ''
+	const format = searchParams.get('format') || ''
+	const theme = searchParams.get('theme') || ''
+	const startDate = searchParams.get('startDate') || ''
+	const endDate = searchParams.get('endDate') || ''
+
+	const [titleInput, setTitleInput] = useState(title)
+	const [formatInput, setFormatInput] = useState<string | null>(format || null)
+	const [themeInput, setThemeInput] = useState<string | null>(theme || null)
+	const [startDateInput, setStartDateInput] = useState<Date | null>(
+		startDate ? new Date(startDate) : null
+	)
+	const [endDateInput, setEndDateInput] = useState<Date | null>(
+		endDate ? new Date(endDate) : null
+	)
+	const [limitInput, setLimitInput] = useState(limit.toString())
+
+	const fetchEvents = async (): Promise<EventsResponse> => {
+		const params = new URLSearchParams({
+			page: page.toString(),
+			limit: limitInput,
+		})
+
+		if (title) params.set('title', title)
+		if (format) params.set('format', format)
+		if (theme) params.set('theme', theme)
+		if (startDate) params.set('startDate', startDate)
+		if (endDate) params.set('endDate', endDate)
+
+		const { data } = await apiClient(`/events?${params.toString()}`)
 		return data
 	}
 
 	const { data, isLoading, error } = useQuery({
-		queryKey: ['events', page],
-		queryFn: () => fetchEvents(page),
+		queryKey: ['events', searchParams.toString()],
+		queryFn: fetchEvents,
 	})
 
 	if (isLoading)
@@ -32,6 +70,7 @@ const EventsPage: React.FC = () => {
 				<Loader />
 			</Center>
 		)
+
 	if (error)
 		return (
 			<Center>
@@ -43,6 +82,112 @@ const EventsPage: React.FC = () => {
 		<Container size="xl" py="md">
 			<MainHeader />
 
+			<Stack mb="xl">
+				<Accordion variant="contained">
+					<Accordion.Item value="advanced">
+						<Accordion.Control>Search & Filters</Accordion.Control>
+						<Accordion.Panel>
+							<Stack>
+								<TextInput
+									label="Event Title"
+									placeholder="Search by title..."
+									value={titleInput}
+									onChange={(e) => setTitleInput(e.currentTarget.value)}
+								/>
+
+								<Group grow>
+									<Select
+										label="Format"
+										placeholder="Select format"
+										data={[
+											'CONFERENCE',
+											'LECTURE',
+											'WORKSHOP',
+											'FEST',
+											'OTHER',
+										]}
+										value={formatInput}
+										onChange={setFormatInput}
+										clearable
+									/>
+
+									<Select
+										label="Theme"
+										placeholder="Select theme"
+										data={['BUSINESS', 'POLITICS', 'PSYCHOLOGY', 'OTHER']}
+										value={themeInput}
+										onChange={setThemeInput}
+										clearable
+									/>
+								</Group>
+								<Group grow>
+									<DatePickerInput
+										label="Start Date"
+										value={startDateInput}
+										onChange={setStartDateInput}
+									/>
+									<DatePickerInput
+										label="End Date"
+										value={endDateInput}
+										onChange={setEndDateInput}
+									/>
+								</Group>
+								<Group align="flex-end">
+									<Button
+										onClick={() => {
+											const params = new URLSearchParams()
+											if (titleInput) params.set('title', titleInput)
+											if (formatInput) params.set('format', formatInput)
+											if (themeInput) params.set('theme', themeInput)
+											if (startDateInput)
+												params.set('startDate', startDateInput.toISOString())
+											if (endDateInput)
+												params.set('endDate', endDateInput.toISOString())
+											params.set('limit', limitInput)
+											params.set('page', '1')
+											setSearchParams(params)
+										}}
+									>
+										Filter
+									</Button>
+								</Group>
+							</Stack>
+						</Accordion.Panel>
+					</Accordion.Item>
+				</Accordion>
+
+				<Group justify="space-between">
+					<Button
+						variant="light"
+						onClick={() => {
+							setTitleInput('')
+							setFormatInput(null)
+							setThemeInput(null)
+							setStartDateInput(null)
+							setEndDateInput(null)
+							setLimitInput('15') // Reset limit
+							setSearchParams(new URLSearchParams())
+						}}
+					>
+						Clear All Filters
+					</Button>
+					<Select
+						placeholder="Select Limit"
+						data={['5', '15', '30']}
+						value={limitInput}
+						onChange={(value) => {
+							if (value) {
+								setLimitInput(value)
+								const params = new URLSearchParams(searchParams)
+								params.set('limit', value)
+								setSearchParams(params)
+							}
+						}}
+						w="75px"
+					/>
+				</Group>
+			</Stack>
+
 			<SimpleGrid
 				cols={{ base: 1, sm: 2, md: 3 }}
 				spacing="lg"
@@ -52,12 +197,17 @@ const EventsPage: React.FC = () => {
 					<EventCard key={event.id} event={event} />
 				))}
 			</SimpleGrid>
-			{data?.meta.pageCount !== 1 && (
-				<Center mt="xl" p="center">
+
+			{data?.meta?.pageCount && data.meta.pageCount > 1 && (
+				<Center mt="xl">
 					<Pagination
-						total={data?.meta.pageCount || 1}
+						total={data.meta.pageCount || 1}
 						value={page}
-						onChange={setPage}
+						onChange={(newPage) => {
+							const newParams = new URLSearchParams(searchParams)
+							newParams.set('page', newPage.toString())
+							setSearchParams(newParams)
+						}}
 						size="md"
 						radius="xl"
 					/>
