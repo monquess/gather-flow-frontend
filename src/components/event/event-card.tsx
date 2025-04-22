@@ -11,7 +11,7 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
 	return (
-		<Card withBorder shadow="xl" radius="md" padding="md" h="450px">
+		<Card withBorder shadow="xl" radius="md" padding="md" h="475px">
 			<motion.div
 				whileHover={{ scale: 1.02 }}
 				whileTap={{ scale: 0.98 }}

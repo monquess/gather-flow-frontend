@@ -3,6 +3,7 @@ import { z } from 'zod'
 const configSchema = z.object({
 	VITE_API_BASE_URL: z.string().url(),
 	VITE_GOOGLE_RECAPTCHA_SITE_KEY: z.string(),
+	VITE_GOOGLE_API: z.string(),
 })
 
 const env = configSchema.parse(import.meta.env)

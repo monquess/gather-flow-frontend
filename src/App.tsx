@@ -13,6 +13,7 @@ import RegisterPage from './pages/auth/register-page'
 import ResetPasswordPage from './pages/auth/reset-password-page'
 import VerifyPage from './pages/auth/verify-account-page'
 import CompaniesPage from './pages/company/companies-page'
+import CompanyPage from './pages/company/company-page'
 import EventsPage from './pages/event/events-page'
 import Homepage from './pages/homepage'
 import LandingPage from './pages/landing-page'
@@ -39,6 +40,7 @@ function App() {
 					<Route path="/events" element={<EventsPage />} />
 					<Route path="/companies" element={<CompaniesPage />} />
 					<Route path="/profile" element={<UserProfilePage />} />
+					<Route path="/companies/:id" element={<CompanyPage />} />
 				</Routes>
 			</MantineProvider>
 		</QueryClientProvider>

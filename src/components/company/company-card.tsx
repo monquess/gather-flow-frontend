@@ -3,14 +3,23 @@ import { Badge, Card, Group, Stack, Text } from '@mantine/core'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface CompanyCardProps {
 	company: CompanyItem
 }
 
 const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
+	const navigate = useNavigate()
 	return (
-		<Card withBorder shadow="xl" radius="md" padding="md" h="225px">
+		<Card
+			withBorder
+			shadow="xl"
+			radius="md"
+			padding="md"
+			h="225px"
+			onClick={() => navigate(`/companies/${company.id}`)}
+		>
 			<motion.div
 				whileHover={{ scale: 1.02 }}
 				whileTap={{ scale: 0.98 }}
@@ -29,7 +38,9 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 
 					<Group mt="xs">
 						<Text size="sm">{company.email}</Text>
-						<Badge variant="light">{company.location}</Badge>
+						<Badge variant="light">
+							{company?.location?.split(',').pop()?.trim()}
+						</Badge>
 					</Group>
 
 					<Text size="xs" c="gray">
