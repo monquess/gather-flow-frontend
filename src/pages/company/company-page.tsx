@@ -1,33 +1,59 @@
+import AddMemberModal from '@/components/company/modal/add-member-modal'
+import DeleteCompanyModal from '@/components/company/modal/delete-company-modal'
 import CarouselEvent from '@/components/general/carousel-event'
+import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
 import { config } from '@/config/config'
+import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
-import { CompanyItem } from '@/shared/types/companies'
+import useUserStore from '@/shared/store/user-store'
+import { CompanyItem, CompanyMember } from '@/shared/types/companies'
 import { EventsResponse } from '@/shared/types/events'
 import {
+	ActionIcon,
+	Avatar,
 	Box,
+	Button,
 	Card,
+	CardProps,
 	Center,
 	Container,
 	Divider,
+	Flex,
+	Grid,
 	Group,
 	Loader,
+	ScrollArea,
 	Stack,
 	Text,
 	Title,
 } from '@mantine/core'
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { forwardRef, useEffect, useState } from 'react'
+import { GoTrash } from 'react-icons/go'
+import { GrUpdate } from 'react-icons/gr'
+import { IoMdAdd } from 'react-icons/io'
+import { useNavigate, useParams } from 'react-router-dom'
 
-const MotionCard = motion.div
+const MotionCard = motion(
+	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
+		<Card ref={ref} {...props} />
+	))
+)
 
 const CompanyPage: React.FC = () => {
+	const navigate = useNavigate()
+	const [admin, setAdmin] = useState(false)
+	const { user } = useUserStore()
+	const { isMobile } = useResponsive()
 	const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(
 		null
 	)
+	const [inviteMembers, setInviteMembers] = useState(false)
+	const [deleteCompany, setDeleteCompany] = useState(false)
 	const [isMapLoaded, setIsMapLoaded] = useState(false)
 	const { id } = useParams()
 
@@ -58,6 +84,14 @@ const CompanyPage: React.FC = () => {
 	const handleApiLoaded = () => {
 		setIsMapLoaded(true)
 	}
+
+	useEffect(() => {
+		if (user && data?.users?.length) {
+			const userIds = data.users.map((u: CompanyMember) => u.userId)
+			const isUserInCompany = userIds.includes(user.id)
+			setAdmin(isUserInCompany)
+		}
+	}, [user, data])
 
 	useEffect(() => {
 		if (data?.location && isMapLoaded && window.google?.maps?.Geocoder) {
@@ -91,25 +125,57 @@ const CompanyPage: React.FC = () => {
 	}
 
 	return (
-		<Container size="md" py="xl">
-			<MainHeader />
-			<MotionCard
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.6 }}
-			>
-				<Card shadow="md" padding="lg" radius="lg" withBorder>
+		<Container size="xl" pt="md">
+			<Stack justify="space-between">
+				<MainHeader />
+				<MotionCard
+					shadow="lg"
+					radius="xl"
+					withBorder
+					p="xl"
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5, ease: 'easeOut' }}
+				>
 					<Stack>
-						<Title order={2}>{data?.name}</Title>
+						<Grid justify="space-between" align="center">
+							<Title order={1}>{data?.name}</Title>
+							{admin && (
+								<Flex
+									gap="md"
+									mt={{ base: 'md', sm: 0 }}
+									ml={{ base: 0, sm: 'auto' }}
+								>
+									<ActionIcon
+										variant="outline"
+										onClick={() => navigate(`/companies/${data?.id}/update`)}
+									>
+										<GrUpdate size={14} />
+									</ActionIcon>
+									<ActionIcon
+										variant="outline"
+										onClick={() => setDeleteCompany(true)}
+									>
+										<GoTrash size={14} />
+									</ActionIcon>
+								</Flex>
+							)}
+						</Grid>
 						<Text size="sm" c="dimmed">
 							{data?.email}
 						</Text>
-						<Text mt="sm">{data?.description}</Text>
-						<Text mt="sm" fw={500}>
-							{data?.location}
-						</Text>
+						<Text>{data?.description}</Text>
+						<Text fw={500}>{data?.location}</Text>
 						{data?.location && (
-							<Box mt="md" style={{ height: 300 }}>
+							<Box
+								mt="md"
+								style={{
+									height: '300px',
+									marginTop: '16px',
+									overflow: 'hidden',
+									borderRadius: '10px',
+								}}
+							>
 								<LoadScript
 									googleMapsApiKey={config.GOOGLE_API}
 									onLoad={handleApiLoaded}
@@ -125,33 +191,95 @@ const CompanyPage: React.FC = () => {
 							</Box>
 						)}
 					</Stack>
-				</Card>
-			</MotionCard>
-			<Divider my="xl" label="Company Events" labelPosition="center" />
-			<Group grow align="stretch">
-				<MotionCard
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ delay: 0.3, duration: 0.5 }}
-				>
-					<Card withBorder radius="md" padding="md" shadow="sm">
-						<Title order={4} pb="md">
-							Upcoming Event
-						</Title>
-						{isLoadingEvents ? (
-							<Center>
-								<Loader size="sm" />
-							</Center>
-						) : eventError ? (
-							<Text c="dimmed">Error loading events</Text>
-						) : eventData?.data.length ? (
-							<CarouselEvent events={eventData?.data} />
-						) : (
-							<Text>No upcoming events at the moment.</Text>
-						)}
-					</Card>
 				</MotionCard>
-			</Group>
+				<Divider my="xl" label="Company Events" labelPosition="center" />
+				<Group grow align="stretch">
+					<MotionCard
+						withBorder
+						radius="lg"
+						p="xl"
+						shadow="sm"
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.5, ease: 'easeOut' }}
+					>
+						<Grid justify="space-between" align="center">
+							<Title order={3}>Events</Title>
+							{admin && (
+								<Button size={isMobile ? 'xs' : 'sm'} leftSection={<IoMdAdd />}>
+									Create
+								</Button>
+							)}
+						</Grid>
+						<Box mt="md">
+							{isLoadingEvents ? (
+								<Center>
+									<Loader size="sm" />
+								</Center>
+							) : eventError ? (
+								<Text c="red">Error loading events</Text>
+							) : eventData?.data.length ? (
+								<CarouselEvent events={eventData?.data} />
+							) : (
+								<Text c="dimmed">No events available.</Text>
+							)}
+						</Box>
+					</MotionCard>
+				</Group>
+				<Divider my="xl" label="Company Members" labelPosition="center" />
+				<Group grow align="stretch">
+					<MotionCard
+						withBorder
+						radius="lg"
+						p="xl"
+						shadow="sm"
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.5, ease: 'easeOut' }}
+					>
+						<Grid justify="space-between" align="center">
+							<Title order={3}>Members</Title>
+							{admin && (
+								<Button
+									size={isMobile ? 'xs' : 'sm'}
+									leftSection={<IoMdAdd />}
+									onClick={() => setInviteMembers(true)}
+								>
+									Add
+								</Button>
+							)}
+						</Grid>
+						<ScrollArea h={300} mt="md">
+							<Stack>
+								{data?.users.map((member) => (
+									<Card key={member.userId} withBorder radius="md" p="md">
+										<Group justify="space-between">
+											<Group>
+												<Avatar radius="xl" />
+												<Text fw={500}>{member.userId}</Text>
+											</Group>
+											<Text size="xs" c="dimmed">
+												Since {dayjs(member.createdAt).format('DD MMM YYYY')}
+											</Text>
+										</Group>
+									</Card>
+								))}
+							</Stack>
+						</ScrollArea>
+					</MotionCard>
+				</Group>
+				<Footer />
+			</Stack>
+			<AddMemberModal
+				opened={inviteMembers}
+				onClose={() => setInviteMembers(false)}
+				company={data}
+			/>
+			<DeleteCompanyModal
+				opened={deleteCompany}
+				onClose={() => setDeleteCompany(false)}
+				company={data}
+			/>
 		</Container>
 	)
 }

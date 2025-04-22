@@ -2,12 +2,19 @@ import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
+import { CompanyItem } from '@/shared/types/companies'
 import { createCompanySchema } from '@/shared/validations/create-company'
 import { Button, Modal, Stack, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
+import {
+	Autocomplete,
+	GoogleMap,
+	LoadScript,
+	Marker,
+} from '@react-google-maps/api'
 import { AxiosError } from 'axios'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface CreateCompanyModalProps {
 	opened: boolean
@@ -23,14 +30,19 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({
 	opened,
 	onClose,
 }) => {
+	const [autoKey, setAutoKey] = useState(0)
+
+	const navigate = useNavigate()
 	const { isMobile } = useResponsive()
 
 	const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(
 		null
 	)
+	const [autocomplete, setAutocomplete] =
+		useState<google.maps.places.Autocomplete | null>(null)
 
 	const form = useForm({
-		mode: 'uncontrolled',
+		mode: 'controlled',
 		validate: zodResolver(createCompanySchema),
 		initialValues: {
 			name: '',
@@ -56,11 +68,40 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({
 		}
 	}
 
+	const onLoadAutocomplete = (auto: google.maps.places.Autocomplete) => {
+		setAutocomplete(auto)
+	}
+
+	const onPlaceChanged = () => {
+		if (autocomplete !== null) {
+			const place = autocomplete.getPlace()
+			const lat = place.geometry?.location?.lat()
+			const lng = place.geometry?.location?.lng()
+
+			if (lat && lng && place.formatted_address) {
+				form.setFieldValue('location', place.formatted_address)
+				setMarker({ lat, lng })
+			}
+		}
+	}
+
+	const handleLocationChange = (value: string) => {
+		form.setFieldValue('location', value)
+
+		if (value === '') {
+			setAutoKey((prev) => prev + 1)
+		}
+	}
+
 	const handleSubmit = async (e: { preventDefault: () => void }) => {
 		e.preventDefault()
 		form.validate()
 		try {
-			await apiClient.post('/companies', form.getValues())
+			const res = await apiClient.post<CompanyItem>(
+				'/companies',
+				form.getValues()
+			)
+			navigate(`/companies/${res.data.id}`)
 		} catch (error) {
 			if (error instanceof AxiosError && error.response) {
 				showNotification('Error', error.response.data.message, 'red')
@@ -109,17 +150,32 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({
 						{...form.getInputProps('email')}
 					/>
 
-					<TextInput
-						label="Location"
-						mt="md"
-						size={isMobile ? 'sm' : 'md'}
-						key={form.key('location')}
-						{...form.getInputProps('location')}
-						readOnly
-					/>
+					<LoadScript
+						googleMapsApiKey={config.GOOGLE_API}
+						libraries={['places']}
+					>
+						<Autocomplete
+							key={autoKey}
+							onLoad={onLoadAutocomplete}
+							onPlaceChanged={onPlaceChanged}
+						>
+							<TextInput
+								label="Location"
+								mt="md"
+								size={isMobile ? 'sm' : 'md'}
+								value={form.values.location}
+								onChange={(e) => handleLocationChange(e.currentTarget.value)}
+								error={form.errors.location}
+							/>
+						</Autocomplete>
 
-					<div style={{ marginTop: '16px' }}>
-						<LoadScript googleMapsApiKey={config.GOOGLE_API}>
+						<div
+							style={{
+								marginTop: '16px',
+								overflow: 'hidden',
+								borderRadius: '10px',
+							}}
+						>
 							<GoogleMap
 								mapContainerStyle={containerStyle}
 								center={marker || { lat: -33.860664, lng: 151.208138 }}
@@ -128,8 +184,9 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({
 							>
 								{marker && <Marker position={marker} />}
 							</GoogleMap>
-						</LoadScript>
-					</div>
+						</div>
+					</LoadScript>
+
 					<Button type="submit">Create</Button>
 				</Stack>
 			</form>

@@ -1,20 +1,14 @@
 import LanguageSwitcher from '@/components/buttons/language-switcher'
 import ThemeSwitch from '@/components/buttons/theme-switch'
+import { useResponsive } from '@/hooks/use-responsive'
 import useUserStore from '@/shared/store/user-store'
-import {
-	Avatar,
-	Button,
-	Center,
-	Group,
-	Input,
-	Popover,
-	Text,
-} from '@mantine/core'
+import { Avatar, Button, Center, Group, Input, Menu, Text } from '@mantine/core'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
-import CreateCompanyModal from '../company/create-company-modal'
+import CreateCompanyModal from '../company/modal/create-company-modal'
 
 const MainHeader: React.FC = () => {
+	const { isMobile } = useResponsive()
 	const [createCompany, setCreateCompany] = useState(false)
 	const { user } = useUserStore()
 	const navigate = useNavigate()
@@ -22,9 +16,21 @@ const MainHeader: React.FC = () => {
 		<>
 			<header>
 				<Group justify="space-between" mb="lg">
-					<Text fw={600} size="xl">
-						Gather Flow
-					</Text>
+					<Group justify="space-between" w={isMobile ? '100%' : ''}>
+						<Text fw={600} size="xl">
+							Gather Flow
+						</Text>
+						{isMobile && (
+							<Group>
+								<ThemeSwitch />
+								<LanguageSwitcher />
+								<Avatar
+									src={user?.avatar}
+									onClick={() => navigate('/profile')}
+								/>
+							</Group>
+						)}
+					</Group>
 					<Center>
 						<Button variant="subtle" onClick={() => navigate('/home')}>
 							Home
@@ -32,25 +38,32 @@ const MainHeader: React.FC = () => {
 						<Button variant="subtle" onClick={() => navigate('/events')}>
 							Events
 						</Button>
-						<Popover position="bottom" withArrow shadow="md">
-							<Popover.Target>
+						<Menu position="bottom" withArrow shadow="md">
+							<Menu.Target>
 								<Button variant="subtle">Companies</Button>
-							</Popover.Target>
-							<Popover.Dropdown>
-								<Text size="sm" onClick={() => navigate('/companies')}>
+							</Menu.Target>
+							<Menu.Dropdown>
+								<Menu.Item onClick={() => navigate('/companies')}>
 									All companies
-								</Text>
-								<Text size="sm" onClick={() => setCreateCompany(true)}>
+								</Menu.Item>
+								<Menu.Item onClick={() => setCreateCompany(true)}>
 									Create company
-								</Text>
-							</Popover.Dropdown>
-						</Popover>
+								</Menu.Item>
+							</Menu.Dropdown>
+						</Menu>
 					</Center>
-					<Group>
-						<Input placeholder="Search..." />
-						<ThemeSwitch />
-						<LanguageSwitcher />
-						<Avatar src={user?.avatar} onClick={() => navigate('/profile')} />
+					<Group w={isMobile ? '100%' : ''}>
+						<Input placeholder="Search..." w={isMobile ? '100%' : ''} />
+						{!isMobile && (
+							<Group>
+								<ThemeSwitch />
+								<LanguageSwitcher />
+								<Avatar
+									src={user?.avatar}
+									onClick={() => navigate('/profile')}
+								/>
+							</Group>
+						)}
 					</Group>
 				</Group>
 			</header>

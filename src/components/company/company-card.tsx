@@ -17,7 +17,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 			shadow="xl"
 			radius="md"
 			padding="md"
-			h="225px"
+			h="250px"
 			onClick={() => navigate(`/companies/${company.id}`)}
 		>
 			<motion.div

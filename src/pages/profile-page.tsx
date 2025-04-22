@@ -19,11 +19,14 @@ import {
 import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import { BsPencil } from 'react-icons/bs'
+import { CiLogout } from 'react-icons/ci'
 import { GoTrash } from 'react-icons/go'
 import { GrUpdate } from 'react-icons/gr'
+import { useNavigate } from 'react-router-dom'
 
 const UserProfilePage: React.FC = () => {
-	const { user } = useUserStore()
+	const navigate = useNavigate()
+	const { user, logout } = useUserStore()
 	const [updateModal, setUpdateModal] = useState(false)
 	const [deleteModal, setDeleteModal] = useState(false)
 	const [avatarModal, setAvatarModal] = useState(false)
@@ -39,6 +42,11 @@ const UserProfilePage: React.FC = () => {
 				</Paper>
 			</Container>
 		)
+	}
+
+	const handleLogout = () => {
+		logout()
+		navigate('/')
 	}
 
 	return (
@@ -106,6 +114,9 @@ const UserProfilePage: React.FC = () => {
 						</ActionIcon>
 						<ActionIcon variant="outline" onClick={() => setDeleteModal(true)}>
 							<GoTrash size={14} />
+						</ActionIcon>
+						<ActionIcon variant="outline" onClick={handleLogout}>
+							<CiLogout size={14} />
 						</ActionIcon>
 					</Flex>
 				</Flex>

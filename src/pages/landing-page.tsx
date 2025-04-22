@@ -108,7 +108,7 @@ export default function LandingPage() {
 						</Reveal>
 						<Reveal delay={0.4}>
 							<Group>
-								<Button size="md" radius="xl">
+								<Button size="md" radius="xl" onClick={() => navigate('/home')}>
 									Get Started
 								</Button>
 								<Button variant="outline" size="md" radius="xl">
@@ -183,7 +183,6 @@ export default function LandingPage() {
 				</Box>
 			))}
 
-			{/* Final CTA */}
 			<Box py={100} ta="center">
 				<Reveal>
 					<Title order={3}>Ready to Join the Movement?</Title>
