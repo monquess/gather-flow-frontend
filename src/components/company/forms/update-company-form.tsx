@@ -177,7 +177,7 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 						</GoogleMap>
 					</div>
 				</LoadScript>
-				<Group justify="flex-end">
+				<Group justify="flex-end" mt="md">
 					<Button
 						variant="outline"
 						onClick={() => navigate(`/companies/${company?.id}`)}

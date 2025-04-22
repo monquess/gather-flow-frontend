@@ -14,7 +14,7 @@ const LanguageSwitcher: React.FC = () => {
 		<Group p="right">
 			<Menu shadow="md" width={150}>
 				<Menu.Target>
-					<Button variant="light">{currentLang}</Button>
+					<Button variant="outline">{currentLang}</Button>
 				</Menu.Target>
 
 				<Menu.Dropdown>

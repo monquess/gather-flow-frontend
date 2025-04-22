@@ -1,5 +1,5 @@
 import { CompanyItem } from '@/shared/types/companies'
-import { Badge, Card, Group, Stack, Text } from '@mantine/core'
+import { Badge, Card, Stack, Text } from '@mantine/core'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
 import React from 'react'
@@ -17,8 +17,9 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 			shadow="xl"
 			radius="md"
 			padding="md"
-			h="250px"
+			h={250}
 			onClick={() => navigate(`/companies/${company.id}`)}
+			style={{ overflow: 'hidden', cursor: 'pointer' }}
 		>
 			<motion.div
 				whileHover={{ scale: 1.02 }}
@@ -26,22 +27,24 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.5, ease: 'easeOut' }}
+				style={{ height: '100%' }}
 			>
-				<Stack mt="md">
-					<Text size="lg" fw={600} lineClamp={1}>
+				<Stack justify="space-between" h="100%">
+					<Text size="lg" fw={600} lineClamp={1} mih="24px">
 						{company.name}
 					</Text>
 
-					<Text size="sm" c="dimmed" lineClamp={2}>
+					<Text size="sm" c="dimmed" lineClamp={2} mih="36px">
 						{company.description}
 					</Text>
-
-					<Group mt="xs">
-						<Text size="sm">{company.email}</Text>
+					<Stack gap="xs" mt="auto">
+						<Text size="sm" lineClamp={1}>
+							{company.email}
+						</Text>
 						<Badge variant="light">
 							{company?.location?.split(',').pop()?.trim()}
 						</Badge>
-					</Group>
+					</Stack>
 
 					<Text size="xs" c="gray">
 						Created on: {dayjs(company.createdAt).format('DD MMM YYYY')}

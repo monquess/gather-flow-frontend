@@ -2,6 +2,7 @@ import CompanyCard from '@/components/company/company-card'
 import CarouselEvent from '@/components/general/carousel-event'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
+import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
 import classes from '@/shared/styles/slider.module.css'
 import { CompaniesResponse } from '@/shared/types/companies'
@@ -13,6 +14,7 @@ import Autoplay from 'embla-carousel-autoplay'
 import React, { useRef } from 'react'
 
 const Homepage: React.FC = () => {
+	const { isMobile } = useResponsive()
 	const autoplayCompanies = useRef(Autoplay({ delay: 2400 }))
 
 	const { data: eventsData, isLoading: isLoadingEvents } = useQuery({
@@ -98,7 +100,7 @@ const Homepage: React.FC = () => {
 					Popular Companies
 				</Title>
 				<Carousel
-					slideSize="33.333333%"
+					slideSize={isMobile ? '100%' : '25%'}
 					slideGap="md"
 					loop
 					withControls
@@ -106,8 +108,8 @@ const Homepage: React.FC = () => {
 					draggable
 					classNames={classes}
 					plugins={[autoplayCompanies.current]}
-					onMouseEnter={autoplayCompanies.current.stop}
-					onMouseLeave={autoplayCompanies.current.reset}
+					onMouseEnter={() => autoplayCompanies.current.stop()}
+					onMouseLeave={() => autoplayCompanies.current.play()}
 				>
 					{companiesData?.data.map((company) => (
 						<Carousel.Slide key={company.id}>
@@ -120,7 +122,7 @@ const Homepage: React.FC = () => {
 					Coming Soon
 				</Title>
 				{eventsUpcomingData?.data.length ? (
-					<CarouselEvent events={eventsUpcomingData.data} />
+					<CarouselEvent delay={2000} events={eventsUpcomingData.data} />
 				) : (
 					<Text>No upcoming events at the moment.</Text>
 				)}
@@ -129,7 +131,7 @@ const Homepage: React.FC = () => {
 					Conferences
 				</Title>
 				{eventCategories.conference?.length ? (
-					<CarouselEvent events={eventCategories.conference} />
+					<CarouselEvent delay={2300} events={eventCategories.conference} />
 				) : (
 					<Text>No conference events available.</Text>
 				)}
@@ -138,7 +140,7 @@ const Homepage: React.FC = () => {
 					Lectures
 				</Title>
 				{eventCategories.lecture?.length ? (
-					<CarouselEvent events={eventCategories.lecture} />
+					<CarouselEvent delay={1900} events={eventCategories.lecture} />
 				) : (
 					<Text>No lecture events available.</Text>
 				)}
@@ -147,7 +149,7 @@ const Homepage: React.FC = () => {
 					Other Events
 				</Title>
 				{eventCategories.other?.length ? (
-					<CarouselEvent events={eventCategories.other} />
+					<CarouselEvent delay={2600} events={eventCategories.other} />
 				) : (
 					<Text>No other events available.</Text>
 				)}
