@@ -227,7 +227,7 @@ const CompanyPage: React.FC = () => {
 										</Button>
 									)}
 								</Grid>
-								<ScrollArea h={300} mt="md">
+								<ScrollArea h={300} mt="md" p={0}>
 									<Stack gap="sm">
 										{data?.users.map((member) => (
 											<Card key={member.user.id} withBorder radius="md" p="md">

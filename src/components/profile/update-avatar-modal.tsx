@@ -27,7 +27,7 @@ const UploadAvatarModal: React.FC<UploadAvatarModalProps> = ({
 	const form = useForm({
 		mode: 'uncontrolled',
 		initialValues: {
-			file: null as File | null,
+			avatar: null as File | null,
 		},
 		validate: zodResolver(avatarSchema),
 	})
@@ -37,8 +37,8 @@ const UploadAvatarModal: React.FC<UploadAvatarModalProps> = ({
 			setLoading(true)
 			const formData = new FormData()
 
-			if (values.file) {
-				formData.append('file', values.file)
+			if (values.avatar) {
+				formData.append('avatar', values.avatar)
 			}
 
 			const { data } = await apiClient.patch<User>(
@@ -89,8 +89,8 @@ const UploadAvatarModal: React.FC<UploadAvatarModalProps> = ({
 						leftSection={<IoImageOutline />}
 						accept="image/png,image/jpeg,image/jpg,image/webp"
 						clearable
-						key={form.key('file')}
-						{...form.getInputProps('file')}
+						key={form.key('avatar')}
+						{...form.getInputProps('avatar')}
 					/>
 					<Button type="submit" variant="outline" loading={loading}>
 						Upload avatar

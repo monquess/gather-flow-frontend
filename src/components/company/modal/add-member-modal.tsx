@@ -1,5 +1,5 @@
 import { Button, Modal, MultiSelect, Stack } from '@mantine/core'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, memo } from 'react'
 
 import { debounce } from 'lodash'
 
@@ -92,7 +92,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 					<MultiSelect
 						data-autofocus
 						label="Select users"
-						placeholder="Start writing username..."
+						placeholder="Start writing username or email..."
 						searchable
 						clearable
 						value={selectedUser}
@@ -114,4 +114,4 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 	)
 }
 
-export default React.memo(AddMemberModal)
+export default memo(AddMemberModal)

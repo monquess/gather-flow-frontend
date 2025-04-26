@@ -1,9 +1,18 @@
+import React, { forwardRef } from 'react'
+import {
+	Card,
+	CardProps,
+	Container,
+	Divider,
+	Group,
+	Stack,
+	Title,
+} from '@mantine/core'
+import { motion } from 'framer-motion'
+
 import CreateEventForm from '@/components/event/forms/create-event-form'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
-import { Card, CardProps, Center, Container, Stack, Title } from '@mantine/core'
-import { motion } from 'framer-motion'
-import React, { forwardRef } from 'react'
 
 const MotionCard = motion(
 	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
@@ -26,9 +35,7 @@ const EventCreatePage: React.FC = () => {
 					transition={{ duration: 0.5, ease: 'easeOut' }}
 				>
 					<Stack gap="xl">
-						<Center>
-							<Title order={2}>Create new event</Title>
-						</Center>
+						<Title order={2}>Create new event</Title>
 						<CreateEventForm />
 					</Stack>
 				</MotionCard>

@@ -3,12 +3,12 @@ import { Editor } from '@tiptap/react'
 import React from 'react'
 
 interface MarkdownEditorProps {
-	editor: Editor
+	editor: Editor | null
 }
 
 const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ editor }) => {
 	return (
-		<RichTextEditor editor={editor}>
+		<RichTextEditor editor={editor} variant="subtle">
 			<RichTextEditor.Toolbar sticky stickyOffset={60}>
 				<RichTextEditor.ControlsGroup>
 					<RichTextEditor.Bold />
