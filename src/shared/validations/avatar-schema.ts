@@ -9,7 +9,7 @@ const ACCEPTED_IMAGE_TYPES = [
 ]
 
 export const avatarSchema = z.object({
-	file: z
+	avatar: z
 		.any()
 		.refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
 		.refine(

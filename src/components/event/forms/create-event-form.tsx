@@ -1,31 +1,50 @@
-import { config } from '@/config/config'
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
-import { showNotification } from '@/shared/helpers/show-notification'
-import { EventItem } from '@/shared/types/events'
-import { createEventSchema } from '@/shared/validations/create-event'
+import React, { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+
 import {
+	Box,
 	Button,
+	Checkbox,
+	Divider,
 	FileInput,
 	Group,
 	Image,
 	NumberInput,
 	Select,
 	Stack,
+	Text,
 	TextInput,
 } from '@mantine/core'
 import { DateTimePicker } from '@mantine/dates'
 import { useForm, zodResolver } from '@mantine/form'
+import { useEditor } from '@tiptap/react'
 import {
 	Autocomplete,
 	GoogleMap,
 	LoadScript,
 	Marker,
 } from '@react-google-maps/api'
-import { AxiosError } from 'axios'
-import React, { useState } from 'react'
 import { IoImageOutline } from 'react-icons/io5'
-import { useNavigate, useParams } from 'react-router-dom'
+import { HiOutlineTicket } from 'react-icons/hi2'
+import { MdCalendarToday } from 'react-icons/md'
+import { FaMapLocationDot } from 'react-icons/fa6'
+import { IoIosSearch } from 'react-icons/io'
+import { AxiosError } from 'axios'
+
+import { config } from '@/config/config'
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient } from '@/shared/api/axios'
+import { showNotification } from '@/shared/helpers/show-notification'
+import { EventItem } from '@/shared/types/events'
+import { createEventSchema } from '@/shared/validations/create-event'
+import MarkdownEditor from '@/components/editor/markdown-editor'
+
+import StarterKit from '@tiptap/starter-kit'
+import Placeholder from '@tiptap/extension-placeholder'
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+
+dayjs.extend(duration)
 
 const containerStyle = {
 	width: '100%',
@@ -36,10 +55,10 @@ const containerStyle = {
 
 const CreateEventForm: React.FC = () => {
 	const { id: companyId } = useParams()
-	const [autoKey, setAutoKey] = useState(0)
 	const navigate = useNavigate()
 	const { isMobile } = useResponsive()
 
+	const [autoKey, setAutoKey] = useState(0)
 	const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(
 		null
 	)
@@ -61,8 +80,20 @@ const CreateEventForm: React.FC = () => {
 			startDate: '',
 			endDate: '',
 			publishDate: '',
-			poster: '',
+			poster: null as File | null,
 		},
+	})
+	const [isPublishLater, setIsPublishLater] = useState(false)
+
+	const editor = useEditor({
+		extensions: [
+			StarterKit,
+			Placeholder.configure({ placeholder: 'Describe the event' }),
+		],
+		onUpdate: ({ editor }) => {
+			form.setFieldValue('description', editor.getHTML())
+		},
+		content: form.values.description,
 	})
 
 	const handleMapClick = (e: google.maps.MapMouseEvent) => {
@@ -73,9 +104,8 @@ const CreateEventForm: React.FC = () => {
 			const geocoder = new window.google.maps.Geocoder()
 			geocoder.geocode({ location: { lat, lng } }, (results, status) => {
 				if (status === 'OK' && results && results[0]) {
-					const address = results[0].formatted_address
 					setMarker({ lat, lng })
-					form.setFieldValue('location', address)
+					form.setFieldValue('location', results[0].formatted_address)
 				}
 			})
 		}
@@ -87,12 +117,12 @@ const CreateEventForm: React.FC = () => {
 
 	const onPlaceChanged = () => {
 		if (autocomplete !== null) {
-			const place = autocomplete.getPlace()
-			const lat = place.geometry?.location?.lat()
-			const lng = place.geometry?.location?.lng()
+			const { geometry, formatted_address } = autocomplete.getPlace()
+			const lat = geometry?.location?.lat()
+			const lng = geometry?.location?.lng()
 
-			if (lat && lng && place.formatted_address) {
-				form.setFieldValue('location', place.formatted_address)
+			if (lat && lng && formatted_address) {
+				form.setFieldValue('location', formatted_address)
 				setMarker({ lat, lng })
 			}
 		}
@@ -108,6 +138,7 @@ const CreateEventForm: React.FC = () => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		form.validate()
+
 		try {
 			const res = await apiClient.post<EventItem>(
 				`/companies/${companyId}/events`,
@@ -129,39 +160,65 @@ const CreateEventForm: React.FC = () => {
 	return (
 		<form onSubmit={handleSubmit}>
 			<Stack gap="sm">
+				<Box w="100%" h="300px">
+					<Image
+						src={
+							form.values.poster ? URL.createObjectURL(form.values.poster) : ''
+						}
+						alt="Poster preview"
+						width="100%"
+						height="100%"
+						style={{ objectFit: 'cover' }}
+					/>
+				</Box>
+				<FileInput
+					label="Poster"
+					placeholder="Upload image"
+					leftSection={<IoImageOutline />}
+					accept="image/png,image/jpeg,image/jpg,image/webp"
+					clearable
+					key={form.key('poster')}
+					{...form.getInputProps('poster')}
+				/>
 				<TextInput
 					label="Title"
 					placeholder="Enter event title"
-					mt="md"
 					size={isMobile ? 'sm' : 'md'}
 					key={form.key('title')}
 					{...form.getInputProps('title')}
 				/>
-				<TextInput
-					label="Description"
-					placeholder="Briefly describe the event"
-					mt="md"
-					size={isMobile ? 'sm' : 'md'}
-					key={form.key('description')}
-					{...form.getInputProps('description')}
-				/>
-				<Select
-					label="Format"
-					placeholder="Choose event format"
-					data={['CONFERENCE', 'LECTURE', 'WORKSHOP', 'FEST', 'OTHER']}
-					key={form.key('format')}
-					{...form.getInputProps('format')}
-					clearable
-				/>
-				<Select
-					label="Theme"
-					placeholder="Select a theme"
-					data={['BUSINESS', 'POLITICS', 'PSYCHOLOGY', 'OTHER']}
-					key={form.key('theme')}
-					{...form.getInputProps('theme')}
-					clearable
-				/>
 
+				<Group grow>
+					<Select
+						label="Format"
+						placeholder="Choose event format"
+						data={['CONFERENCE', 'LECTURE', 'WORKSHOP', 'FEST', 'OTHER']}
+						key={form.key('format')}
+						{...form.getInputProps('format')}
+						clearable
+					/>
+					<Select
+						label="Theme"
+						placeholder="Select a theme"
+						data={['BUSINESS', 'POLITICS', 'PSYCHOLOGY', 'OTHER']}
+						key={form.key('theme')}
+						{...form.getInputProps('theme')}
+						clearable
+					/>
+				</Group>
+
+				<MarkdownEditor editor={editor} />
+
+				<Divider
+					mt="xs"
+					labelPosition="left"
+					label={
+						<>
+							<FaMapLocationDot size={16} />
+							<Text ml={5}>Location</Text>
+						</>
+					}
+				/>
 				<LoadScript googleMapsApiKey={config.GOOGLE_API} libraries={['places']}>
 					<Autocomplete
 						key={autoKey}
@@ -169,10 +226,9 @@ const CreateEventForm: React.FC = () => {
 						onPlaceChanged={onPlaceChanged}
 					>
 						<TextInput
-							label="Location"
 							placeholder="Search for a venue"
-							mt="md"
 							size={isMobile ? 'sm' : 'md'}
+							leftSection={<IoIosSearch />}
 							value={form.values.location}
 							onChange={(e) => handleLocationChange(e.currentTarget.value)}
 							error={form.errors.location}
@@ -191,20 +247,28 @@ const CreateEventForm: React.FC = () => {
 					</div>
 				</LoadScript>
 
+				<Divider
+					mt="xs"
+					labelPosition="left"
+					label={
+						<>
+							<HiOutlineTicket size={20} />
+							<Text ml={5}>Tickets</Text>
+						</>
+					}
+				/>
 				<Group grow>
 					<NumberInput
-						label="Ticket Price ($)"
+						label="Price, USD"
 						placeholder="Set ticket price"
-						mt="md"
 						size={isMobile ? 'sm' : 'md'}
 						key={form.key('ticketPrice')}
 						min={0}
 						{...form.getInputProps('ticketPrice')}
 					/>
 					<NumberInput
-						label="Ticket Quantity"
+						label="Quantity"
 						placeholder="How many tickets?"
-						mt="md"
 						size={isMobile ? 'sm' : 'md'}
 						key={form.key('ticketsQuantity')}
 						min={0}
@@ -213,48 +277,62 @@ const CreateEventForm: React.FC = () => {
 					/>
 				</Group>
 
-				<DateTimePicker
-					label="Start Date & Time"
-					placeholder="Select event start date and time"
-					mt="md"
-					size={isMobile ? 'sm' : 'md'}
-					key={form.key('startDate')}
-					{...form.getInputProps('startDate')}
+				<Divider
+					mt="xs"
+					labelPosition="left"
+					label={
+						<>
+							<MdCalendarToday size={16} />
+							<Text ml={5}>Date</Text>
+						</>
+					}
 				/>
-				<DateTimePicker
-					label="End Date & Time"
-					placeholder="Select event end date and time"
-					mt="md"
-					size={isMobile ? 'sm' : 'md'}
-					key={form.key('endDate')}
-					{...form.getInputProps('endDate')}
-				/>
-				<DateTimePicker
-					label="Publish Date"
-					placeholder="Choose when to publish"
-					mt="md"
-					size={isMobile ? 'sm' : 'md'}
-					key={form.key('publishDate')}
-					{...form.getInputProps('publishDate')}
-				/>
+				<Group grow>
+					<DateTimePicker
+						label="Start"
+						placeholder="Select event start date and time"
+						minDate={dayjs()
+							.add(dayjs.duration({ hours: 1 }))
+							.toDate()}
+						size={isMobile ? 'sm' : 'md'}
+						key={form.key('startDate')}
+						{...form.getInputProps('startDate')}
+					/>
+					<DateTimePicker
+						label="End"
+						placeholder="Select event end date and time"
+						minDate={dayjs(new Date(form.values.startDate))
+							.add(dayjs.duration({ hours: 1 }))
+							.toDate()}
+						size={isMobile ? 'sm' : 'md'}
+						key={form.key('endDate')}
+						{...form.getInputProps('endDate')}
+					/>
+				</Group>
 
-				<FileInput
-					label="Poster"
-					placeholder="Upload image"
-					leftSection={<IoImageOutline />}
-					accept="image/png,image/jpeg,image/jpg,image/webp"
-					clearable
-					key={form.key('poster')}
-					{...form.getInputProps('poster')}
+				<Checkbox
+					checked={isPublishLater}
+					onChange={() => setIsPublishLater((prev) => !prev)}
+					label="Publish later"
 				/>
-
-				<Image src={form.getValues().poster}></Image>
+				{isPublishLater && (
+					<DateTimePicker
+						label="Publish date"
+						placeholder="Choose when to publish"
+						minDate={dayjs(new Date(form.values.startDate))
+							.add(dayjs.duration({ days: 1 }))
+							.toDate()}
+						size={isMobile ? 'sm' : 'md'}
+						key={form.key('publishDate')}
+						{...form.getInputProps('publishDate')}
+					/>
+				)}
 
 				<Group justify="flex-end" mt="md">
 					<Button
 						variant="outline"
 						size={isMobile ? 'sm' : 'md'}
-						onClick={() => navigate(`/home`)}
+						onClick={() => navigate(-1)}
 					>
 						Cancel
 					</Button>
