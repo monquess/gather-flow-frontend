@@ -3,13 +3,31 @@ import ThemeSwitch from '@/components/buttons/theme-switch'
 import { useResponsive } from '@/hooks/use-responsive'
 import useUserStore from '@/shared/store/user-store'
 import { Avatar, Button, Center, Group, Input, Menu, Text } from '@mantine/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { CiSearch } from 'react-icons/ci'
 import { useNavigate } from 'react-router'
+import FindEventModal from './find-event-modal'
 
 const MainHeader: React.FC = () => {
 	const { isMobile } = useResponsive()
 	const { user } = useUserStore()
 	const navigate = useNavigate()
+	const [isOpen, setIsOpen] = useState(false)
+
+	useEffect(() => {
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.ctrlKey && event.key === 'k') {
+				event.preventDefault()
+				setIsOpen((prev) => !prev)
+			}
+		}
+
+		window.addEventListener('keydown', handleKeyDown)
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown)
+		}
+	}, [])
+
 	return (
 		<>
 			<header>
@@ -51,7 +69,18 @@ const MainHeader: React.FC = () => {
 						</Menu>
 					</Center>
 					<Group w={isMobile ? '100%' : ''}>
-						<Input placeholder="Search..." w={isMobile ? '100%' : ''} />
+						<Input
+							placeholder="Search..."
+							leftSection={<CiSearch />}
+							w={isMobile ? '100%' : ''}
+							onClick={() => setIsOpen(true)}
+							readOnly
+							styles={{
+								input: {
+									borderColor: 'grey',
+								},
+							}}
+						/>
 						{!isMobile && (
 							<Group>
 								<ThemeSwitch />
@@ -65,6 +94,7 @@ const MainHeader: React.FC = () => {
 					</Group>
 				</Group>
 			</header>
+			<FindEventModal opened={isOpen} onClose={() => setIsOpen(false)} />
 		</>
 	)
 }
