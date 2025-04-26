@@ -4,14 +4,23 @@ import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
 import React from 'react'
 import { MdCalendarToday } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
 interface EventCardProps {
 	event: EventItem
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
+	const navigate = useNavigate()
 	return (
-		<Card withBorder shadow="xl" radius="md" padding="md" h={475}>
+		<Card
+			withBorder
+			shadow="xl"
+			radius="md"
+			padding="md"
+			h={475}
+			onClick={() => navigate(`/events/${event.id}`)}
+		>
 			<motion.div
 				whileHover={{ scale: 1.02 }}
 				whileTap={{ scale: 0.98 }}
@@ -67,7 +76,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 								{event?.location?.split(',').pop()?.trim()}
 							</Text>
 							<Badge variant="filled" color="blue">
-								${event.ticketPrice}
+								{/* ${event.ticketPrice} */} 200$
 							</Badge>
 						</Group>
 					</Stack>

@@ -2,7 +2,7 @@ import { useResponsive } from '@/hooks/use-responsive'
 import classes from '@/shared/styles/slider.module.css'
 import { EventItem } from '@/shared/types/events'
 import { Carousel } from '@mantine/carousel'
-import { Box, Flex } from '@mantine/core'
+import { Box, Flex, Text } from '@mantine/core'
 import Autoplay from 'embla-carousel-autoplay'
 import React, { useRef } from 'react'
 import EventCard from '../event/event-card'
@@ -14,6 +14,11 @@ interface CarouselEventProps {
 const CarouselEvent: React.FC<CarouselEventProps> = ({ events, delay }) => {
 	const { isMobile } = useResponsive()
 	const autoplay = useRef(Autoplay({ delay: delay }))
+
+	if (!Array.isArray(events) || events.length === 0) {
+		return <Text>No events available.</Text>
+	}
+
 	return (
 		<>
 			{events && (events?.length > 3 || isMobile) ? (

@@ -219,7 +219,7 @@ const CompanyPage: React.FC = () => {
 							) : eventError ? (
 								<Text c="red">Error loading events</Text>
 							) : eventData?.data.length ? (
-								<CarouselEvent events={eventData?.data} />
+								<CarouselEvent events={eventData?.data} delay={2000} />
 							) : (
 								<Text c="dimmed">No events available.</Text>
 							)}

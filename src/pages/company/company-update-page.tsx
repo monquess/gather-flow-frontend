@@ -44,7 +44,7 @@ const CompanyUpdatePage: React.FC = () => {
 					{isLoading ? (
 						<Loader size="lg" />
 					) : (
-						<Text color="red">Error loading company.</Text>
+						<Text c="red">Error loading company.</Text>
 					)}
 				</Stack>
 			</Container>

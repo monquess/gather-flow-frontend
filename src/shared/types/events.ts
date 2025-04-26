@@ -1,3 +1,8 @@
+type Company = {
+	id: number
+	name: string
+}
+
 export type Meta = {
 	page: number
 	limit: number
@@ -9,7 +14,7 @@ export type Meta = {
 
 export type EventItem = {
 	id: number
-	companyId: number
+	company: Company
 	title: string
 	description: string
 	format: string

@@ -28,7 +28,7 @@ const EventsPage: React.FC = () => {
 
 	const page = Number(searchParams.get('page')) || 1
 	const limit = Number(searchParams.get('limit')) || 15
-	const title = searchParams.get('title') || ''
+	const title = searchParams.get('query') || ''
 	const format = searchParams.get('format') || ''
 	const theme = searchParams.get('theme') || ''
 	const startDate = searchParams.get('startDate') || ''
@@ -51,7 +51,7 @@ const EventsPage: React.FC = () => {
 			limit: limitInput,
 		})
 
-		if (title) params.set('title', title)
+		if (title) params.set('query', title)
 		if (format) params.set('format', format)
 		if (theme) params.set('theme', theme)
 		if (startDate) params.set('startDate', startDate)
@@ -139,7 +139,7 @@ const EventsPage: React.FC = () => {
 										<Button
 											onClick={() => {
 												const params = new URLSearchParams()
-												if (titleInput) params.set('title', titleInput)
+												if (titleInput) params.set('query', titleInput)
 												if (formatInput) params.set('format', formatInput)
 												if (themeInput) params.set('theme', themeInput)
 												if (startDateInput)

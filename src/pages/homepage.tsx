@@ -21,7 +21,7 @@ const Homepage: React.FC = () => {
 		queryKey: ['homepage-events'],
 		queryFn: async (): Promise<EventsResponse> => {
 			const { data } = await apiClient(
-				`/events?page=1&limit=30&formats=CONFERENCE,LECTURE,OTHER`
+				`/events?page=1&limit=30&format=CONFERENCE,LECTURE,OTHER`
 			)
 			return data
 		},

@@ -3,13 +3,11 @@ import ThemeSwitch from '@/components/buttons/theme-switch'
 import { useResponsive } from '@/hooks/use-responsive'
 import useUserStore from '@/shared/store/user-store'
 import { Avatar, Button, Center, Group, Input, Menu, Text } from '@mantine/core'
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router'
-import CreateCompanyModal from '../company/modal/create-company-modal'
 
 const MainHeader: React.FC = () => {
 	const { isMobile } = useResponsive()
-	const [createCompany, setCreateCompany] = useState(false)
 	const { user } = useUserStore()
 	const navigate = useNavigate()
 	return (
@@ -46,7 +44,7 @@ const MainHeader: React.FC = () => {
 								<Menu.Item onClick={() => navigate('/companies')}>
 									All companies
 								</Menu.Item>
-								<Menu.Item onClick={() => setCreateCompany(true)}>
+								<Menu.Item onClick={() => navigate('/companies/create')}>
 									Create company
 								</Menu.Item>
 							</Menu.Dropdown>
@@ -67,10 +65,6 @@ const MainHeader: React.FC = () => {
 					</Group>
 				</Group>
 			</header>
-			<CreateCompanyModal
-				opened={createCompany}
-				onClose={() => setCreateCompany(false)}
-			/>
 		</>
 	)
 }

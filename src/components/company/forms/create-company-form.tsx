@@ -4,7 +4,7 @@ import { apiClient } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { CompanyItem } from '@/shared/types/companies'
 import { createCompanySchema } from '@/shared/validations/create-company'
-import { Button, Modal, Stack, TextInput } from '@mantine/core'
+import { Button, Group, Stack, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import {
 	Autocomplete,
@@ -16,20 +16,12 @@ import { AxiosError } from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-interface CreateCompanyModalProps {
-	opened: boolean
-	onClose: () => void
-}
-
 const containerStyle = {
 	width: '100%',
 	height: '300px',
 }
 
-const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({
-	opened,
-	onClose,
-}) => {
+const CreateCompanyForm: React.FC = () => {
 	const [autoKey, setAutoKey] = useState(0)
 
 	const navigate = useNavigate()
@@ -106,92 +98,77 @@ const CreateCompanyModal: React.FC<CreateCompanyModalProps> = ({
 			if (error instanceof AxiosError && error.response) {
 				showNotification('Error', error.response.data.message, 'red')
 			}
-		} finally {
-			onClose()
 		}
 	}
 
 	return (
-		<Modal
-			opened={opened}
-			onClose={onClose}
-			size={isMobile ? 'sm' : 'md'}
-			centered
-			closeOnClickOutside={false}
-			closeOnEscape={false}
-			transitionProps={{
-				transition: 'fade',
-				duration: 600,
-				timingFunction: 'linear',
-			}}
-			title="Create company"
-		>
-			<form onSubmit={handleSubmit}>
-				<Stack gap="xs">
-					<TextInput
-						label="Name"
-						mt="md"
-						size={isMobile ? 'sm' : 'md'}
-						key={form.key('name')}
-						{...form.getInputProps('name')}
-					/>
-					<TextInput
-						label="Description"
-						mt="md"
-						size={isMobile ? 'sm' : 'md'}
-						key={form.key('description')}
-						{...form.getInputProps('description')}
-					/>
-					<TextInput
-						label="Email"
-						mt="md"
-						size={isMobile ? 'sm' : 'md'}
-						key={form.key('email')}
-						{...form.getInputProps('email')}
-					/>
+		<form onSubmit={handleSubmit}>
+			<Stack gap="xs">
+				<TextInput
+					label="Name"
+					mt="md"
+					size={isMobile ? 'sm' : 'md'}
+					key={form.key('name')}
+					{...form.getInputProps('name')}
+				/>
+				<TextInput
+					label="Description"
+					mt="md"
+					size={isMobile ? 'sm' : 'md'}
+					key={form.key('description')}
+					{...form.getInputProps('description')}
+				/>
+				<TextInput
+					label="Email"
+					mt="md"
+					size={isMobile ? 'sm' : 'md'}
+					key={form.key('email')}
+					{...form.getInputProps('email')}
+				/>
 
-					<LoadScript
-						googleMapsApiKey={config.GOOGLE_API}
-						libraries={['places']}
+				<LoadScript googleMapsApiKey={config.GOOGLE_API} libraries={['places']}>
+					<Autocomplete
+						key={autoKey}
+						onLoad={onLoadAutocomplete}
+						onPlaceChanged={onPlaceChanged}
 					>
-						<Autocomplete
-							key={autoKey}
-							onLoad={onLoadAutocomplete}
-							onPlaceChanged={onPlaceChanged}
-						>
-							<TextInput
-								label="Location"
-								mt="md"
-								size={isMobile ? 'sm' : 'md'}
-								value={form.values.location}
-								onChange={(e) => handleLocationChange(e.currentTarget.value)}
-								error={form.errors.location}
-							/>
-						</Autocomplete>
+						<TextInput
+							label="Location"
+							mt="md"
+							size={isMobile ? 'sm' : 'md'}
+							value={form.values.location}
+							onChange={(e) => handleLocationChange(e.currentTarget.value)}
+							error={form.errors.location}
+						/>
+					</Autocomplete>
 
-						<div
-							style={{
-								marginTop: '16px',
-								overflow: 'hidden',
-								borderRadius: '10px',
-							}}
+					<div
+						style={{
+							marginTop: '16px',
+							overflow: 'hidden',
+							borderRadius: '10px',
+						}}
+					>
+						<GoogleMap
+							mapContainerStyle={containerStyle}
+							center={marker || { lat: -33.860664, lng: 151.208138 }}
+							zoom={marker ? 14 : 10}
+							onClick={handleMapClick}
 						>
-							<GoogleMap
-								mapContainerStyle={containerStyle}
-								center={marker || { lat: -33.860664, lng: 151.208138 }}
-								zoom={marker ? 14 : 10}
-								onClick={handleMapClick}
-							>
-								{marker && <Marker position={marker} />}
-							</GoogleMap>
-						</div>
-					</LoadScript>
+							{marker && <Marker position={marker} />}
+						</GoogleMap>
+					</div>
+				</LoadScript>
 
+				<Group justify="flex-end" mt="md">
+					<Button variant="outline" onClick={() => navigate(`/home`)}>
+						Cancel
+					</Button>
 					<Button type="submit">Create</Button>
-				</Stack>
-			</form>
-		</Modal>
+				</Group>
+			</Stack>
+		</form>
 	)
 }
 
-export default React.memo(CreateCompanyModal)
+export default React.memo(CreateCompanyForm)
