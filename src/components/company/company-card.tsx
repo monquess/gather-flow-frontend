@@ -1,5 +1,5 @@
 import { CompanyItem } from '@/shared/types/companies'
-import { Badge, Card, Stack, Text } from '@mantine/core'
+import { Badge, Card, Flex, Group, Rating, Stack, Text } from '@mantine/core'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
 import React from 'react'
@@ -45,10 +45,22 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 							{company?.location?.split(',').pop()?.trim()}
 						</Badge>
 					</Stack>
-
-					<Text size="xs" c="gray">
-						Created on: {dayjs(company.createdAt).format('DD MMM YYYY')}
-					</Text>
+					<Flex justify="space-between" align="center">
+						<Text size="xs" c="gray">
+							Created on: {dayjs(company.createdAt).format('DD MMM YYYY')}
+						</Text>
+						<Group gap={0}>
+							<Rating
+								defaultValue={company.rating}
+								fractions={10}
+								size="xs"
+								readOnly
+							/>
+							<Text size="sm" c="dimmed" ml="2">
+								({company.reviews})
+							</Text>
+						</Group>
+					</Flex>
 				</Stack>
 			</motion.div>
 		</Card>

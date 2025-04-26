@@ -16,6 +16,7 @@ import CompaniesPage from './pages/company/companies-page'
 import CompanyCreatePage from './pages/company/company-create-page'
 import CompanyPage from './pages/company/company-page'
 import CompanyUpdatePage from './pages/company/company-update-page'
+import EventCreatePage from './pages/event/event-create-page'
 import EventPage from './pages/event/event-page'
 import EventsPage from './pages/event/events-page'
 import Homepage from './pages/homepage'
@@ -47,6 +48,10 @@ function App() {
 					<Route path="/companies/:id" element={<CompanyPage />} />
 					<Route path="/companies/create" element={<CompanyCreatePage />} />
 					<Route path="/companies/:id/update" element={<CompanyUpdatePage />} />
+					<Route
+						path="/companies/:id/event/create"
+						element={<EventCreatePage />}
+					/>
 
 					<Route path="/events" element={<EventsPage />} />
 					<Route path="/events/:id" element={<EventPage />} />

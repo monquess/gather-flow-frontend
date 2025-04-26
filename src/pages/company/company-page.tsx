@@ -59,11 +59,12 @@ const CompanyPage: React.FC = () => {
 
 	const fetchCompany = async (): Promise<CompanyItem> => {
 		const { data } = await apiClient(`/companies/${id}`)
+		console.log(data)
 		return data
 	}
 
 	const fetchCompanyEvents = async (): Promise<EventsResponse> => {
-		const { data } = await apiClient(`/events?companyId=${id}&limit=30`)
+		const { data } = await apiClient(`/companies/${id}/events`)
 		return data
 	}
 
@@ -87,9 +88,15 @@ const CompanyPage: React.FC = () => {
 
 	useEffect(() => {
 		if (user && data?.users?.length) {
-			const userIds = data.users.map((u: CompanyMember) => u.userId)
-			const isUserInCompany = userIds.includes(user.id)
-			setAdmin(isUserInCompany)
+			const currentUser = data.users.find(
+				(u: CompanyMember) => u.user.id === user.id
+			)
+
+			if (currentUser) {
+				setAdmin(currentUser.role === 'ADMIN')
+			} else {
+				setAdmin(false)
+			}
 		}
 	}, [user, data])
 
@@ -128,70 +135,125 @@ const CompanyPage: React.FC = () => {
 		<Container size="xl" pt="md">
 			<Stack justify="space-between">
 				<MainHeader />
-				<MotionCard
-					shadow="lg"
-					radius="xl"
-					withBorder
-					p="xl"
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5, ease: 'easeOut' }}
-				>
-					<Stack>
-						<Grid justify="space-between" align="center">
-							<Title order={1}>{data?.name}</Title>
-							{admin && (
-								<Flex
-									gap="md"
-									mt={{ base: 'md', sm: 0 }}
-									ml={{ base: 0, sm: 'auto' }}
-								>
-									<ActionIcon
-										variant="outline"
-										onClick={() => navigate(`/companies/${data?.id}/update`)}
+				<Flex gap="md" direction={isMobile ? 'column' : 'row'}>
+					<Box flex={1}>
+						<MotionCard
+							shadow="lg"
+							radius="xl"
+							withBorder
+							p="xl"
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.5, ease: 'easeOut' }}
+						>
+							<Stack>
+								<Grid justify="space-between" align="center">
+									<Title order={1}>{data?.name}</Title>
+									{admin && (
+										<Flex
+											gap="md"
+											mt={{ base: 'md', sm: 0 }}
+											ml={{ base: 0, sm: 'auto' }}
+										>
+											<ActionIcon
+												variant="outline"
+												onClick={() =>
+													navigate(`/companies/${data?.id}/update`)
+												}
+											>
+												<GrUpdate size={14} />
+											</ActionIcon>
+											<ActionIcon
+												variant="outline"
+												onClick={() => setDeleteCompany(true)}
+											>
+												<GoTrash size={14} />
+											</ActionIcon>
+										</Flex>
+									)}
+								</Grid>
+								<Text size="sm" c="dimmed">
+									{data?.email}
+								</Text>
+								<Text>{data?.description}</Text>
+								<Text fw={500}>{data?.location}</Text>
+								{data?.location && (
+									<Box
+										mt="md"
+										style={{
+											height: '300px',
+											marginTop: '16px',
+											overflow: 'hidden',
+											borderRadius: '10px',
+										}}
 									>
-										<GrUpdate size={14} />
-									</ActionIcon>
-									<ActionIcon
-										variant="outline"
-										onClick={() => setDeleteCompany(true)}
-									>
-										<GoTrash size={14} />
-									</ActionIcon>
-								</Flex>
-							)}
-						</Grid>
-						<Text size="sm" c="dimmed">
-							{data?.email}
-						</Text>
-						<Text>{data?.description}</Text>
-						<Text fw={500}>{data?.location}</Text>
-						{data?.location && (
-							<Box
-								mt="md"
-								style={{
-									height: '300px',
-									marginTop: '16px',
-									overflow: 'hidden',
-									borderRadius: '10px',
-								}}
+										<LoadScript
+											googleMapsApiKey={config.GOOGLE_API}
+											onLoad={handleApiLoaded}
+										>
+											<GoogleMap
+												mapContainerStyle={{ width: '100%', height: '100%' }}
+												center={marker || { lat: 0, lng: 0 }}
+												zoom={15}
+											>
+												{marker && <Marker position={marker} />}
+											</GoogleMap>
+										</LoadScript>
+									</Box>
+								)}
+							</Stack>
+						</MotionCard>
+					</Box>
+					<Box flex={1}>
+						<Group grow align="stretch">
+							<MotionCard
+								withBorder
+								radius="lg"
+								p="xl"
+								shadow="sm"
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.5, ease: 'easeOut' }}
 							>
-								<LoadScript
-									googleMapsApiKey={config.GOOGLE_API}
-									onLoad={handleApiLoaded}
-								>
-									<GoogleMap
-										mapContainerStyle={{ width: '100%', height: '100%' }}
-										center={marker || { lat: 0, lng: 0 }}
-										zoom={15}
-									>
-										{marker && <Marker position={marker} />}
-									</GoogleMap>
-								</LoadScript>
-							</Box>
-						)}
-					</Stack>
-				</MotionCard>
+								<Grid justify="space-between" align="center">
+									<Title order={3}>Members</Title>
+									{admin && (
+										<Button
+											size={isMobile ? 'xs' : 'sm'}
+											leftSection={<IoMdAdd />}
+											onClick={() => setInviteMembers(true)}
+										>
+											Add
+										</Button>
+									)}
+								</Grid>
+								<ScrollArea h={300} mt="md">
+									<Stack gap="sm">
+										{data?.users.map((member) => (
+											<Card key={member.user.id} withBorder radius="md" p="md">
+												<Group justify="space-between">
+													<Group>
+														<Avatar radius="xl" src={member.user.avatar} />
+														<Stack gap={0} justify="center">
+															<Text fw={600}>{member.user.username}</Text>
+															<Text size="xs" c="dimmed">
+																{member.role}
+															</Text>
+														</Stack>
+													</Group>
+													<Text size="xs" c="dimmed">
+														Joined{' '}
+														{dayjs(member.createdAt).format('DD MMM YYYY')}
+													</Text>
+												</Group>
+											</Card>
+										))}
+									</Stack>
+								</ScrollArea>
+							</MotionCard>
+						</Group>
+					</Box>
+				</Flex>
 				<Divider my="xl" label="Company Events" labelPosition="center" />
 				<Group grow align="stretch">
 					<MotionCard
@@ -206,7 +268,13 @@ const CompanyPage: React.FC = () => {
 						<Grid justify="space-between" align="center">
 							<Title order={3}>Events</Title>
 							{admin && (
-								<Button size={isMobile ? 'xs' : 'sm'} leftSection={<IoMdAdd />}>
+								<Button
+									size={isMobile ? 'xs' : 'sm'}
+									leftSection={<IoMdAdd />}
+									onClick={() =>
+										navigate(`/companies/${data?.id}/event/create`)
+									}
+								>
 									Create
 								</Button>
 							)}
@@ -224,48 +292,6 @@ const CompanyPage: React.FC = () => {
 								<Text c="dimmed">No events available.</Text>
 							)}
 						</Box>
-					</MotionCard>
-				</Group>
-				<Divider my="xl" label="Company Members" labelPosition="center" />
-				<Group grow align="stretch">
-					<MotionCard
-						withBorder
-						radius="lg"
-						p="xl"
-						shadow="sm"
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.5, ease: 'easeOut' }}
-					>
-						<Grid justify="space-between" align="center">
-							<Title order={3}>Members</Title>
-							{admin && (
-								<Button
-									size={isMobile ? 'xs' : 'sm'}
-									leftSection={<IoMdAdd />}
-									onClick={() => setInviteMembers(true)}
-								>
-									Add
-								</Button>
-							)}
-						</Grid>
-						<ScrollArea h={300} mt="md">
-							<Stack>
-								{data?.users.map((member) => (
-									<Card key={member.userId} withBorder radius="md" p="md">
-										<Group justify="space-between">
-											<Group>
-												<Avatar radius="xl" />
-												<Text fw={500}>{member.userId}</Text>
-											</Group>
-											<Text size="xs" c="dimmed">
-												Since {dayjs(member.createdAt).format('DD MMM YYYY')}
-											</Text>
-										</Group>
-									</Card>
-								))}
-							</Stack>
-						</ScrollArea>
 					</MotionCard>
 				</Group>
 				<Footer />

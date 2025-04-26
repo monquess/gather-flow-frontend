@@ -1,5 +1,6 @@
 import '@/i18n.ts'
 import '@mantine/core/styles.css'
+import '@mantine/tiptap/styles.css'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'

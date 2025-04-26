@@ -1,8 +1,13 @@
 import { Meta } from './events'
 
+type User = {
+	id: number
+	avatar: string
+	username: string
+}
+
 export type CompanyMember = {
-	userId: number
-	companyId: number
+	user: User
 	role: string
 	createdAt: string
 }
@@ -14,6 +19,8 @@ export type CompanyItem = {
 	email: string
 	location: string
 	createdAt: string
+	rating: number
+	reviews: number
 	users: CompanyMember[]
 }
 

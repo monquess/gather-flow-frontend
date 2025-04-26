@@ -2,8 +2,9 @@ import CarouselEvent from '@/components/general/carousel-event'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
 import { config } from '@/config/config'
+import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
-import { EventItem } from '@/shared/types/events'
+import { EventItem, EventsResponse } from '@/shared/types/events'
 import {
 	Badge,
 	Box,
@@ -22,8 +23,11 @@ import {
 	TextInput,
 	Title,
 } from '@mantine/core'
+import { Link, RichTextEditor } from '@mantine/tiptap'
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { useQuery } from '@tanstack/react-query'
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
 import React, { forwardRef, useEffect, useState } from 'react'
@@ -37,6 +41,7 @@ const MotionCard = motion(
 )
 
 const EventPage: React.FC = () => {
+	const { isMobile } = useResponsive()
 	const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(
 		null
 	)
@@ -57,8 +62,16 @@ const EventPage: React.FC = () => {
 		queryFn: fetchEvent,
 	})
 
-	const fetchEventFromCompany = async (): Promise<EventItem[]> => {
+	const editor = useEditor({
+		extensions: [Link, StarterKit],
+		content: event?.description || '',
+		editable: false,
+	})
+
+	const fetchEventFromCompany = async (): Promise<EventsResponse> => {
 		const { data } = await apiClient(`/companies/${event?.company.id}/events`)
+		console.log(event?.company.id)
+		console.log(data)
 		return data
 	}
 
@@ -67,9 +80,9 @@ const EventPage: React.FC = () => {
 		isLoading: isLoadingCompanyEvents,
 		error: errorCompanyEvents,
 	} = useQuery({
-		queryKey: ['companyEvents', event?.id],
+		queryKey: ['companyEvents', event?.company.id],
 		queryFn: fetchEventFromCompany,
-		enabled: !!event?.company.id,
+		enabled: !!event?.company?.id,
 	})
 
 	const fetchSimilarEvent = async (): Promise<EventItem[]> => {
@@ -125,7 +138,7 @@ const EventPage: React.FC = () => {
 		<Container size="xl" pt="md">
 			<MainHeader />
 
-			<Flex gap="md" mt="xl" wrap="wrap">
+			<Flex gap="md" mt="xl" direction={isMobile ? 'column' : 'row'}>
 				<Box flex={2} miw={0}>
 					<MotionCard
 						shadow="lg"
@@ -136,12 +149,7 @@ const EventPage: React.FC = () => {
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
 						<Card.Section>
-							<Image
-								src={event?.poster}
-								height={300}
-								alt={event?.title}
-								style={{ objectFit: 'cover' }}
-							/>
+							<Image src={event?.poster} height={300} alt={event?.title} />
 						</Card.Section>
 						<Stack mt="md" gap="xs">
 							<Title order={2} lineClamp={2}>
@@ -199,6 +207,11 @@ const EventPage: React.FC = () => {
 				transition={{ duration: 0.5, ease: 'easeOut' }}
 			>
 				<Stack>
+					{event?.description && (
+						<RichTextEditor editor={editor}>
+							<RichTextEditor.Content />
+						</RichTextEditor>
+					)}
 					<Text size="sm" c="dimmed">
 						{event?.description}
 					</Text>
@@ -244,10 +257,10 @@ const EventPage: React.FC = () => {
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.5, ease: 'easeOut' }}
 			>
-				<CarouselEvent events={companyEvents} delay={2000} />
+				<CarouselEvent events={companyEvents?.data} delay={2000} />
 			</MotionCard>
 
-			<Divider my="xl" label="Similar events" labelPosition="center" />
+			<Divider my="xl" label="See more" labelPosition="center" />
 
 			<MotionCard
 				shadow="lg"
