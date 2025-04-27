@@ -13,15 +13,17 @@ const RegisterPage: React.FC = () => {
 	const { t } = useTranslation()
 
 	return (
-		<Paper h="100vh">
+		<Paper
+			style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
+		>
 			<Header isLandingPage={false} />
 			<Box
 				style={{
+					flex: 1,
 					justifyContent: 'center',
 					alignItems: 'center',
 				}}
 				display="flex"
-				h="100vh"
 				p={isMobile ? 'xs' : 'md'}
 				m={isMobile ? 'lg' : '0'}
 			>

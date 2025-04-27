@@ -1,83 +1,161 @@
-import LanguageSwitcher from '@/components/buttons/language-switcher'
-import ThemeSwitch from '@/components/buttons/theme-switch'
-import EventCard from '@/components/events/event-card'
+import CompanyCard from '@/components/company/company-card'
+import CarouselEvent from '@/components/general/carousel-event'
+import Footer from '@/components/general/footer'
+import MainHeader from '@/components/general/main-header'
+import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
+import classes from '@/shared/styles/slider.module.css'
+import { CompaniesResponse } from '@/shared/types/companies'
 import { EventsResponse } from '@/shared/types/events'
-import {
-	Avatar,
-	Center,
-	Container,
-	Group,
-	Input,
-	Loader,
-	Pagination,
-	SimpleGrid,
-	Text,
-} from '@mantine/core'
+import { Carousel } from '@mantine/carousel'
+import { Center, Container, Loader, Stack, Text, Title } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
-import React, { useState } from 'react'
+import Autoplay from 'embla-carousel-autoplay'
+import React, { useRef } from 'react'
 
 const Homepage: React.FC = () => {
-	const [page, setPage] = useState(1)
+	const { isMobile } = useResponsive()
+	const autoplayCompanies = useRef(Autoplay({ delay: 2400 }))
 
-	const fetchEvents = async (page: number): Promise<EventsResponse> => {
-		const { data } = await apiClient(`/events?page=${page}&limit=15`)
-		return data
-	}
-
-	const { data, isLoading, error } = useQuery({
-		queryKey: ['events', page],
-		queryFn: () => fetchEvents(page),
+	const { data: eventsData, isLoading: isLoadingEvents } = useQuery({
+		queryKey: ['homepage-events'],
+		queryFn: async (): Promise<EventsResponse> => {
+			const { data } = await apiClient(
+				`/events?page=1&limit=30&format=CONFERENCE,LECTURE,OTHER`
+			)
+			return data
+		},
 	})
 
-	if (isLoading)
+	const { data: eventsUpcomingData, isLoading: isLoadingUpcomingEvents } =
+		useQuery({
+			queryKey: ['homepage-events'],
+			queryFn: async (): Promise<EventsResponse> => {
+				const now = new Date()
+				const startDate = now.toISOString()
+				const endDate = new Date(
+					now.getTime() + 7 * 24 * 60 * 60 * 1000
+				).toISOString()
+
+				const { data } = await apiClient(
+					`/events?page=1&limit=30&startDate=${startDate}&endDate=${endDate}`
+				)
+				return data
+			},
+		})
+
+	const { data: companiesData, isLoading: isLoadingCompanies } = useQuery({
+		queryKey: ['homepage-companies'],
+		queryFn: async (): Promise<CompaniesResponse> => {
+			const { data } = await apiClient('/companies?page=1&limit=10')
+			return data
+		},
+	})
+
+	if (isLoadingEvents || isLoadingCompanies || isLoadingUpcomingEvents) {
 		return (
-			<Center>
-				<Loader />
+			<Center py="xl">
+				<Loader size="xl" />
 			</Center>
 		)
-	if (error)
-		return (
-			<Center>
-				<Text>Error loading events</Text>
-			</Center>
-		)
+	}
+
+	const eventCategories = {
+		conference: eventsData?.data.filter(
+			(event) => event.format === 'CONFERENCE'
+		),
+		lecture: eventsData?.data.filter((event) => event.format === 'LECTURE'),
+		other: eventsData?.data.filter((event) => event.format === 'OTHER'),
+	}
 
 	return (
-		<Container size="xl" py="md">
-			<header>
-				<Group justify="space-between" mb="md">
-					<Text fw={600} size="xl">
-						Gather Flow
-					</Text>
-					<Group>
-						<Input placeholder="Search events..." />
-						<ThemeSwitch />
-						<LanguageSwitcher />
-						<Avatar />
-					</Group>
-				</Group>
-			</header>
+		<Container size="xl" pt="md">
+			<Stack justify="space-between">
+				<MainHeader />
 
-			<SimpleGrid
-				cols={{ base: 1, sm: 2, md: 3 }}
-				spacing="lg"
-				verticalSpacing="xl"
-			>
-				{data?.data.map((event) => (
-					<EventCard key={event.id} event={event} />
-				))}
-			</SimpleGrid>
+				<Text
+					size="lg"
+					mb="xl"
+					style={{
+						fontWeight: 600,
+						fontSize: '1.2rem',
+						lineHeight: '1.6',
+						color: 'linear-gradient(135deg, #6c5ce7, #00b894)',
+						backgroundClip: 'text',
+						textFillColor: 'transparent',
+						textShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+						padding: '0 15px',
+						maxWidth: '700px',
+						margin: '0 auto',
+						letterSpacing: '0.5px',
+					}}
+				>
+					Welcome to our platform! Here you'll find the most relevant and
+					exciting events, as well as get to know popular companies that are
+					driving innovation. Join us and don't miss the chance to be at the
+					heart of the most important happenings!
+				</Text>
 
-			<Center mt="xl" p="center">
-				<Pagination
-					total={data?.meta.pageCount || 1}
-					value={page}
-					onChange={setPage}
-					size="md"
-					radius="xl"
-				/>
-			</Center>
+				<Title order={3} mt="xl" mb="xs">
+					Popular Companies
+				</Title>
+				<Carousel
+					slideSize={isMobile ? '100%' : '25%'}
+					slideGap="md"
+					loop
+					withControls
+					align="start"
+					draggable
+					classNames={classes}
+					plugins={[autoplayCompanies.current]}
+					onMouseEnter={() => autoplayCompanies.current.stop()}
+					onMouseLeave={() => autoplayCompanies.current.play()}
+				>
+					{companiesData?.data.map((company) => (
+						<Carousel.Slide key={company.id}>
+							<CompanyCard company={company} />
+						</Carousel.Slide>
+					))}
+				</Carousel>
+
+				<Title order={3} mb="xs" mt="lg">
+					Coming Soon
+				</Title>
+				{eventsUpcomingData?.data.length ? (
+					<CarouselEvent delay={2000} events={eventsUpcomingData.data} />
+				) : (
+					<Text>No upcoming events at the moment.</Text>
+				)}
+
+				<Title order={3} mb="xs" mt="lg">
+					Conferences
+				</Title>
+				{eventCategories.conference?.length ? (
+					<CarouselEvent delay={2300} events={eventCategories.conference} />
+				) : (
+					<Text>No conference events available.</Text>
+				)}
+
+				<Title order={3} mb="xs" mt="lg">
+					Lectures
+				</Title>
+				{eventCategories.lecture?.length ? (
+					<CarouselEvent delay={1900} events={eventCategories.lecture} />
+				) : (
+					<Text>No lecture events available.</Text>
+				)}
+
+				<Title order={3} mb="xs" mt="lg">
+					Other Events
+				</Title>
+				{eventCategories.other?.length ? (
+					<CarouselEvent delay={2600} events={eventCategories.other} />
+				) : (
+					<Text>No other events available.</Text>
+				)}
+
+				<Footer />
+			</Stack>
 		</Container>
 	)
 }

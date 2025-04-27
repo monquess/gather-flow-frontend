@@ -21,10 +21,14 @@ const LoginPage: React.FC = () => {
 	})
 
 	return (
-		<Box h="100vh">
+		<Box
+			h="100vh"
+			style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
+		>
 			<Header isLandingPage={false} />
 			<Box
 				style={{
+					flex: 1,
 					justifyContent: 'center',
 					alignItems: 'center',
 				}}

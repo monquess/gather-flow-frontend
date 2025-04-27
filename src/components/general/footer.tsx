@@ -1,5 +1,4 @@
 import { ActionIcon, Group, Stack, Text } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
 import React from 'react'
 
 import {
@@ -14,14 +13,14 @@ import { useResponsive } from '@/hooks/use-responsive'
 
 const Footer: React.FC = React.memo(() => {
 	const { isMobile } = useResponsive()
-	const mobileHeight = useMediaQuery('(max-height: 720px)')
+	//const mobileHeight = useMediaQuery('(max-height: 720px)')
 	const year = new Date().getFullYear()
 
 	return (
 		<Group
-			pos={mobileHeight ? 'relative' : 'fixed'}
-			bottom={0}
-			w="100vw"
+			//pos={mobileHeight ? 'relative' : 'fixed'}
+			//bottom={0}
+			w="100%"
 			py="md"
 			px="sm"
 			justify="center"
