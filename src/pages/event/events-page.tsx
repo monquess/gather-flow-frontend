@@ -228,6 +228,7 @@ const EventsPage: React.FC = () => {
 						>
 							Clear All Filters
 						</Button>
+
 						<Group grow>
 							<Select
 								data={[
