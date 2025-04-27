@@ -11,6 +11,8 @@ import {
 	Container,
 	Group,
 	Loader,
+	MultiSelect,
+	NumberInput,
 	Pagination,
 	Select,
 	SimpleGrid,
@@ -29,14 +31,21 @@ const EventsPage: React.FC = () => {
 	const page = Number(searchParams.get('page')) || 1
 	const limit = Number(searchParams.get('limit')) || 15
 	const title = searchParams.get('query') || ''
-	const format = searchParams.get('format') || ''
-	const theme = searchParams.get('theme') || ''
+	const format = searchParams.getAll('format') || []
+	const theme = searchParams.getAll('theme') || []
 	const startDate = searchParams.get('startDate') || ''
 	const endDate = searchParams.get('endDate') || ''
+	const minPrice = searchParams.get('minPrice') || ''
+	const maxPrice = searchParams.get('maxPrice') || ''
+	const sort = searchParams.get('sort') || 'title'
+	const order = searchParams.get('order') || 'desc'
 
 	const [titleInput, setTitleInput] = useState(title)
-	const [formatInput, setFormatInput] = useState<string | null>(format || null)
-	const [themeInput, setThemeInput] = useState<string | null>(theme || null)
+	const [minPriceInput, setMinPriceInput] = useState<string | number>(minPrice)
+	const [maxPriceInput, setMaxPriceInput] = useState<string | number>(maxPrice)
+	const [formatInput, setFormatInput] = useState<string[]>(format)
+	const [themeInput, setThemeInput] = useState<string[]>(theme)
+
 	const [startDateInput, setStartDateInput] = useState<Date | null>(
 		startDate ? new Date(startDate) : null
 	)
@@ -44,6 +53,8 @@ const EventsPage: React.FC = () => {
 		endDate ? new Date(endDate) : null
 	)
 	const [limitInput, setLimitInput] = useState(limit.toString())
+	const [sortInput, setSortInput] = useState(sort.toString())
+	const [orderInput, setOrderInput] = useState(order.toString())
 
 	const fetchEvents = async (): Promise<EventsResponse> => {
 		const params = new URLSearchParams({
@@ -52,10 +63,20 @@ const EventsPage: React.FC = () => {
 		})
 
 		if (title) params.set('query', title)
-		if (format) params.set('format', format)
-		if (theme) params.set('theme', theme)
 		if (startDate) params.set('startDate', startDate)
 		if (endDate) params.set('endDate', endDate)
+		if (minPrice) params.set('minPrice', minPrice)
+		if (maxPrice) params.set('minPrice', maxPrice)
+		if (sort) params.set('sort', sort)
+		if (order) params.set('order', order)
+
+		format.forEach((format) => {
+			params.append('format', format)
+		})
+
+		theme.forEach((theme) => {
+			params.append('theme', theme)
+		})
 
 		const { data } = await apiClient(`/events?${params.toString()}`)
 		return data
@@ -99,7 +120,7 @@ const EventsPage: React.FC = () => {
 									/>
 
 									<Group grow>
-										<Select
+										<MultiSelect
 											label="Format"
 											placeholder="Select format"
 											data={[
@@ -112,17 +133,19 @@ const EventsPage: React.FC = () => {
 											value={formatInput}
 											onChange={setFormatInput}
 											clearable
+											hidePickedOptions
 										/>
-
-										<Select
+										<MultiSelect
 											label="Theme"
 											placeholder="Select theme"
 											data={['BUSINESS', 'POLITICS', 'PSYCHOLOGY', 'OTHER']}
 											value={themeInput}
 											onChange={setThemeInput}
 											clearable
+											hidePickedOptions
 										/>
 									</Group>
+
 									<Group grow>
 										<DatePickerInput
 											label="Start Date"
@@ -135,19 +158,48 @@ const EventsPage: React.FC = () => {
 											onChange={setEndDateInput}
 										/>
 									</Group>
+
+									<Group grow>
+										<NumberInput
+											label="Min Price"
+											value={minPriceInput}
+											onChange={(value) => setMinPriceInput(value)}
+											min={0}
+											decimalScale={0}
+										/>
+										<NumberInput
+											label="Max Price"
+											value={maxPriceInput}
+											onChange={(value) => setMaxPriceInput(value)}
+											min={0}
+											decimalScale={0}
+										/>
+									</Group>
+
 									<Group align="flex-end">
 										<Button
 											onClick={() => {
 												const params = new URLSearchParams()
 												if (titleInput) params.set('query', titleInput)
-												if (formatInput) params.set('format', formatInput)
-												if (themeInput) params.set('theme', themeInput)
 												if (startDateInput)
 													params.set('startDate', startDateInput.toISOString())
 												if (endDateInput)
 													params.set('endDate', endDateInput.toISOString())
 												params.set('limit', limitInput)
 												params.set('page', '1')
+												if (minPriceInput)
+													params.set('minPrice', minPriceInput.toString())
+												if (maxPriceInput)
+													params.set('minPrice', maxPriceInput.toString())
+
+												formatInput.forEach((format) => {
+													params.append('format', format)
+												})
+
+												themeInput.forEach((theme) => {
+													params.append('theme', theme)
+												})
+
 												setSearchParams(params)
 											}}
 										>
@@ -164,30 +216,65 @@ const EventsPage: React.FC = () => {
 							variant="light"
 							onClick={() => {
 								setTitleInput('')
-								setFormatInput(null)
-								setThemeInput(null)
+								setFormatInput([])
+								setThemeInput([])
 								setStartDateInput(null)
 								setEndDateInput(null)
-								setLimitInput('15') // Reset limit
+								setLimitInput('15')
+								setMinPriceInput('')
+								setMaxPriceInput('')
 								setSearchParams(new URLSearchParams())
 							}}
 						>
 							Clear All Filters
 						</Button>
-						<Select
-							placeholder="Select Limit"
-							data={['5', '15', '30']}
-							value={limitInput}
-							onChange={(value) => {
-								if (value) {
-									setLimitInput(value)
-									const params = new URLSearchParams(searchParams)
-									params.set('limit', value)
-									setSearchParams(params)
-								}
-							}}
-							w="75px"
-						/>
+						<Group grow>
+							<Select
+								data={[
+									'title',
+									'startDate',
+									'endDate',
+									'createdAt',
+									'ticketPrice',
+								]}
+								value={sortInput}
+								onChange={(value) => {
+									if (value) {
+										setSortInput(value)
+										const params = new URLSearchParams(searchParams)
+										params.set('sort', value)
+										setSearchParams(params)
+									}
+								}}
+								w="300px"
+							/>
+							<Select
+								data={['asc', 'desc']}
+								value={orderInput}
+								onChange={(value) => {
+									if (value) {
+										setOrderInput(value)
+										const params = new URLSearchParams(searchParams)
+										params.set('order', value)
+										setSearchParams(params)
+									}
+								}}
+								w="30px"
+							/>
+							<Select
+								data={['5', '15', '30']}
+								value={limitInput}
+								onChange={(value) => {
+									if (value) {
+										setLimitInput(value)
+										const params = new URLSearchParams(searchParams)
+										params.set('limit', value)
+										setSearchParams(params)
+									}
+								}}
+								w="5px"
+							/>
+						</Group>
 					</Group>
 				</Stack>
 

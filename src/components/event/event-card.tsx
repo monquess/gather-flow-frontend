@@ -76,7 +76,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 								{event?.location?.split(',').pop()?.trim()}
 							</Text>
 							<Badge variant="filled" color="blue">
-								{/* ${event.ticketPrice} */} 200$
+								${event.ticketPrice}
 							</Badge>
 						</Group>
 					</Stack>

@@ -70,7 +70,7 @@ const MainHeader: React.FC = () => {
 					</Center>
 					<Group w={isMobile ? '100%' : ''}>
 						<Input
-							placeholder="Search..."
+							placeholder={isMobile ? 'Click to search' : 'Click or use Ctrl+K'}
 							leftSection={<CiSearch />}
 							w={isMobile ? '100%' : ''}
 							onClick={() => setIsOpen(true)}
