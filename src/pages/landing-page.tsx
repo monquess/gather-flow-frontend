@@ -50,7 +50,7 @@ const Reveal = ({
 	)
 }
 
-export default function LandingPage() {
+const LandingPage: React.FC = () => {
 	const navigate = useNavigate()
 	const isMobile = useMediaQuery('(max-width: 768px)')
 
@@ -197,3 +197,5 @@ export default function LandingPage() {
 		</Box>
 	)
 }
+
+export default LandingPage

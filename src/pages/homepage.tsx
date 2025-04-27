@@ -8,7 +8,16 @@ import classes from '@/shared/styles/slider.module.css'
 import { CompaniesResponse } from '@/shared/types/companies'
 import { EventsResponse } from '@/shared/types/events'
 import { Carousel } from '@mantine/carousel'
-import { Center, Container, Loader, Stack, Text, Title } from '@mantine/core'
+import {
+	Box,
+	Center,
+	Container,
+	Flex,
+	Loader,
+	Stack,
+	Text,
+	Title,
+} from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import Autoplay from 'embla-carousel-autoplay'
 import React, { useRef } from 'react'
@@ -99,24 +108,34 @@ const Homepage: React.FC = () => {
 				<Title order={3} mt="xl" mb="xs">
 					Popular Companies
 				</Title>
-				<Carousel
-					slideSize={isMobile ? '100%' : '25%'}
-					slideGap="md"
-					loop
-					withControls
-					align="start"
-					draggable
-					classNames={classes}
-					plugins={[autoplayCompanies.current]}
-					onMouseEnter={() => autoplayCompanies.current.stop()}
-					onMouseLeave={() => autoplayCompanies.current.play()}
-				>
-					{companiesData?.data.map((company) => (
-						<Carousel.Slide key={company.id}>
-							<CompanyCard company={company} />
-						</Carousel.Slide>
-					))}
-				</Carousel>
+				{(companiesData?.data?.length ?? 0) < 4 && !isMobile ? (
+					<Flex gap="md" direction="row" wrap="nowrap">
+						{companiesData?.data.map((company) => (
+							<Box key={company.id} style={{ flex: '0 0 25%' }}>
+								<CompanyCard company={company} />
+							</Box>
+						))}
+					</Flex>
+				) : (
+					<Carousel
+						slideSize={isMobile ? '100%' : '25%'}
+						slideGap="md"
+						loop={(companiesData?.data?.length ?? 0) > 4}
+						withControls={(companiesData?.data?.length ?? 0) > 4}
+						align="start"
+						draggable
+						classNames={classes}
+						plugins={[autoplayCompanies.current]}
+						onMouseEnter={() => autoplayCompanies.current.stop()}
+						onMouseLeave={() => autoplayCompanies.current.play()}
+					>
+						{companiesData?.data.map((company) => (
+							<Carousel.Slide key={company.id}>
+								<CompanyCard company={company} />
+							</Carousel.Slide>
+						))}
+					</Carousel>
+				)}
 
 				<Title order={3} mb="xs" mt="lg">
 					Coming Soon

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-
 import {
 	Box,
 	Button,
@@ -17,7 +16,6 @@ import {
 } from '@mantine/core'
 import { DateTimePicker } from '@mantine/dates'
 import { useForm, zodResolver } from '@mantine/form'
-import { useEditor } from '@tiptap/react'
 import {
 	Autocomplete,
 	GoogleMap,
@@ -39,8 +37,6 @@ import { EventItem } from '@/shared/types/events'
 import { createEventSchema } from '@/shared/validations/create-event'
 import MarkdownEditor from '@/components/editor/markdown-editor'
 
-import StarterKit from '@tiptap/starter-kit'
-import Placeholder from '@tiptap/extension-placeholder'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 
@@ -84,17 +80,6 @@ const CreateEventForm: React.FC = () => {
 		},
 	})
 	const [isPublishLater, setIsPublishLater] = useState(false)
-
-	const editor = useEditor({
-		extensions: [
-			StarterKit,
-			Placeholder.configure({ placeholder: 'Describe the event' }),
-		],
-		onUpdate: ({ editor }) => {
-			form.setFieldValue('description', editor.getHTML())
-		},
-		content: form.values.description,
-	})
 
 	const handleMapClick = (e: google.maps.MapMouseEvent) => {
 		const lat = e.latLng?.lat()
@@ -207,7 +192,11 @@ const CreateEventForm: React.FC = () => {
 					/>
 				</Group>
 
-				<MarkdownEditor editor={editor} />
+				<MarkdownEditor
+					value={form.values.description}
+					placeholder="Describe the event"
+					onChange={(value) => form.setFieldValue('description', value)}
+				/>
 
 				<Divider
 					mt="xs"

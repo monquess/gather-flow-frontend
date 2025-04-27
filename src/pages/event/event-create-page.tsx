@@ -1,13 +1,5 @@
 import React, { forwardRef } from 'react'
-import {
-	Card,
-	CardProps,
-	Container,
-	Divider,
-	Group,
-	Stack,
-	Title,
-} from '@mantine/core'
+import { Card, CardProps, Container, Stack, Title } from '@mantine/core'
 import { motion } from 'framer-motion'
 
 import CreateEventForm from '@/components/event/forms/create-event-form'
