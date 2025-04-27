@@ -14,6 +14,7 @@ import {
 import { motion } from 'framer-motion'
 import { debounce } from 'lodash'
 import { memo, useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CiSearch } from 'react-icons/ci'
 import { useNavigate } from 'react-router-dom'
 
@@ -23,6 +24,7 @@ interface FindEventModalProps {
 }
 
 const FindEventModal: React.FC<FindEventModalProps> = ({ opened, onClose }) => {
+	const { t } = useTranslation()
 	const navigate = useNavigate()
 	const { isMobile } = useResponsive()
 	const [events, setEvents] = useState<EventItem[]>([])
@@ -92,7 +94,11 @@ const FindEventModal: React.FC<FindEventModalProps> = ({ opened, onClose }) => {
 					>
 						{events.length > 0 && (
 							<>
-								<Divider label="Events" labelPosition="left" my="sm" />
+								<Divider
+									label={t('findModal.event')}
+									labelPosition="left"
+									my="sm"
+								/>
 								<Group dir="row" gap="sm">
 									{events.map((event) => (
 										<Card
@@ -127,7 +133,11 @@ const FindEventModal: React.FC<FindEventModalProps> = ({ opened, onClose }) => {
 
 						{companies.length > 0 && (
 							<>
-								<Divider label="Companies" labelPosition="left" my="sm" />
+								<Divider
+									label={t('findModal.companies')}
+									labelPosition="left"
+									my="sm"
+								/>
 								<Group dir="row" gap="sm">
 									{companies.map((company) => (
 										<Card

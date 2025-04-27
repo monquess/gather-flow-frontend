@@ -12,16 +12,18 @@ import { Center, Container, Loader, Stack, Text, Title } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import Autoplay from 'embla-carousel-autoplay'
 import React, { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const Homepage: React.FC = () => {
 	const { isMobile } = useResponsive()
 	const autoplayCompanies = useRef(Autoplay({ delay: 2400 }))
+	const { t } = useTranslation()
 
 	const { data: eventsData, isLoading: isLoadingEvents } = useQuery({
 		queryKey: ['homepage-events'],
 		queryFn: async (): Promise<EventsResponse> => {
 			const { data } = await apiClient(
-				`/events?page=1&limit=30&format=CONFERENCE,LECTURE,OTHER`
+				`/events?page=1&limit=30&format=CONFERENCE&format=LECTURE&format=OTHER`
 			)
 			return data
 		},
@@ -90,14 +92,11 @@ const Homepage: React.FC = () => {
 						letterSpacing: '0.5px',
 					}}
 				>
-					Welcome to our platform! Here you'll find the most relevant and
-					exciting events, as well as get to know popular companies that are
-					driving innovation. Join us and don't miss the chance to be at the
-					heart of the most important happenings!
+					{t('homepage.welcomeMessage')}
 				</Text>
 
 				<Title order={3} mt="xl" mb="xs">
-					Popular Companies
+					{t('homepage.popularCompanies')}
 				</Title>
 				<Carousel
 					slideSize={isMobile ? '100%' : '25%'}
@@ -119,39 +118,39 @@ const Homepage: React.FC = () => {
 				</Carousel>
 
 				<Title order={3} mb="xs" mt="lg">
-					Coming Soon
+					{t('homepage.comingSoon')}
 				</Title>
 				{eventsUpcomingData?.data.length ? (
 					<CarouselEvent delay={2000} events={eventsUpcomingData.data} />
 				) : (
-					<Text>No upcoming events at the moment.</Text>
+					<Text>{t('homepage.noUpcomingEvents')}</Text>
 				)}
 
 				<Title order={3} mb="xs" mt="lg">
-					Conferences
+					{t('homepage.conferences')}
 				</Title>
 				{eventCategories.conference?.length ? (
 					<CarouselEvent delay={2300} events={eventCategories.conference} />
 				) : (
-					<Text>No conference events available.</Text>
+					<Text>{t('homepage.noConferenceEvents')}</Text>
 				)}
 
 				<Title order={3} mb="xs" mt="lg">
-					Lectures
+					{t('homepage.lectures')}
 				</Title>
 				{eventCategories.lecture?.length ? (
 					<CarouselEvent delay={1900} events={eventCategories.lecture} />
 				) : (
-					<Text>No lecture events available.</Text>
+					<Text>{t('homepage.noLectureEvents')}</Text>
 				)}
 
 				<Title order={3} mb="xs" mt="lg">
-					Other Events
+					{t('homepage.otherEvents')}
 				</Title>
 				{eventCategories.other?.length ? (
 					<CarouselEvent delay={2600} events={eventCategories.other} />
 				) : (
-					<Text>No other events available.</Text>
+					<Text>{t('homepage.noOtherEvents')}</Text>
 				)}
 
 				<Footer />

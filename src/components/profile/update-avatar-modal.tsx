@@ -10,6 +10,7 @@ import useStore, { User } from '@/shared/store/user-store'
 import { avatarSchema } from '@/shared/validations'
 
 import { useResponsive } from '@/hooks/use-responsive'
+import { useTranslation } from 'react-i18next'
 
 interface UploadAvatarModalProps {
 	opened: boolean
@@ -20,6 +21,7 @@ const UploadAvatarModal: React.FC<UploadAvatarModalProps> = ({
 	opened,
 	onClose,
 }) => {
+	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
 	const { user, updateUser } = useStore()
 	const [loading, setLoading] = useState(false)
@@ -52,15 +54,19 @@ const UploadAvatarModal: React.FC<UploadAvatarModalProps> = ({
 			)
 
 			showNotification(
-				'Avatar upload',
-				'Avatar uploaded successfully.',
+				t('uploadAvatar.title'),
+				t('uploadAvatar.avatarUploadSuccess'),
 				'green'
 			)
 			updateUser(data)
 			onClose()
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
-				showNotification('Avatar upload error', error.message, 'red')
+				showNotification(
+					t('uploadAvatar.avatarUploadError'),
+					error.message,
+					'red'
+				)
 			}
 		} finally {
 			form.reset()
@@ -72,7 +78,7 @@ const UploadAvatarModal: React.FC<UploadAvatarModalProps> = ({
 		<Modal
 			opened={opened}
 			onClose={onClose}
-			title="Upload avatar"
+			title={t('uploadAvatar.title')}
 			size={isMobile ? 'sm' : 'md'}
 			centered
 			closeOnClickOutside={false}
@@ -81,11 +87,11 @@ const UploadAvatarModal: React.FC<UploadAvatarModalProps> = ({
 			<form onSubmit={form.onSubmit(handleSubmit)}>
 				<Stack pos="relative">
 					<Text size={isMobile ? 'xs' : 'sm'} c="dimmed" ta="unset">
-						New day, new profile pic! Choose an image that represents you best.
+						{t('uploadAvatar.confirmationText')}
 					</Text>
 					<FileInput
-						label="Select new profile picture"
-						placeholder="Upload image"
+						label={t('uploadAvatar.fileInputLabel')}
+						placeholder={t('uploadAvatar.fileInputPlaceholder')}
 						leftSection={<IoImageOutline />}
 						accept="image/png,image/jpeg,image/jpg,image/webp"
 						clearable
@@ -93,7 +99,7 @@ const UploadAvatarModal: React.FC<UploadAvatarModalProps> = ({
 						{...form.getInputProps('avatar')}
 					/>
 					<Button type="submit" variant="outline" loading={loading}>
-						Upload avatar
+						{t('uploadAvatar.uploadAvatarButton')}
 					</Button>
 				</Stack>
 			</form>

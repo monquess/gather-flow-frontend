@@ -14,6 +14,7 @@ import {
 } from '@react-google-maps/api'
 import { AxiosError } from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 interface UpdateCompanyFormProps {
@@ -26,6 +27,7 @@ const containerStyle = {
 }
 
 const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
+	const { t } = useTranslation()
 	const [autoKey, setAutoKey] = useState(0)
 	const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(
 		null
@@ -111,6 +113,11 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 					form.getValues()
 				)
 				navigate(`/companies/${res.data.id}`)
+				showNotification(
+					t('updateCompany.successTitle'),
+					t('updateCompany.successMessage'),
+					'red'
+				)
 			} catch (error) {
 				if (error instanceof AxiosError && error.response) {
 					showNotification('Error', error.response.data.message, 'red')
@@ -123,27 +130,26 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 		<form onSubmit={handleSubmit}>
 			<Stack gap="xs">
 				<TextInput
-					label="Name"
+					label={t('updateCompany.name')}
 					mt="md"
 					size={isMobile ? 'sm' : 'md'}
 					key={form.key('name')}
 					{...form.getInputProps('name')}
 				/>
 				<TextInput
-					label="Description"
+					label={t('updateCompany.description')}
 					mt="md"
 					size={isMobile ? 'sm' : 'md'}
 					key={form.key('description')}
 					{...form.getInputProps('description')}
 				/>
 				<TextInput
-					label="Email"
+					label={t('updateCompany.email')}
 					mt="md"
 					size={isMobile ? 'sm' : 'md'}
 					key={form.key('email')}
 					{...form.getInputProps('email')}
 				/>
-
 				<LoadScript googleMapsApiKey={config.GOOGLE_API} libraries={['places']}>
 					<Autocomplete
 						key={autoKey}
@@ -151,7 +157,7 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 						onPlaceChanged={onPlaceChanged}
 					>
 						<TextInput
-							label="Location"
+							label={t('updateCompany.location')}
 							mt="md"
 							size={isMobile ? 'sm' : 'md'}
 							value={form.values.location}
@@ -182,9 +188,9 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 						variant="outline"
 						onClick={() => navigate(`/companies/${company?.id}`)}
 					>
-						Cancel
+						{t('updateCompany.cancel')}
 					</Button>
-					<Button type="submit">Update</Button>
+					<Button type="submit">{t('updateCompany.update')}</Button>
 				</Group>
 			</Stack>
 		</form>

@@ -3,6 +3,7 @@ import { Badge, Card, Flex, Group, Rating, Stack, Text } from '@mantine/core'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 interface CompanyCardProps {
@@ -10,7 +11,9 @@ interface CompanyCardProps {
 }
 
 const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
+	const { t } = useTranslation()
 	const navigate = useNavigate()
+
 	return (
 		<Card
 			withBorder
@@ -37,6 +40,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 					<Text size="sm" c="dimmed" lineClamp={2} mih="36px">
 						{company.description}
 					</Text>
+
 					<Stack gap="xs" mt="auto">
 						<Text size="sm" lineClamp={1}>
 							{company.email}
@@ -45,9 +49,12 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 							{company?.location?.split(',').pop()?.trim()}
 						</Badge>
 					</Stack>
+
 					<Flex justify="space-between" align="center">
 						<Text size="xs" c="gray">
-							Created on: {dayjs(company.createdAt).format('DD MMM YYYY')}
+							{t('companyCard.createdAt', {
+								date: dayjs(company.createdAt).format('DD MMM YYYY'),
+							})}
 						</Text>
 						<Group gap={0}>
 							<Rating

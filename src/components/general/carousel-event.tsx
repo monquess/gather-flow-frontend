@@ -5,6 +5,7 @@ import { Carousel } from '@mantine/carousel'
 import { Box, Flex, Text } from '@mantine/core'
 import Autoplay from 'embla-carousel-autoplay'
 import React, { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import EventCard from '../event/event-card'
 
 interface CarouselEventProps {
@@ -13,10 +14,11 @@ interface CarouselEventProps {
 }
 const CarouselEvent: React.FC<CarouselEventProps> = ({ events, delay }) => {
 	const { isMobile } = useResponsive()
+	const { t } = useTranslation()
 	const autoplay = useRef(Autoplay({ delay: delay }))
 
 	if (!Array.isArray(events) || events.length === 0) {
-		return <Text>No events available.</Text>
+		return <Text>{t('carousel.noEvent')}</Text>
 	}
 
 	return (

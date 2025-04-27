@@ -31,6 +31,7 @@ import StarterKit from '@tiptap/starter-kit'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
 import React, { forwardRef, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { MdCalendarToday } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
 
@@ -47,6 +48,7 @@ const EventPage: React.FC = () => {
 	)
 	const [isMapLoaded, setIsMapLoaded] = useState(false)
 	const { id } = useParams()
+	const { t } = useTranslation()
 
 	const fetchEvent = async (): Promise<EventItem> => {
 		const { data } = await apiClient(`/events/${id}`)
@@ -70,8 +72,6 @@ const EventPage: React.FC = () => {
 
 	const fetchEventFromCompany = async (): Promise<EventsResponse> => {
 		const { data } = await apiClient(`/companies/${event?.company.id}/events`)
-		console.log(event?.company.id)
-		console.log(data)
 		return data
 	}
 
@@ -129,7 +129,7 @@ const EventPage: React.FC = () => {
 	if (error || errorCompanyEvents || errorSimilarEvents) {
 		return (
 			<Center h="100vh">
-				<Text c="red">Error loading event</Text>
+				<Text c="red">{t('eventPage.errorLoadingEvent')}</Text>
 			</Center>
 		)
 	}
@@ -182,20 +182,29 @@ const EventPage: React.FC = () => {
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
 						<Stack>
-							<Title order={3}>Buy Ticket</Title>
-							<Text fw={500}>Price: $200</Text>
+							<Title order={3}>{t('eventPage.buyTicket')}</Title>
+							<Text fw={500}>
+								{t('eventPage.price')}: {event?.ticketPrice}$
+							</Text>
 
-							<TextInput label="Promocode" placeholder="Enter your code" />
+							<TextInput
+								label={t('eventPage.promocode')}
+								placeholder={t('eventPage.enterYourCode')}
+							/>
 
 							<Button fullWidth color="green" mt="sm" size="md">
-								Buy Now
+								{t('eventPage.buyNow')}
 							</Button>
 						</Stack>
 					</MotionCard>
 				</Box>
 			</Flex>
 
-			<Divider my="xl" label="About Event" labelPosition="center" />
+			<Divider
+				my="xl"
+				label={t('eventPage.aboutEvent')}
+				labelPosition="center"
+			/>
 
 			<MotionCard
 				shadow="lg"
@@ -218,7 +227,9 @@ const EventPage: React.FC = () => {
 
 					<Divider my="md" />
 
-					<Text fw={600}>Location: {event?.location}</Text>
+					<Text fw={600}>
+						{t('eventPage.location')}: {event?.location}
+					</Text>
 
 					{event?.location && (
 						<Box
@@ -246,7 +257,11 @@ const EventPage: React.FC = () => {
 				</Stack>
 			</MotionCard>
 
-			<Divider my="xl" label="More from this company" labelPosition="center" />
+			<Divider
+				my="xl"
+				label={t('eventPage.moreFromCompany')}
+				labelPosition="center"
+			/>
 
 			<MotionCard
 				shadow="lg"
@@ -260,7 +275,7 @@ const EventPage: React.FC = () => {
 				<CarouselEvent events={companyEvents?.data} delay={2000} />
 			</MotionCard>
 
-			<Divider my="xl" label="See more" labelPosition="center" />
+			<Divider my="xl" label={t('eventPage.seeMore')} labelPosition="center" />
 
 			<MotionCard
 				shadow="lg"

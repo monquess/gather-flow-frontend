@@ -4,7 +4,7 @@ import { apiClient } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { CompanyItem } from '@/shared/types/companies'
 import { createCompanySchema } from '@/shared/validations/create-company'
-import { Button, Group, Stack, TextInput } from '@mantine/core'
+import { Button, Divider, Group, Stack, Text, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import {
 	Autocomplete,
@@ -14,6 +14,9 @@ import {
 } from '@react-google-maps/api'
 import { AxiosError } from 'axios'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FaMapLocationDot } from 'react-icons/fa6'
+import { IoIosSearch } from 'react-icons/io'
 import { useNavigate } from 'react-router-dom'
 
 const containerStyle = {
@@ -22,6 +25,7 @@ const containerStyle = {
 }
 
 const CreateCompanyForm: React.FC = () => {
+	const { t } = useTranslation()
 	const [autoKey, setAutoKey] = useState(0)
 
 	const navigate = useNavigate()
@@ -94,9 +98,14 @@ const CreateCompanyForm: React.FC = () => {
 				form.getValues()
 			)
 			navigate(`/companies/${res.data.id}`)
+			showNotification(
+				t('createCompany.Title'),
+				t('createCompany.createMessage'),
+				'red'
+			)
 		} catch (error) {
 			if (error instanceof AxiosError && error.response) {
-				showNotification('Error', error.response.data.message, 'red')
+				showNotification(t('common.error'), error.response.data.message, 'red')
 			}
 		}
 	}
@@ -105,25 +114,36 @@ const CreateCompanyForm: React.FC = () => {
 		<form onSubmit={handleSubmit}>
 			<Stack gap="xs">
 				<TextInput
-					label="Name"
-					mt="md"
+					label={t('createCompany.name')}
+					placeholder={t('createCompany.namePlaceholder')}
 					size={isMobile ? 'sm' : 'md'}
 					key={form.key('name')}
 					{...form.getInputProps('name')}
 				/>
 				<TextInput
-					label="Description"
-					mt="md"
+					label={t('createCompany.description')}
+					placeholder={t('createCompany.descriptionPlaceholder')}
 					size={isMobile ? 'sm' : 'md'}
 					key={form.key('description')}
 					{...form.getInputProps('description')}
 				/>
 				<TextInput
-					label="Email"
-					mt="md"
+					label={t('createCompany.email')}
+					placeholder={t('createCompany.emailPlaceholder')}
 					size={isMobile ? 'sm' : 'md'}
 					key={form.key('email')}
 					{...form.getInputProps('email')}
+				/>
+
+				<Divider
+					mt="xs"
+					labelPosition="left"
+					label={
+						<>
+							<FaMapLocationDot size={16} />
+							<Text ml={5}>{t('createCompany.location')}</Text>
+						</>
+					}
 				/>
 
 				<LoadScript googleMapsApiKey={config.GOOGLE_API} libraries={['places']}>
@@ -133,8 +153,8 @@ const CreateCompanyForm: React.FC = () => {
 						onPlaceChanged={onPlaceChanged}
 					>
 						<TextInput
-							label="Location"
-							mt="md"
+							placeholder={t('createCompany.searchLocationPlaceholder')}
+							leftSection={<IoIosSearch />}
 							size={isMobile ? 'sm' : 'md'}
 							value={form.values.location}
 							onChange={(e) => handleLocationChange(e.currentTarget.value)}
@@ -162,9 +182,9 @@ const CreateCompanyForm: React.FC = () => {
 
 				<Group justify="flex-end" mt="md">
 					<Button variant="outline" onClick={() => navigate(`/home`)}>
-						Cancel
+						{t('common.cancel')}
 					</Button>
-					<Button type="submit">Create</Button>
+					<Button type="submit">{t('createCompany.createButton')}</Button>
 				</Group>
 			</Stack>
 		</form>

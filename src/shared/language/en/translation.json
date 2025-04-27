@@ -85,5 +85,197 @@
 			"title": "Reset password",
 			"text": "Enter your email address to verify your account"
 		}
+	},
+	"createCompany": {
+		"title": "Create new company",
+		"name": "Name",
+		"namePlaceholder": "Enter company name",
+		"description": "Description",
+		"descriptionPlaceholder": "Enter company description",
+		"email": "Email",
+		"emailPlaceholder": "Enter company email",
+		"location": "Location",
+		"searchLocationPlaceholder": "Search for a venue",
+		"createButton": "Create",
+		"createTitle": "Company create",
+		"createMessage": "Company create successfully"
+	},
+	"updateCompany": {
+		"name": "Name",
+		"description": "Description",
+		"email": "Email",
+		"location": "Location",
+		"cancel": "Cancel",
+		"update": "Update",
+		"successTitle": "Company update",
+		"successMessage": "Company updated successfully",
+		"errorLoad": "Error loading company",
+		"title": "Update",
+		"info": "Info"
+	},
+	"deleteCompany": {
+		"modalTitle": "Delete company",
+		"successTitle": "Company deletion",
+		"successMessage": "The company has been successfully deleted.",
+		"errorTitle": "Company deletion error",
+		"confirmationMessage": "Do you really want to delete \"{{company}}\"? This action is irreversible."
+	},
+	"addMember": {
+		"modalTitle": "Invite members to company",
+		"selectLabel": "Select users",
+		"selectPlaceholder": "Start writing username or email...",
+		"inviteButton": "Invite users",
+		"successTitle": "Member invitation",
+		"successMessage": "Members have been successfully invited to the company.",
+		"errorTitle": "Member invitation error"
+	},
+	"companyCard": {
+		"createdAt": "Created on: {{date}}"
+	},
+	"carousel": {
+		"noEvent": "No events available."
+	},
+	"findModal": {
+		"company": "Companies",
+		"event": "Events"
+	},
+	"mainHeader": {
+		"home": "Home",
+		"events": "Events",
+		"companies": "Companies",
+		"allCompanies": "All companies",
+		"createCompany": "Create company",
+		"searchMobile": "Click to search",
+		"searchDesktop": "Click or use Ctrl+K"
+	},
+	"companiesPage": {
+		"searchPlaceholder": "Search by name...",
+		"selectLimit": "Select Limit",
+		"errorLoadingCompanies": "Error loading companies"
+	},
+	"companyPage": {
+		"errorLoadingCompany": "Error loading company",
+		"companyLocation": "Location",
+		"companyMembers": "Members",
+		"addMember": "Add",
+		"companyEvents": "Company Events",
+		"createEvent": "Create",
+		"noEventsAvailable": "No events available.",
+		"loadingEvents": "Loading events..."
+	},
+	"createEvent": {
+		"title": "Create new event"
+	},
+	"eventPage": {
+		"loading": "Loading event...",
+		"errorLoadingEvent": "Error loading event",
+		"aboutEvent": "About Event",
+		"buyTicket": "Buy Ticket",
+		"price": "Price",
+		"promocode": "Promocode",
+		"enterYourCode": "Enter your code",
+		"buyNow": "Buy Now",
+		"location": "Location",
+		"moreFromCompany": "More from this company",
+		"seeMore": "See more",
+		"eventNotFound": "Event not found"
+	},
+	"eventsPage": {
+		"loading": "Loading events...",
+		"errorLoadingEvents": "Error loading events",
+		"searchFilters": "Search & Filters",
+		"eventTitle": "Event Title",
+		"placeholderTitle": "Search...",
+		"format": "Format",
+		"selectFormat": "Select format",
+		"theme": "Theme",
+		"selectTheme": "Select theme",
+		"startDate": "Start Date",
+		"endDate": "End Date",
+		"minPrice": "Min Price",
+		"maxPrice": "Max Price",
+		"filterButton": "Filter",
+		"clearAllFilters": "Clear All Filters",
+		"sortBy": "Sort By",
+		"order": "Order",
+		"limit": "Limit",
+		"error": "Error",
+		"pagination": "Page",
+		"formats": {
+			"CONFERENCE": "Conference",
+			"LECTURE": "Lecture",
+			"WORKSHOP": "Workshop",
+			"FEST": "Festival",
+			"OTHER": "Other"
+		},
+		"themes": {
+			"BUSINESS": "Business",
+			"POLITICS": "Politics",
+			"PSYCHOLOGY": "Psychology",
+			"OTHER": "Other"
+		},
+		"sorts": {
+			"title": "Title",
+			"startDate": "Start date",
+			"endDate": "End date",
+			"publishDate": "Publish date",
+			"ticketPrice": "Ticket price"
+		},
+		"orders": {
+			"ASC": "ASC",
+			"DESC": "DESC"
+		}
+	},
+	"homepage": {
+		"welcomeMessage": "Welcome to our platform! Here you'll find the most relevant and exciting events, as well as get to know popular companies that are driving innovation. Join us and don't miss the chance to be at the heart of the most important happenings!",
+		"popularCompanies": "Popular Companies",
+		"comingSoon": "Coming Soon",
+		"noUpcomingEvents": "No upcoming events at the moment.",
+		"conferences": "Conferences",
+		"noConferenceEvents": "No conference events available.",
+		"lectures": "Lectures",
+		"noLectureEvents": "No lecture events available.",
+		"otherEvents": "Other Events",
+		"noOtherEvents": "No other events available."
+	},
+	"profile": {
+		"verified": "Verified",
+		"joined": "Joined",
+		"lastUpdated": "Last updated"
+	},
+	"deleteAccount": {
+		"cancel": "Cancel",
+		"error": "Error",
+		"delete": "Delete",
+		"title": "Delete account",
+		"confirmationText": "Deleting your account is permanent and cannot be undone. You will lose access to all your data.",
+		"reasonPrompt": "Tell us why are you deleting your account?",
+		"accountDeletion": "Account deletion",
+		"accountDeletionSuccess": "Your account has been successfully deleted.",
+		"accountDeletionError": "Account deletion error"
+	},
+	"uploadAvatar": {
+		"title": "Upload avatar",
+		"confirmationText": "New day, new profile pic! Choose an image that represents you best.",
+		"fileInputLabel": "Select new profile picture",
+		"fileInputPlaceholder": "Upload image",
+		"avatarUploadSuccess": "Avatar uploaded successfully.",
+		"avatarUploadError": "Avatar upload error",
+		"uploadAvatarButton": "Upload avatar"
+	},
+	"updateUser": {
+		"title": "Update user info",
+		"confirmationText": "You can update your email or username below. Make sure to save the changes",
+		"usernameLabel": "Username",
+		"emailLabel": "Email",
+		"saveChangesButton": "Save changes",
+		"accountUpdateSuccess": "Your account information has been successfully updated.",
+		"accountUpdateError": "Account update error"
+	},
+
+	"common": {
+		"cancel": "Cancel",
+		"error": "Error",
+		"delete": "Delete"
 	}
 }

@@ -8,6 +8,7 @@ import { showNotification } from '@/shared/helpers/show-notification'
 import useStore from '@/shared/store/user-store'
 
 import { useResponsive } from '@/hooks/use-responsive'
+import { useTranslation } from 'react-i18next'
 
 interface DeleteAccountModalProps {
 	opened: boolean
@@ -18,6 +19,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
 	opened,
 	onClose,
 }) => {
+	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
 	const { user, logout } = useStore()
 	const navigate = useNavigate()
@@ -34,14 +36,18 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
 
 			logout()
 			showNotification(
-				'Account deletion',
-				'Your account has been successfully deleted.',
+				t('deleteAccount.accountDeletion'),
+				t('deleteAccount.accountDeletionSuccess'),
 				'green'
 			)
 			navigate('/login')
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
-				showNotification('Account deletion error', error.message, 'red')
+				showNotification(
+					t('deleteAccount.accountDeletionError'),
+					error.message,
+					'red'
+				)
 			}
 		} finally {
 			setLoading(false)
@@ -52,7 +58,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
 		<Modal
 			opened={opened}
 			onClose={onClose}
-			title="Delete account"
+			title={t('deleteAccount.title')}
 			size={isMobile ? 'sm' : 'md'}
 			centered
 			closeOnClickOutside={false}
@@ -66,13 +72,12 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
 			<form onSubmit={form.onSubmit(handleSubmit)}>
 				<Stack pos="relative">
 					<Text size={isMobile ? 'xs' : 'sm'} c="dimmed" ta="unset">
-						Deleting your account is permanent and cannot be undone. You will
-						lose access to all your data.
+						{t('deleteAccount.confirmationText')}
 					</Text>
-					<TextInput label="Tell us why are you deleting your account?" />
+					<TextInput label={t('deleteAccount.reasonPrompt')} />
 					<Flex justify="space-between">
 						<Button variant="outline" onClick={() => onClose()}>
-							Cancel
+							{t('deleteAccount.cancel')}
 						</Button>
 						<Button
 							type="submit"
@@ -80,7 +85,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
 							color="red"
 							loading={loading}
 						>
-							Delete
+							{t('deleteAccount.delete')}
 						</Button>
 					</Flex>
 				</Stack>

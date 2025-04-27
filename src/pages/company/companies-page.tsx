@@ -18,9 +18,11 @@ import {
 } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
 const CompaniesPage: React.FC = () => {
+	const { t } = useTranslation()
 	const [searchParams, setSearchParams] = useSearchParams()
 
 	const page = Number(searchParams.get('page')) || 1
@@ -68,7 +70,7 @@ const CompaniesPage: React.FC = () => {
 	if (error)
 		return (
 			<Center>
-				<Text>Error loading companies</Text>
+				<Text>{t('companiesPage.errorLoadingCompanies')}</Text>
 			</Center>
 		)
 
@@ -78,12 +80,12 @@ const CompaniesPage: React.FC = () => {
 				<MainHeader />
 				<Group justify="space-between" pb="md">
 					<TextInput
-						placeholder="Search by name..."
+						placeholder={t('companiesPage.searchPlaceholder')}
 						value={nameInput}
 						onChange={(e) => setNameInput(e.currentTarget.value)}
 					/>
 					<Select
-						placeholder="Select Limit"
+						placeholder={t('companiesPage.selectLimit')}
 						data={['5', '15', '30']}
 						value={limitInput}
 						onChange={(value) => {

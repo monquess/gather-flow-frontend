@@ -1,19 +1,19 @@
 {
 	"notFound": {
 		"title": "404",
-		"message": "Ups! Strona, której szukasz, nie istnieje.",
-		"goHome": "Wróć do strony głównej"
+		"message": "Ups! Strona, którą szukasz, nie istnieje.",
+		"goHome": "Idź do strony głównej"
 	},
 	"login": {
 		"email": "Email",
 		"password": "Hasło",
-		"or": "lub kontynuuj za pomocą",
+		"or": "lub zaloguj się przez",
 		"google": "Google",
 		"forgot": "Zapomniałeś hasła?",
 		"submit": "Zaloguj się",
 		"noAccount": "Nie masz konta?",
 		"register": "Zarejestruj się",
-		"captcha": "Proszę potwierdzić Captcha",
+		"captcha": "Proszę przejść Captcha",
 		"success": "Witaj, {{username}}!",
 		"error": "Błąd logowania"
 	},
@@ -23,51 +23,51 @@
 		"email": "Email",
 		"password": "Hasło",
 		"confirmPassword": "Potwierdź hasło",
-		"or": "lub kontynuuj za pomocą",
+		"or": "lub zarejestruj się przez",
 		"google": "Google",
-		"submit": "Zarejestruj",
+		"submit": "Zarejestruj się",
 		"alreadyHaveAccount": "Masz już konto?",
 		"login": "Zaloguj się",
-		"captcha": "Proszę przesłać Captcha",
-		"success": "Zarejestrowałeś się pomyślnie. Proszę zweryfikować swoje konto.",
+		"captcha": "Proszę przejść Captcha",
+		"success": "Zarejestrowano pomyślnie. Proszę zweryfikować swoje konto.",
 		"error": "Błąd rejestracji"
 	},
 	"verification": {
 		"title": "Weryfikacja",
-		"success": "Konto zostało pomyślnie zweryfikowane",
+		"success": "Konto zweryfikowane pomyślnie",
 		"error": "Błąd weryfikacji"
 	},
 	"passwordReset": {
 		"emailLabel": "Email",
-		"submitButton": "Wyślij e-mail resetowania hasła",
-		"emailSent": "E-mail resetowania hasła został pomyślnie wysłany na {{email}}.",
-		"resetSuccess": "Hasło zostało pomyślnie zresetowane, teraz możesz zalogować się na swoje konto",
+		"submitButton": "Wyślij email resetujący hasło",
+		"emailSent": "Email resetujący hasło został wysłany na {{email}}.",
+		"resetSuccess": "Hasło zostało pomyślnie zresetowane, możesz teraz zalogować się na swoje konto",
 		"resetError": "Błąd resetowania hasła",
-		"notificationTitle": "E-mail z resetowaniem hasła wysłany"
+		"notificationTitle": "Email resetujący hasło wysłany"
 	},
 	"verifyAccount": {
 		"emailLabel": "Email",
-		"submitButton": "Wyślij e-mail weryfikacyjny",
-		"verificationSent": "E-mail weryfikacyjny wysłany pomyślnie",
+		"submitButton": "Wyślij email weryfikacyjny",
+		"verificationSent": "Email weryfikacyjny wysłany pomyślnie",
 		"verificationError": "Błąd weryfikacji",
 		"verificationSuccess": "Twoje konto zostało pomyślnie zweryfikowane. Możesz teraz się zalogować."
 	},
 	"resetPasswordModal": {
 		"title": "Zresetuj swoje hasło",
-		"message": "Wysłaliśmy kod weryfikacyjny na adres {{email}}. Proszę wprowadź kod poniżej, aby zresetować swoje hasło.",
+		"message": "Wysłaliśmy kod weryfikacyjny na {{email}}. Wprowadź kod poniżej, aby zresetować swoje hasło.",
 		"passwordLabel": "Hasło",
 		"confirmPasswordLabel": "Potwierdź hasło",
 		"resendCode": "Wyślij kod ponownie",
 		"changePassword": "Zmień hasło",
-		"resendSuccess": "E-mail z kodem weryfikacyjnym wysłany pomyślnie, sprawdź swoją skrzynkę pocztową",
+		"resendSuccess": "Email z kodem weryfikacyjnym wysłany pomyślnie, sprawdź swoją skrzynkę odbiorczą",
 		"resendError": "Błąd wysyłania kodu weryfikacyjnego"
 	},
 	"verificationCodeModal": {
 		"title": "Zweryfikuj swój email",
-		"message": "Wysłaliśmy kod weryfikacyjny na adres {{email}}. Proszę wprowadź kod poniżej, aby zweryfikować swoje konto.",
+		"message": "Wysłaliśmy kod weryfikacyjny na {{email}}. Wprowadź kod poniżej, aby zweryfikować swoje konto.",
 		"resendCode": "Wyślij kod ponownie",
 		"verify": "Zweryfikuj",
-		"resendSuccess": "E-mail z kodem weryfikacyjnym wysłany pomyślnie, sprawdź swoją skrzynkę pocztową",
+		"resendSuccess": "Email z kodem weryfikacyjnym wysłany pomyślnie, sprawdź swoją skrzynkę odbiorczą",
 		"resendError": "Błąd wysyłania kodu weryfikacyjnego",
 		"invalidCode": "Nieprawidłowy kod weryfikacyjny"
 	},
@@ -78,12 +78,204 @@
 		"login": "Zaloguj się",
 		"register": "Zarejestruj się",
 		"resetPassword": {
-			"title": "Zresetuj hasło",
-			"text": "Wprowadź swój adres e-mail, aby zresetować hasło"
+			"title": "Resetowanie hasła",
+			"text": "Wprowadź swój adres email, aby zresetować hasło"
 		},
 		"verifyAccount": {
-			"title": "Zweryfikuj konto",
-			"text": "Wprowadź swój adres e-mail, aby zweryfikować konto"
+			"title": "Weryfikacja konta",
+			"text": "Wprowadź swój adres email, aby zweryfikować konto"
 		}
+	},
+	"createCompany": {
+		"title": "Utwórz nową firmę",
+		"name": "Nazwa",
+		"namePlaceholder": "Wprowadź nazwę firmy",
+		"description": "Opis",
+		"descriptionPlaceholder": "Wprowadź opis firmy",
+		"email": "Email",
+		"emailPlaceholder": "Wprowadź email firmy",
+		"location": "Lokalizacja",
+		"searchLocationPlaceholder": "Wyszukaj miejsce",
+		"createButton": "Utwórz",
+		"createTitle": "Utworzenie firmy",
+		"createMessage": "Firma została pomyślnie utworzona"
+	},
+	"updateCompany": {
+		"name": "Nazwa",
+		"description": "Opis",
+		"email": "Email",
+		"location": "Lokalizacja",
+		"cancel": "Anuluj",
+		"update": "Zaktualizuj",
+		"successTitle": "Aktualizacja firmy",
+		"successMessage": "Firma została pomyślnie zaktualizowana",
+		"errorLoad": "Błąd ładowania firmy",
+		"title": "Aktualizuj",
+		"info": "Informacje"
+	},
+	"deleteCompany": {
+		"modalTitle": "Usuń firmę",
+		"successTitle": "Usunięcie firmy",
+		"successMessage": "Firma została pomyślnie usunięta.",
+		"errorTitle": "Błąd usuwania firmy",
+		"confirmationMessage": "Czy na pewno chcesz usunąć \"{{company}}\"? Ta akcja jest nieodwracalna."
+	},
+	"addMember": {
+		"modalTitle": "Zaproś członków do firmy",
+		"selectLabel": "Wybierz użytkowników",
+		"selectPlaceholder": "Zacznij pisać nazwę użytkownika lub email...",
+		"inviteButton": "Zaproś użytkowników",
+		"successTitle": "Zaproś członków",
+		"successMessage": "Członkowie zostali pomyślnie zaproszeni do firmy.",
+		"errorTitle": "Błąd zapraszania członków"
+	},
+	"companyCard": {
+		"createdAt": "Utworzono: {{date}}"
+	},
+	"carousel": {
+		"noEvent": "Brak dostępnych wydarzeń."
+	},
+	"findModal": {
+		"company": "Firmy",
+		"event": "Wydarzenia"
+	},
+	"mainHeader": {
+		"home": "Strona główna",
+		"events": "Wydarzenia",
+		"companies": "Firmy",
+		"allCompanies": "Wszystkie firmy",
+		"createCompany": "Utwórz firmę",
+		"searchMobile": "Kliknij, aby wyszukać",
+		"searchDesktop": "Kliknij lub użyj Ctrl+K"
+	},
+	"companiesPage": {
+		"searchPlaceholder": "Szukaj po nazwie...",
+		"selectLimit": "Wybierz limit",
+		"errorLoadingCompanies": "Błąd ładowania firm"
+	},
+	"companyPage": {
+		"errorLoadingCompany": "Błąd ładowania firmy",
+		"companyLocation": "Lokalizacja",
+		"companyMembers": "Członkowie",
+		"addMember": "Dodaj",
+		"companyEvents": "Wydarzenia firmy",
+		"createEvent": "Utwórz wydarzenie",
+		"noEventsAvailable": "Brak dostępnych wydarzeń.",
+		"loadingEvents": "Ładowanie wydarzeń..."
+	},
+	"createEvent": {
+		"title": "Utwórz nowe wydarzenie"
+	},
+	"eventPage": {
+		"loading": "Ładowanie wydarzenia...",
+		"errorLoadingEvent": "Błąd ładowania wydarzenia",
+		"aboutEvent": "O wydarzeniu",
+		"buyTicket": "Kup bilet",
+		"price": "Cena",
+		"promocode": "Kod promocyjny",
+		"enterYourCode": "Wprowadź swój kod",
+		"buyNow": "Kup teraz",
+		"location": "Lokalizacja",
+		"moreFromCompany": "Więcej od tej firmy",
+		"seeMore": "Zobacz więcej",
+		"eventNotFound": "Nie znaleziono wydarzenia"
+	},
+	"eventsPage": {
+		"loading": "Ładowanie wydarzeń...",
+		"errorLoadingEvents": "Błąd ładowania wydarzeń",
+		"searchFilters": "Szukaj i filtryj",
+		"eventTitle": "Tytuł wydarzenia",
+		"placeholderTitle": "Szukaj...",
+		"format": "Format",
+		"selectFormat": "Wybierz format",
+		"theme": "Temat",
+		"selectTheme": "Wybierz temat",
+		"startDate": "Data rozpoczęcia",
+		"endDate": "Data zakończenia",
+		"minPrice": "Min. cena",
+		"maxPrice": "Max. cena",
+		"filterButton": "Filtruj",
+		"clearAllFilters": "Wyczyść wszystkie filtry",
+		"sortBy": "Sortuj według",
+		"order": "Porządek",
+		"limit": "Limit",
+		"error": "Błąd",
+		"pagination": "Strona",
+		"formats": {
+			"CONFERENCE": "Konferencja",
+			"LECTURE": "Wykład",
+			"WORKSHOP": "Warsztaty",
+			"FEST": "Festywał",
+			"OTHER": "Inne"
+		},
+		"themes": {
+			"BUSINESS": "Biznes",
+			"POLITICS": "Polityka",
+			"PSYCHOLOGY": "Psychologia",
+			"OTHER": "Inne"
+		},
+		"sorts": {
+			"title": "Tytuł",
+			"startDate": "Data rozpoczęcia",
+			"endDate": "Data zakończenia",
+			"publishDate": "Data publikacji",
+			"ticketPrice": "Cena biletu"
+		},
+		"orders": {
+			"ASC": "Rosnąco",
+			"DESC": "Malejąco"
+		}
+	},
+	"homepage": {
+		"welcomeMessage": "Witaj na naszej platformie! Znajdziesz tutaj najważniejsze i najbardziej ekscytujące wydarzenia oraz zapoznasz się z popularnymi firmami, które napędzają innowacje. Dołącz do nas i nie przegap szansy, aby być w samym centrum najważniejszych wydarzeń!",
+		"popularCompanies": "Popularne firmy",
+		"comingSoon": "Wkrótce",
+		"noUpcomingEvents": "Brak nadchodzących wydarzeń.",
+		"conferences": "Konferencje",
+		"noConferenceEvents": "Brak wydarzeń konferencyjnych.",
+		"lectures": "Wykłady",
+		"noLectureEvents": "Brak wydarzeń wykładowych.",
+		"otherEvents": "Inne wydarzenia",
+		"noOtherEvents": "Brak innych wydarzeń."
+	},
+	"profile": {
+		"verified": "Zweryfikowane",
+		"joined": "Dołączył",
+		"lastUpdated": "Ostatnia aktualizacja"
+	},
+	"deleteAccount": {
+		"cancel": "Anuluj",
+		"error": "Błąd",
+		"delete": "Usuń",
+		"title": "Usuń konto",
+		"confirmationText": "Usunięcie konta jest trwałe i nieodwracalne. Stracisz dostęp do wszystkich swoich danych.",
+		"reasonPrompt": "Powiedz nam, dlaczego usuwasz swoje konto?",
+		"accountDeletion": "Usunięcie konta",
+		"accountDeletionSuccess": "Twoje konto zostało pomyślnie usunięte.",
+		"accountDeletionError": "Błąd usuwania konta"
+	},
+	"uploadAvatar": {
+		"title": "Prześlij avatar",
+		"confirmationText": "Nowy dzień, nowe zdjęcie profilowe! Wybierz obrazek, który najlepiej Cię reprezentuje.",
+		"fileInputLabel": "Wybierz nowe zdjęcie profilowe",
+		"fileInputPlaceholder": "Prześlij obrazek",
+		"avatarUploadSuccess": "Avatar został pomyślnie przesłany.",
+		"avatarUploadError": "Błąd przesyłania avatara",
+		"uploadAvatarButton": "Prześlij avatar"
+	},
+	"updateUser": {
+		"title": "Zaktualizuj informacje o użytkowniku",
+		"confirmationText": "Możesz zaktualizować swój email lub nazwę użytkownika poniżej. Upewnij się, że zapiszesz zmiany",
+		"usernameLabel": "Nazwa użytkownika",
+		"emailLabel": "Email",
+		"saveChangesButton": "Zapisz zmiany",
+		"accountUpdateSuccess": "Twoje informacje zostały pomyślnie zaktualizowane.",
+		"accountUpdateError": "Błąd aktualizacji konta"
+	},
+
+	"common": {
+		"cancel": "Anuluj",
+		"error": "Błąd",
+		"delete": "Usuń"
 	}
 }

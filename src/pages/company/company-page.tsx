@@ -33,6 +33,7 @@ import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
 import { forwardRef, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GoTrash } from 'react-icons/go'
 import { GrUpdate } from 'react-icons/gr'
 import { IoMdAdd } from 'react-icons/io'
@@ -45,6 +46,7 @@ const MotionCard = motion(
 )
 
 const CompanyPage: React.FC = () => {
+	const { t } = useTranslation()
 	const navigate = useNavigate()
 	const [admin, setAdmin] = useState(false)
 	const { user } = useUserStore()
@@ -126,7 +128,7 @@ const CompanyPage: React.FC = () => {
 	if (error) {
 		return (
 			<Center>
-				<Text>Error loading company</Text>
+				<Text>{t('companyPage.errorLoadingCompany')}</Text>
 			</Center>
 		)
 	}
@@ -176,7 +178,9 @@ const CompanyPage: React.FC = () => {
 									{data?.email}
 								</Text>
 								<Text>{data?.description}</Text>
-								<Text fw={500}>{data?.location}</Text>
+								<Text fw={500}>
+									{t('companyPage.companyLocation')}: {data?.location}
+								</Text>
 								{data?.location && (
 									<Box
 										mt="md"
@@ -216,14 +220,14 @@ const CompanyPage: React.FC = () => {
 								transition={{ duration: 0.5, ease: 'easeOut' }}
 							>
 								<Grid justify="space-between" align="center">
-									<Title order={3}>Members</Title>
+									<Title order={3}>{t('companyPage.companyMembers')}</Title>
 									{admin && (
 										<Button
 											size={isMobile ? 'xs' : 'sm'}
 											leftSection={<IoMdAdd />}
 											onClick={() => setInviteMembers(true)}
 										>
-											Add
+											{t('companyPage.addMember')}
 										</Button>
 									)}
 								</Grid>
@@ -242,7 +246,7 @@ const CompanyPage: React.FC = () => {
 														</Stack>
 													</Group>
 													<Text size="xs" c="dimmed">
-														Joined{' '}
+														{t('companyPage.joined')}{' '}
 														{dayjs(member.createdAt).format('DD MMM YYYY')}
 													</Text>
 												</Group>
@@ -254,7 +258,11 @@ const CompanyPage: React.FC = () => {
 						</Group>
 					</Box>
 				</Flex>
-				<Divider my="xl" label="Company Events" labelPosition="center" />
+				<Divider
+					my="xl"
+					label={t('companyPage.companyEvents')}
+					labelPosition="center"
+				/>
 				<Group grow align="stretch">
 					<MotionCard
 						withBorder
@@ -266,7 +274,7 @@ const CompanyPage: React.FC = () => {
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
 						<Grid justify="space-between" align="center">
-							<Title order={3}>Events</Title>
+							<Title order={3}>{t('companyPage.companyEvents')}</Title>
 							{admin && (
 								<Button
 									size={isMobile ? 'xs' : 'sm'}
@@ -275,7 +283,7 @@ const CompanyPage: React.FC = () => {
 										navigate(`/companies/${data?.id}/event/create`)
 									}
 								>
-									Create
+									{t('companyPage.createEvent')}
 								</Button>
 							)}
 						</Grid>
@@ -285,11 +293,11 @@ const CompanyPage: React.FC = () => {
 									<Loader size="sm" />
 								</Center>
 							) : eventError ? (
-								<Text c="red">Error loading events</Text>
+								<Text c="red">{t('companyPage.loadingEvents')}</Text>
 							) : eventData?.data.length ? (
 								<CarouselEvent events={eventData?.data} delay={2000} />
 							) : (
-								<Text c="dimmed">No events available.</Text>
+								<Text c="dimmed">{t('companyPage.noEventsAvailable')}</Text>
 							)}
 						</Box>
 					</MotionCard>

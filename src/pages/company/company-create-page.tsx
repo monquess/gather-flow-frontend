@@ -4,6 +4,7 @@ import MainHeader from '@/components/general/main-header'
 import { Card, CardProps, Center, Container, Stack, Title } from '@mantine/core'
 import { motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const MotionCard = motion(
 	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
@@ -12,6 +13,7 @@ const MotionCard = motion(
 )
 
 const CompanyCreatePage: React.FC = () => {
+	const { t } = useTranslation()
 	return (
 		<Container size="xl" pt="md">
 			<Stack gap="xl" justify="space-between">
@@ -27,7 +29,7 @@ const CompanyCreatePage: React.FC = () => {
 				>
 					<Stack gap="xl">
 						<Center>
-							<Title order={2}>Create new company</Title>
+							<Title order={2}>{t('createCompany.title')}</Title>
 						</Center>
 						<CreateCompanyForm />
 					</Stack>

@@ -8,6 +8,7 @@ import useStore, { User } from '@/shared/store/user-store'
 import { updateUserSchema } from '@/shared/validations'
 
 import { useResponsive } from '@/hooks/use-responsive'
+import { useTranslation } from 'react-i18next'
 
 interface updateUserModalProps {
 	opened: boolean
@@ -18,6 +19,7 @@ const UpdateUserModal: React.FC<updateUserModalProps> = ({
 	opened,
 	onClose,
 }) => {
+	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
 	const { user, updateUser } = useStore()
 	const [loading, setLoading] = useState(false)
@@ -37,14 +39,18 @@ const UpdateUserModal: React.FC<updateUserModalProps> = ({
 			const { data } = await apiClient.patch<User>(`/users/${user?.id}`, values)
 			updateUser(data)
 			showNotification(
-				'Account update',
-				'Your account information has been successfully updated.',
+				t('updateUser.title'),
+				t('updateUser.accountUpdateSuccess'),
 				'green'
 			)
 			onClose()
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
-				showNotification('Account update error', error.message, 'red')
+				showNotification(
+					t('updateUser.accountUpdateError'),
+					error.message,
+					'red'
+				)
 			}
 		} finally {
 			setLoading(false)
@@ -55,7 +61,7 @@ const UpdateUserModal: React.FC<updateUserModalProps> = ({
 		<Modal
 			opened={opened}
 			onClose={onClose}
-			title="Update user info"
+			title={t('updateUser.title')}
 			size={isMobile ? 'sm' : 'md'}
 			centered
 			closeOnClickOutside={false}
@@ -69,21 +75,20 @@ const UpdateUserModal: React.FC<updateUserModalProps> = ({
 			<form onSubmit={form.onSubmit(handleSubmit)}>
 				<Stack pos="relative">
 					<Text size={isMobile ? 'xs' : 'sm'} c="dimmed" ta="unset">
-						You can update your email or username below. Make sure to save the
-						changes
+						{t('updateUser.confirmationText')}
 					</Text>
 					<TextInput
-						label="Username"
+						label={t('updateUser.usernameLabel')}
 						key={form.key('username')}
 						{...form.getInputProps('username')}
 					></TextInput>
 					<TextInput
-						label="Email"
+						label={t('updateUser.emailLabel')}
 						key={form.key('email')}
 						{...form.getInputProps('email')}
 					></TextInput>
 					<Button type="submit" variant="outline" loading={loading}>
-						Save changes
+						{t('updateUser.saveChangesButton')}
 					</Button>
 				</Stack>
 			</form>

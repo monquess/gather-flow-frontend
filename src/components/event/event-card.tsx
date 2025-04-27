@@ -3,6 +3,7 @@ import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { MdCalendarToday } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,6 +12,7 @@ interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
+	const { t } = useTranslation()
 	const navigate = useNavigate()
 	return (
 		<Card
@@ -61,9 +63,14 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 					</Stack>
 
 					<Stack>
-						<Badge variant="light" size="sm">
-							{event.format}
-						</Badge>
+						<Group gap="xs" align="center">
+							<Badge variant="light" size="sm">
+								{t(`eventsPage.formats.${event.format}`)}
+							</Badge>
+							<Badge variant="light" size="sm">
+								{t(`eventsPage.themes.${event.theme}`)}
+							</Badge>
+						</Group>
 						<Group mt="xs" align="center" gap="xs">
 							<MdCalendarToday size={16} />
 							<Text size="xs" lineClamp={1}>

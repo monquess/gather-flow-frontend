@@ -23,9 +23,39 @@ import {
 import { DatePickerInput } from '@mantine/dates'
 import { useQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
 const EventsPage: React.FC = () => {
+	const { t } = useTranslation()
+	const dataFormat = [
+		{ value: 'CONFERENCE', label: t('eventsPage.formats.CONFERENCE') },
+		{ value: 'LECTURE', label: t('eventsPage.formats.LECTURE') },
+		{ value: 'WORKSHOP', label: t('eventsPage.formats.WORKSHOP') },
+		{ value: 'FEST', label: t('eventsPage.formats.FEST') },
+		{ value: 'OTHER', label: t('eventsPage.formats.OTHER') },
+	]
+
+	const dataTheme = [
+		{ value: 'BUSINESS', label: t('eventsPage.themes.BUSINESS') },
+		{ value: 'POLITICS', label: t('eventsPage.themes.POLITICS') },
+		{ value: 'PSYCHOLOGY', label: t('eventsPage.themes.PSYCHOLOGY') },
+		{ value: 'OTHER', label: t('eventsPage.themes.OTHER') },
+	]
+
+	const dataSort = [
+		{ value: 'title', label: t('eventsPage.sorts.title') },
+		{ value: 'startDate', label: t('eventsPage.sorts.startDate') },
+		{ value: 'endDate', label: t('eventsPage.sorts.endDate') },
+		{ value: 'publishDate', label: t('eventsPage.sorts.publishDate') },
+		{ value: 'ticketPrice', label: t('eventsPage.sorts.ticketPrice') },
+	]
+
+	const dataOrder = [
+		{ value: 'asc', label: 'ASC' },
+		{ value: 'desc', label: 'DESC' },
+	]
+
 	const [searchParams, setSearchParams] = useSearchParams()
 
 	const page = Number(searchParams.get('page')) || 1
@@ -97,7 +127,7 @@ const EventsPage: React.FC = () => {
 	if (error)
 		return (
 			<Center>
-				<Text>Error loading events</Text>
+				<Text>{t('eventsPage.errorLoadingEvents')}</Text>
 			</Center>
 		)
 
@@ -109,36 +139,31 @@ const EventsPage: React.FC = () => {
 				<Stack mb="xl">
 					<Accordion variant="contained">
 						<Accordion.Item value="advanced">
-							<Accordion.Control>Search & Filters</Accordion.Control>
+							<Accordion.Control>
+								{t('eventsPage.searchFilters')}
+							</Accordion.Control>
 							<Accordion.Panel>
 								<Stack>
 									<TextInput
-										label="Event Title"
-										placeholder="Search by title..."
+										placeholder={t('eventsPage.placeholderTitle')}
 										value={titleInput}
 										onChange={(e) => setTitleInput(e.currentTarget.value)}
 									/>
 
 									<Group grow>
 										<MultiSelect
-											label="Format"
-											placeholder="Select format"
-											data={[
-												'CONFERENCE',
-												'LECTURE',
-												'WORKSHOP',
-												'FEST',
-												'OTHER',
-											]}
+											label={t('eventsPage.format')}
+											placeholder={t('eventsPage.selectFormat')}
+											data={dataFormat}
 											value={formatInput}
 											onChange={setFormatInput}
 											clearable
 											hidePickedOptions
 										/>
 										<MultiSelect
-											label="Theme"
-											placeholder="Select theme"
-											data={['BUSINESS', 'POLITICS', 'PSYCHOLOGY', 'OTHER']}
+											label={t('eventsPage.theme')}
+											placeholder={t('eventsPage.selectTheme')}
+											data={dataTheme}
 											value={themeInput}
 											onChange={setThemeInput}
 											clearable
@@ -148,12 +173,12 @@ const EventsPage: React.FC = () => {
 
 									<Group grow>
 										<DatePickerInput
-											label="Start Date"
+											label={t('eventsPage.startDate')}
 											value={startDateInput}
 											onChange={setStartDateInput}
 										/>
 										<DatePickerInput
-											label="End Date"
+											label={t('eventsPage.endDate')}
 											value={endDateInput}
 											onChange={setEndDateInput}
 										/>
@@ -161,14 +186,14 @@ const EventsPage: React.FC = () => {
 
 									<Group grow>
 										<NumberInput
-											label="Min Price"
+											label={t('eventsPage.minPrice')}
 											value={minPriceInput}
 											onChange={(value) => setMinPriceInput(value)}
 											min={0}
 											decimalScale={0}
 										/>
 										<NumberInput
-											label="Max Price"
+											label={t('eventsPage.maxPrice')}
 											value={maxPriceInput}
 											onChange={(value) => setMaxPriceInput(value)}
 											min={0}
@@ -203,7 +228,7 @@ const EventsPage: React.FC = () => {
 												setSearchParams(params)
 											}}
 										>
-											Filter
+											{t('eventsPage.filterButton')}
 										</Button>
 									</Group>
 								</Stack>
@@ -226,18 +251,12 @@ const EventsPage: React.FC = () => {
 								setSearchParams(new URLSearchParams())
 							}}
 						>
-							Clear All Filters
+							{t('eventsPage.clearAllFilters')}
 						</Button>
 
 						<Group grow>
 							<Select
-								data={[
-									'title',
-									'startDate',
-									'endDate',
-									'createdAt',
-									'ticketPrice',
-								]}
+								data={dataSort}
 								value={sortInput}
 								onChange={(value) => {
 									if (value) {
@@ -250,7 +269,7 @@ const EventsPage: React.FC = () => {
 								w="300px"
 							/>
 							<Select
-								data={['asc', 'desc']}
+								data={dataOrder}
 								value={orderInput}
 								onChange={(value) => {
 									if (value) {

@@ -1,20 +1,20 @@
 {
 	"notFound": {
 		"title": "404",
-		"message": "Ой! Сторінка, яку ви шукаєте, не існує.",
+		"message": "Упс! Сторінка, яку ви шукаєте, не існує.",
 		"goHome": "На головну"
 	},
 	"login": {
 		"email": "Електронна пошта",
 		"password": "Пароль",
-		"or": "або увійдіть через",
+		"or": "або продовжити через",
 		"google": "Google",
 		"forgot": "Забули пароль?",
 		"submit": "Увійти",
-		"noAccount": "Ще не маєте облікового запису?",
+		"noAccount": "Немає облікового запису?",
 		"register": "Зареєструватися",
-		"captcha": "Будь ласка, підтвердіть Captcha",
-		"success": "Вітаємо, {{username}}!",
+		"captcha": "Будь ласка, заповніть Captcha",
+		"success": "Ласкаво просимо, {{username}}!",
 		"error": "Помилка входу"
 	},
 	"register": {
@@ -22,54 +22,54 @@
 		"username": "Ім'я користувача",
 		"email": "Електронна пошта",
 		"password": "Пароль",
-		"confirmPassword": "Підтвердьте пароль",
-		"or": "або продовжіть за допомогою",
+		"confirmPassword": "Підтвердити пароль",
+		"or": "або продовжити через",
 		"google": "Google",
 		"submit": "Зареєструватися",
-		"alreadyHaveAccount": "Уже маєте обліковий запис?",
+		"alreadyHaveAccount": "Вже є обліковий запис?",
 		"login": "Увійти",
-		"captcha": "Будь ласка, надайте Captcha",
-		"success": "Ви успішно зареєстровані. Будь ласка, перевірте свою електронну пошту.",
+		"captcha": "Будь ласка, заповніть Captcha",
+		"success": "Ви успішно зареєстровані. Будь ласка, перевірте ваш обліковий запис.",
 		"error": "Помилка реєстрації"
 	},
 	"verification": {
-		"title": "Верифікація",
+		"title": "Перевірка",
 		"success": "Обліковий запис успішно перевірено",
-		"error": "Помилка верифікації"
+		"error": "Помилка перевірки"
 	},
 	"passwordReset": {
 		"emailLabel": "Електронна пошта",
-		"submitButton": "Надіслати mail для скидання пароля",
-		"emailSent": "Email для скидання пароля успішно надіслано на {{email}}.",
-		"resetSuccess": "Пароль успішно скинуто, тепер ви можете увійти до свого облікового запису",
+		"submitButton": "Надіслати лист для скидання пароля",
+		"emailSent": "Лист для скидання пароля успішно надіслано на {{email}}.",
+		"resetSuccess": "Пароль успішно скинуто, ви можете увійти до свого облікового запису",
 		"resetError": "Помилка скидання пароля",
-		"notificationTitle": "Email для скидання пароля надіслано"
+		"notificationTitle": "Лист для скидання пароля надіслано"
 	},
 	"verifyAccount": {
 		"emailLabel": "Електронна пошта",
-		"submitButton": "Надіслати електронний лист для підтвердження",
-		"verificationSent": "Лист для підтвердження успішно надіслано",
-		"verificationError": "Помилка підтвердження",
-		"verificationSuccess": "Ви успішно підтвердили свій обліковий запис. Тепер ви можете увійти в систему."
+		"submitButton": "Надіслати лист для перевірки",
+		"verificationSent": "Лист для перевірки успішно надіслано",
+		"verificationError": "Помилка перевірки",
+		"verificationSuccess": "Ви успішно перевірили свій обліковий запис. Тепер ви можете увійти."
 	},
 	"resetPasswordModal": {
-		"title": "Скинути ваш пароль",
-		"message": "Ми надіслали код підтвердження на {{email}}. Будь ласка, введіть код нижче, щоб скинути свій пароль.",
+		"title": "Скиньте свій пароль",
+		"message": "Ми надіслали код для підтвердження на {{email}}. Будь ласка, введіть код нижче, щоб скинути ваш пароль.",
 		"passwordLabel": "Пароль",
-		"confirmPasswordLabel": "Підтвердження пароля",
-		"resendCode": "Надіслати код знову",
+		"confirmPasswordLabel": "Підтвердьте пароль",
+		"resendCode": "Надіслати код ще раз",
 		"changePassword": "Змінити пароль",
-		"resendSuccess": "Лист з кодом підтвердження успішно надіслано, перевірте свою електронну пошту",
+		"resendSuccess": "Лист з кодом підтвердження надіслано успішно, будь ласка, перевірте свою пошту",
 		"resendError": "Помилка при відправці коду підтвердження"
 	},
 	"verificationCodeModal": {
-		"title": "Zweryfikuj swój email",
-		"message": "Wysłaliśmy kod weryfikacyjny na adres {{email}}. Proszę wprowadź kod poniżej, aby zweryfikować swoje konto.",
-		"resendCode": "Wyślij kod ponownie",
-		"verify": "Zweryfikuj",
-		"resendSuccess": "E-mail z kodem weryfikacyjnym wysłany pomyślnie, sprawdź swoją skrzynkę pocztową",
-		"resendError": "Błąd wysyłania kodu weryfikacyjnego",
-		"invalidCode": "Nieprawidłowy kod weryfikacyjny"
+		"title": "Підтвердьте свою електронну пошту",
+		"message": "Ми надіслали код підтвердження на {{email}}. Будь ласка, введіть код нижче для підтвердження свого облікового запису.",
+		"resendCode": "Надіслати код ще раз",
+		"verify": "Підтвердити",
+		"resendSuccess": "Лист з кодом підтвердження надіслано успішно, будь ласка, перевірте свою пошту",
+		"resendError": "Помилка при відправці коду підтвердження",
+		"invalidCode": "Невірний код підтвердження"
 	},
 	"header": {
 		"verify": "Підтвердити"
@@ -78,12 +78,203 @@
 		"login": "Увійти",
 		"register": "Зареєструватися",
 		"resetPassword": {
-			"title": "Скинути пароль",
-			"text": "Введіть свою електронну адресу, щоб скинути пароль"
+			"title": "Скидання пароля",
+			"text": "Введіть свою електронну пошту, щоб скинути пароль"
 		},
 		"verifyAccount": {
-			"title": "Перевірте акаунт",
-			"text": "Введіть свою електронну адресу, щоб перевірити акаунт"
+			"title": "Підтвердження облікового запису",
+			"text": "Введіть свою електронну пошту для підтвердження облікового запису"
 		}
+	},
+	"createCompany": {
+		"title": "Створити нову компанію",
+		"name": "Назва",
+		"namePlaceholder": "Введіть назву компанії",
+		"description": "Опис",
+		"descriptionPlaceholder": "Введіть опис компанії",
+		"email": "Електронна пошта",
+		"emailPlaceholder": "Введіть електронну пошту компанії",
+		"location": "Місцезнаходження",
+		"searchLocationPlaceholder": "Пошук по локації",
+		"createButton": "Створити",
+		"createTitle": "Створення компанії",
+		"createMessage": "Компанію успішно створено"
+	},
+	"updateCompany": {
+		"name": "Назва",
+		"description": "Опис",
+		"email": "Електронна пошта",
+		"location": "Місцезнаходження",
+		"cancel": "Скасувати",
+		"update": "Оновити",
+		"successTitle": "Оновлення компанії",
+		"successMessage": "Компанія успішно оновлена",
+		"errorLoad": "Помилка завантаження компанії",
+		"title": "Оновити",
+		"info": "Інформація"
+	},
+	"deleteCompany": {
+		"modalTitle": "Видалити компанію",
+		"successTitle": "Видалення компанії",
+		"successMessage": "Компанію успішно видалено.",
+		"errorTitle": "Помилка видалення компанії",
+		"confirmationMessage": "Ви дійсно хочете видалити «{{company}}»? Це дія необоротна."
+	},
+	"addMember": {
+		"modalTitle": "Запросити учасників до компанії",
+		"selectLabel": "Вибір користувачів",
+		"selectPlaceholder": "Почніть вводити ім'я користувача або електронну пошту...",
+		"inviteButton": "Запросити користувачів",
+		"successTitle": "Запрошення учасників",
+		"successMessage": "Учасники успішно запрошені до компанії.",
+		"errorTitle": "Помилка запрошення учасників"
+	},
+	"companyCard": {
+		"createdAt": "Створено: {{date}}"
+	},
+	"carousel": {
+		"noEvent": "Подій немає."
+	},
+	"findModal": {
+		"company": "Компанії",
+		"event": "Події"
+	},
+	"mainHeader": {
+		"home": "Головна",
+		"events": "Події",
+		"companies": "Компанії",
+		"allCompanies": "Всі компанії",
+		"createCompany": "Створити компанію",
+		"searchMobile": "Натисніть, щоб шукати",
+		"searchDesktop": "Натисніть або Ctrl+K"
+	},
+	"companiesPage": {
+		"searchPlaceholder": "Пошук за назвою...",
+		"selectLimit": "Вибір ліміту",
+		"errorLoadingCompanies": "Помилка завантаження компаній"
+	},
+	"companyPage": {
+		"errorLoadingCompany": "Помилка завантаження компанії",
+		"companyLocation": "Місцезнаходження",
+		"companyMembers": "Учасники",
+		"addMember": "Додати",
+		"companyEvents": "Події компанії",
+		"createEvent": "Створити",
+		"noEventsAvailable": "Події недоступні.",
+		"loadingEvents": "Завантаження подій..."
+	},
+	"createEvent": {
+		"title": "Створити нову подію"
+	},
+	"eventPage": {
+		"loading": "Завантаження події...",
+		"errorLoadingEvent": "Помилка завантаження події",
+		"aboutEvent": "Про подію",
+		"buyTicket": "Купити квиток",
+		"price": "Ціна",
+		"promocode": "Промокод",
+		"enterYourCode": "Введіть ваш код",
+		"buyNow": "Купити зараз",
+		"location": "Місцезнаходження",
+		"moreFromCompany": "Більше від цієї компанії",
+		"seeMore": "Дивитися більше",
+		"eventNotFound": "Подія не знайдена"
+	},
+	"eventsPage": {
+		"loading": "Завантаження подій...",
+		"errorLoadingEvents": "Помилка завантаження подій",
+		"searchFilters": "Пошук і фільтри",
+		"eventTitle": "Назва події",
+		"placeholderTitle": "Шукати ...",
+		"format": "Формат",
+		"selectFormat": "Оберіть формат",
+		"theme": "Тема",
+		"selectTheme": "Оберіть тему",
+		"startDate": "Дата початку",
+		"endDate": "Дата закінчення",
+		"minPrice": "Мінімальна ціна",
+		"maxPrice": "Максимальна ціна",
+		"filterButton": "Фільтрувати",
+		"clearAllFilters": "Очистити всі фільтри",
+		"sortBy": "Сортувати за",
+		"order": "Порядок",
+		"limit": "Ліміт",
+		"error": "Помилка",
+		"pagination": "Сторінка",
+		"formats": {
+			"CONFERENCE": "Конференція",
+			"LECTURE": "Лекція",
+			"WORKSHOP": "Майстер-клас",
+			"FEST": "Фестиваль",
+			"OTHER": "Інше"
+		},
+		"themes": {
+			"BUSINESS": "Бізнес",
+			"POLITICS": "Політика",
+			"PSYCHOLOGY": "Психологія",
+			"OTHER": "Інше"
+		},
+		"sorts": {
+			"title": "Назва",
+			"startDate": "Дата початку",
+			"endDate": "Дата завершення",
+			"publishDate": "Дата публікації",
+			"ticketPrice": "Ціна квитка"
+		},
+		"orders": {
+			"ASC": "За зростанням",
+			"DESC": "За спаданням"
+		}
+	},
+	"homepage": {
+		"welcomeMessage": "Ласкаво просимо на нашу платформу! Тут ви знайдете найактуальніші та найцікавіші події, а також дізнаєтесь про популярні компанії, які формують майбутнє. Приєднуйтесь до нас і не пропустіть шанс бути в центрі найважливіших подій!",
+		"popularCompanies": "Популярні компанії",
+		"comingSoon": "Незабаром",
+		"noUpcomingEvents": "На даний момент немає майбутніх подій.",
+		"conferences": "Конференції",
+		"noConferenceEvents": "Немає подій конференцій.",
+		"lectures": "Лекції",
+		"noLectureEvents": "Немає лекцій.",
+		"otherEvents": "Інші події",
+		"noOtherEvents": "Немає інших подій."
+	},
+	"profile": {
+		"verified": "Перевірено",
+		"joined": "Приєднався",
+		"lastUpdated": "Останнє оновлення"
+	},
+	"deleteAccount": {
+		"cancel": "Скасувати",
+		"error": "Помилка",
+		"delete": "Видалити",
+		"title": "Видалення облікового запису",
+		"confirmationText": "Видалення вашого облікового запису є остаточним і не може бути скасоване. Ви втратите доступ до всіх своїх даних.",
+		"reasonPrompt": "Скажіть, чому ви видаляєте свій обліковий запис?",
+		"accountDeletion": "Видалення облікового запису",
+		"accountDeletionSuccess": "Ваш обліковий запис було успішно видалено.",
+		"accountDeletionError": "Помилка при видаленні облікового запису"
+	},
+	"uploadAvatar": {
+		"title": "Завантажити аватар",
+		"confirmationText": "Новий день, нова фотографія профілю! Виберіть зображення, яке вас найкраще представляє.",
+		"fileInputLabel": "Виберіть нову фотографію профілю",
+		"fileInputPlaceholder": "Завантажити зображення",
+		"avatarUploadSuccess": "Аватар успішно завантажено.",
+		"avatarUploadError": "Помилка завантаження аватара",
+		"uploadAvatarButton": "Завантажити аватар"
+	},
+	"updateUser": {
+		"title": "Оновити інформацію про користувача",
+		"confirmationText": "Ви можете оновити свою електронну пошту або ім'я користувача нижче. Не забудьте зберегти зміни",
+		"usernameLabel": "Ім'я користувача",
+		"emailLabel": "Електронна пошта",
+		"saveChangesButton": "Зберегти зміни",
+		"accountUpdateSuccess": "Інформація про ваш обліковий запис успішно оновлена.",
+		"accountUpdateError": "Помилка при оновленні облікового запису"
+	},
+	"common": {
+		"cancel": "Скасувати",
+		"error": "Помилка",
+		"delete": "Видалити"
 	}
 }

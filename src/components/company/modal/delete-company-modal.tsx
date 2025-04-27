@@ -5,6 +5,7 @@ import { CompanyItem } from '@/shared/types/companies'
 import { Button, Flex, Modal, Stack, Text } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 interface DeleteCompanyModalProps {
@@ -18,9 +19,11 @@ const DeleteCompanyModal: React.FC<DeleteCompanyModalProps> = ({
 	onClose,
 	company,
 }) => {
+	const { t } = useTranslation()
 	const navigate = useNavigate()
 	const { isMobile } = useResponsive()
 	const [loading, setLoading] = useState(false)
+
 	const form = useForm({
 		mode: 'uncontrolled',
 	})
@@ -30,25 +33,26 @@ const DeleteCompanyModal: React.FC<DeleteCompanyModalProps> = ({
 			setLoading(true)
 			await apiClient.delete(`/companies/${company?.id}`)
 			showNotification(
-				'Company deletion',
-				'The company has been successfully deleted.',
+				t('deleteCompany.successTitle'),
+				t('deleteCompany.successMessage'),
 				'green'
 			)
 			onClose()
 			navigate('/companies')
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
-				showNotification('Company deletion error', error.message, 'red')
+				showNotification(t('deleteCompany.errorTitle'), error.message, 'red')
 			}
 		} finally {
 			setLoading(false)
 		}
 	}
+
 	return (
 		<Modal
 			opened={opened}
 			onClose={onClose}
-			title="Delete company"
+			title={t('deleteCompany.modalTitle')}
 			size={isMobile ? 'sm' : 'md'}
 			centered
 			closeOnClickOutside={false}
@@ -57,12 +61,11 @@ const DeleteCompanyModal: React.FC<DeleteCompanyModalProps> = ({
 			<form onSubmit={form.onSubmit(handleSubmit)}>
 				<Stack pos="relative">
 					<Text size={isMobile ? 'xs' : 'sm'} c="dimmed" ta="unset">
-						Do you really want to delete "${company?.name}"? This action is
-						irreversible.
+						{t('deleteCompany.confirmationMessage', { company: company?.name })}
 					</Text>
 					<Flex justify="space-between">
-						<Button variant="outline" onClick={() => onClose()}>
-							Cancel
+						<Button variant="outline" onClick={onClose}>
+							{t('common.cancel')}
 						</Button>
 						<Button
 							type="submit"
@@ -70,7 +73,7 @@ const DeleteCompanyModal: React.FC<DeleteCompanyModalProps> = ({
 							color="red"
 							loading={loading}
 						>
-							Delete
+							{t('common.delete')}
 						</Button>
 					</Flex>
 				</Stack>

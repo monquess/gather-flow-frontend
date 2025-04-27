@@ -4,11 +4,13 @@ import { useResponsive } from '@/hooks/use-responsive'
 import useUserStore from '@/shared/store/user-store'
 import { Avatar, Button, Center, Group, Input, Menu, Text } from '@mantine/core'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CiSearch } from 'react-icons/ci'
 import { useNavigate } from 'react-router'
 import FindEventModal from './find-event-modal'
 
 const MainHeader: React.FC = () => {
+	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
 	const { user } = useUserStore()
 	const navigate = useNavigate()
@@ -49,28 +51,32 @@ const MainHeader: React.FC = () => {
 					</Group>
 					<Center>
 						<Button variant="subtle" onClick={() => navigate('/home')}>
-							Home
+							{t('mainHeader.home')}
 						</Button>
 						<Button variant="subtle" onClick={() => navigate('/events')}>
-							Events
+							{t('mainHeader.events')}
 						</Button>
 						<Menu position="bottom" withArrow shadow="md">
 							<Menu.Target>
-								<Button variant="subtle">Companies</Button>
+								<Button variant="subtle">{t('mainHeader.companies')}</Button>
 							</Menu.Target>
 							<Menu.Dropdown>
 								<Menu.Item onClick={() => navigate('/companies')}>
-									All companies
+									{t('mainHeader.allCompanies')}
 								</Menu.Item>
 								<Menu.Item onClick={() => navigate('/companies/create')}>
-									Create company
+									{t('mainHeader.createCompany')}
 								</Menu.Item>
 							</Menu.Dropdown>
 						</Menu>
 					</Center>
 					<Group w={isMobile ? '100%' : ''}>
 						<Input
-							placeholder={isMobile ? 'Click to search' : 'Click or use Ctrl+K'}
+							placeholder={
+								isMobile
+									? t('mainHeader.searchMobile')
+									: t('mainHeader.searchDesktop')
+							}
 							leftSection={<CiSearch />}
 							w={isMobile ? '100%' : ''}
 							onClick={() => setIsOpen(true)}

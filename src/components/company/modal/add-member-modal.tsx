@@ -1,13 +1,13 @@
 import { Button, Modal, MultiSelect, Stack } from '@mantine/core'
-import { useCallback, useEffect, useState, memo } from 'react'
-
 import { debounce } from 'lodash'
+import { memo, useCallback, useEffect, useState } from 'react'
 
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { User } from '@/shared/store/user-store'
 import { CompanyItem } from '@/shared/types/companies'
+import { useTranslation } from 'react-i18next'
 
 interface AddMemberModalProps {
 	opened: boolean
@@ -20,6 +20,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 	onClose,
 	company,
 }) => {
+	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
 	const [data, setData] = useState<User[]>([])
 	const [search, setSearch] = useState('')
@@ -63,14 +64,14 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 			)
 
 			showNotification(
-				'Member invitation',
-				'Members have been successfully invited to the company.',
+				t('addMember.successTitle'),
+				t('addMember.successMessage'),
 				'green'
 			)
 			onClose()
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
-				showNotification('Member invitation error', error.message, 'red')
+				showNotification(t('addMember.errorTitle'), error.message, 'red')
 			}
 		} finally {
 			setLoading(false)
@@ -81,7 +82,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 		<Modal
 			opened={opened}
 			onClose={onClose}
-			title="Invite members to company"
+			title={t('addMember.modalTitle')}
 			size={isMobile ? 'sm' : 'md'}
 			centered
 			closeOnClickOutside={false}
@@ -91,8 +92,8 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 				<Stack pos="relative">
 					<MultiSelect
 						data-autofocus
-						label="Select users"
-						placeholder="Start writing username or email..."
+						label={t('addMember.selectLabel')}
+						placeholder={t('addMember.selectPlaceholder')}
 						searchable
 						clearable
 						value={selectedUser}
@@ -106,7 +107,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 						hidePickedOptions
 					/>
 					<Button type="submit" loading={loading} variant="outline">
-						Invite users
+						{t('addMember.inviteButton')}
 					</Button>
 				</Stack>
 			</form>

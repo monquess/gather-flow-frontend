@@ -16,6 +16,7 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
 const MotionCard = motion(
@@ -25,6 +26,7 @@ const MotionCard = motion(
 )
 
 const CompanyUpdatePage: React.FC = () => {
+	const { t } = useTranslation()
 	const { id } = useParams()
 
 	const fetchCompany = async (): Promise<CompanyItem> => {
@@ -44,7 +46,7 @@ const CompanyUpdatePage: React.FC = () => {
 					{isLoading ? (
 						<Loader size="lg" />
 					) : (
-						<Text c="red">Error loading company.</Text>
+						<Text c="red">{t('updateCompany.errorLoad')}</Text>
 					)}
 				</Stack>
 			</Container>
@@ -67,11 +69,11 @@ const CompanyUpdatePage: React.FC = () => {
 					<Stack gap="xl">
 						<Center>
 							<Title order={2}>
-								Update{' '}
+								{t('updateCompany.title')}{' '}
 								<Text span inherit fw={700} c="blue.6">
 									"{data?.name}"
 								</Text>{' '}
-								Info
+								{t('updateCompany.info')}
 							</Title>
 						</Center>
 						<UpdateCompanyForm company={data} />
