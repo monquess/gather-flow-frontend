@@ -99,9 +99,9 @@ const CreateCompanyForm: React.FC = () => {
 			)
 			navigate(`/companies/${res.data.id}`)
 			showNotification(
-				t('createCompany.Title'),
+				t('createCompany.title'),
 				t('createCompany.createMessage'),
-				'red'
+				'green'
 			)
 		} catch (error) {
 			if (error instanceof AxiosError && error.response) {

@@ -56,7 +56,7 @@ const Homepage: React.FC = () => {
 
 	if (isLoadingEvents || isLoadingCompanies || isLoadingUpcomingEvents) {
 		return (
-			<Center py="xl">
+			<Center h="100vh">
 				<Loader size="xl" />
 			</Center>
 		)

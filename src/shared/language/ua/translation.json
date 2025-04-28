@@ -161,7 +161,8 @@
 		"companyEvents": "Події компанії",
 		"createEvent": "Створити",
 		"noEventsAvailable": "Події недоступні.",
-		"loadingEvents": "Завантаження подій..."
+		"loadingEvents": "Завантаження подій...",
+		"joined": "Приєднався"
 	},
 	"createEvent": {
 		"title": "Створити нову подію"

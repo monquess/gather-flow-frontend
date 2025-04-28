@@ -161,7 +161,8 @@
 		"companyEvents": "Company Events",
 		"createEvent": "Create",
 		"noEventsAvailable": "No events available.",
-		"loadingEvents": "Loading events..."
+		"loadingEvents": "Loading events...",
+		"joined": "Joined"
 	},
 	"createEvent": {
 		"title": "Create new event"

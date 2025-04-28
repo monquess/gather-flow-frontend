@@ -63,13 +63,13 @@ const CompaniesPage: React.FC = () => {
 
 	if (isLoading)
 		return (
-			<Center>
+			<Center h="100vh">
 				<Loader />
 			</Center>
 		)
 	if (error)
 		return (
-			<Center>
+			<Center h="100vh">
 				<Text>{t('companiesPage.errorLoadingCompanies')}</Text>
 			</Center>
 		)

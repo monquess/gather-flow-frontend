@@ -119,7 +119,7 @@ const CompanyPage: React.FC = () => {
 
 	if (isLoading) {
 		return (
-			<Center>
+			<Center h="100vh">
 				<Loader />
 			</Center>
 		)
@@ -127,7 +127,7 @@ const CompanyPage: React.FC = () => {
 
 	if (error) {
 		return (
-			<Center>
+			<Center h="100vh">
 				<Text>{t('companyPage.errorLoadingCompany')}</Text>
 			</Center>
 		)

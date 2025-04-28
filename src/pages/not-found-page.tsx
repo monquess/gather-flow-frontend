@@ -6,7 +6,11 @@ const NotFound: React.FC = () => {
 	const { t } = useTranslation()
 
 	return (
-		<Container size="lg" style={{ textAlign: 'center', paddingTop: '50px' }}>
+		<Container
+			size="lg"
+			style={{ textAlign: 'center', paddingTop: '50px' }}
+			h="100vh"
+		>
 			<Title order={1} size={50} c="red">
 				{t('notFound.title')}
 			</Title>

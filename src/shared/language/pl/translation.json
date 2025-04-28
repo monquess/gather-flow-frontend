@@ -161,7 +161,8 @@
 		"companyEvents": "Wydarzenia firmy",
 		"createEvent": "Utwórz wydarzenie",
 		"noEventsAvailable": "Brak dostępnych wydarzeń.",
-		"loadingEvents": "Ładowanie wydarzeń..."
+		"loadingEvents": "Ładowanie wydarzeń...",
+		"joined": "Dołączył"
 	},
 	"createEvent": {
 		"title": "Utwórz nowe wydarzenie"

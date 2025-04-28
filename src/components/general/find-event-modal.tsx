@@ -86,7 +86,7 @@ const FindEventModal: React.FC<FindEventModalProps> = ({ opened, onClose }) => {
 					/>
 				</Modal.Header>
 				<Modal.Body>
-					<ScrollArea
+					<ScrollArea.Autosize
 						mah="45vh"
 						scrollbarSize={8}
 						offsetScrollbars
@@ -134,7 +134,7 @@ const FindEventModal: React.FC<FindEventModalProps> = ({ opened, onClose }) => {
 						{companies.length > 0 && (
 							<>
 								<Divider
-									label={t('findModal.companies')}
+									label={t('findModal.company')}
 									labelPosition="left"
 									my="sm"
 								/>
@@ -169,7 +169,7 @@ const FindEventModal: React.FC<FindEventModalProps> = ({ opened, onClose }) => {
 								</Group>
 							</>
 						)}
-					</ScrollArea>
+					</ScrollArea.Autosize>
 				</Modal.Body>
 			</Modal.Content>
 		</Modal.Root>
