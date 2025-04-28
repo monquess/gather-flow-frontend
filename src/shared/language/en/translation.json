@@ -146,7 +146,8 @@
 		"allCompanies": "All companies",
 		"createCompany": "Create company",
 		"searchMobile": "Click to search",
-		"searchDesktop": "Click or use Ctrl+K"
+		"searchDesktop": "Click or use Ctrl+K",
+		"news": "News"
 	},
 	"companiesPage": {
 		"searchPlaceholder": "Search by name...",
@@ -162,7 +163,9 @@
 		"createEvent": "Create",
 		"noEventsAvailable": "No events available.",
 		"loadingEvents": "Loading events...",
-		"joined": "Joined"
+		"joined": "Joined",
+		"seeMore": "See more",
+		"newsTitle": "News"
 	},
 	"createEvent": {
 		"title": "Create new event"
@@ -220,7 +223,9 @@
 			"startDate": "Start date",
 			"endDate": "End date",
 			"publishDate": "Publish date",
-			"ticketPrice": "Ticket price"
+			"ticketPrice": "Ticket price",
+			"createdAt": "Created at",
+			"likes": "Likes"
 		},
 		"orders": {
 			"ASC": "ASC",

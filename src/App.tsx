@@ -15,6 +15,7 @@ import VerifyPage from './pages/auth/verify-account-page'
 import CompaniesPage from './pages/company/companies-page'
 import CompanyCreatePage from './pages/company/company-create-page'
 import CompanyPage from './pages/company/company-page'
+import CompanyPostsPage from './pages/company/company-posts-page'
 import CompanyUpdatePage from './pages/company/company-update-page'
 import EventCreatePage from './pages/event/event-create-page'
 import EventPage from './pages/event/event-page'
@@ -22,6 +23,8 @@ import EventsPage from './pages/event/events-page'
 import Homepage from './pages/homepage'
 import LandingPage from './pages/landing-page'
 import NotFound from './pages/not-found-page'
+import PostPage from './pages/post/post-page'
+import PostsPage from './pages/post/posts-page'
 import UserProfilePage from './pages/profile-page'
 import { theme } from './theme'
 
@@ -52,9 +55,13 @@ function App() {
 						path="/companies/:id/event/create"
 						element={<EventCreatePage />}
 					/>
+					<Route path="/companies/:id/posts" element={<CompanyPostsPage />} />
 
 					<Route path="/events" element={<EventsPage />} />
 					<Route path="/events/:id" element={<EventPage />} />
+
+					<Route path="/news" element={<PostsPage />} />
+					<Route path="/news/:id" element={<PostPage />} />
 				</Routes>
 			</MantineProvider>
 		</QueryClientProvider>

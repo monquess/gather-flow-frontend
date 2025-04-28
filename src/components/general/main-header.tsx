@@ -69,6 +69,9 @@ const MainHeader: React.FC = () => {
 								</Menu.Item>
 							</Menu.Dropdown>
 						</Menu>
+						<Button variant="subtle" onClick={() => navigate('/news')}>
+							{t('mainHeader.news')}
+						</Button>
 					</Center>
 					<Group w={isMobile ? '100%' : ''}>
 						<Input

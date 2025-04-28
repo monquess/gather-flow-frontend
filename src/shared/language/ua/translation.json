@@ -146,7 +146,8 @@
 		"allCompanies": "Всі компанії",
 		"createCompany": "Створити компанію",
 		"searchMobile": "Натисніть, щоб шукати",
-		"searchDesktop": "Натисніть або Ctrl+K"
+		"searchDesktop": "Натисніть або Ctrl+K",
+		"news": "Новини"
 	},
 	"companiesPage": {
 		"searchPlaceholder": "Пошук за назвою...",
@@ -162,7 +163,9 @@
 		"createEvent": "Створити",
 		"noEventsAvailable": "Події недоступні.",
 		"loadingEvents": "Завантаження подій...",
-		"joined": "Приєднався"
+		"joined": "Приєднався",
+		"seeMore": "Дивитися більше",
+		"newsTitle": "Новини"
 	},
 	"createEvent": {
 		"title": "Створити нову подію"
@@ -220,7 +223,9 @@
 			"startDate": "Дата початку",
 			"endDate": "Дата завершення",
 			"publishDate": "Дата публікації",
-			"ticketPrice": "Ціна квитка"
+			"ticketPrice": "Ціна квитка",
+			"createdAt": "Створено",
+			"likes": "Лайки"
 		},
 		"orders": {
 			"ASC": "За зростанням",

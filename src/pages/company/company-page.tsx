@@ -3,12 +3,18 @@ import DeleteCompanyModal from '@/components/company/modal/delete-company-modal'
 import CarouselEvent from '@/components/general/carousel-event'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
+import PostCreateModal from '@/components/post/modal/post-create-modal'
+import PostCard from '@/components/post/post-card'
+import UserListModal from '@/components/users/modal/user-list-modal'
 import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
 import useUserStore from '@/shared/store/user-store'
+import classes from '@/shared/styles/slider.module.css'
 import { CompanyItem, CompanyMember } from '@/shared/types/companies'
 import { EventsResponse } from '@/shared/types/events'
+import { PostsResponse } from '@/shared/types/posts'
+import { Carousel } from '@mantine/carousel'
 import {
 	ActionIcon,
 	Avatar,
@@ -23,17 +29,17 @@ import {
 	Grid,
 	Group,
 	Loader,
-	ScrollArea,
 	Stack,
 	Text,
 	Title,
 } from '@mantine/core'
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { useQuery } from '@tanstack/react-query'
-import dayjs from 'dayjs'
+import Autoplay from 'embla-carousel-autoplay'
 import { motion } from 'framer-motion'
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FaMapLocationDot } from 'react-icons/fa6'
 import { GoTrash } from 'react-icons/go'
 import { GrUpdate } from 'react-icons/gr'
 import { IoMdAdd } from 'react-icons/io'
@@ -57,16 +63,23 @@ const CompanyPage: React.FC = () => {
 	const [inviteMembers, setInviteMembers] = useState(false)
 	const [deleteCompany, setDeleteCompany] = useState(false)
 	const [isMapLoaded, setIsMapLoaded] = useState(false)
+	const [isMembersOpened, setMembersOpened] = useState(false)
+	const [isCreateNewsOpened, setCreateNewsOpened] = useState(false)
 	const { id } = useParams()
+	const autoplay = useRef(Autoplay({ delay: 3000 }))
 
 	const fetchCompany = async (): Promise<CompanyItem> => {
 		const { data } = await apiClient(`/companies/${id}`)
-		console.log(data)
 		return data
 	}
 
 	const fetchCompanyEvents = async (): Promise<EventsResponse> => {
 		const { data } = await apiClient(`/companies/${id}/events`)
+		return data
+	}
+
+	const fetchCompanyPosts = async (): Promise<PostsResponse> => {
+		const { data } = await apiClient(`/companies/${id}/posts`)
 		return data
 	}
 
@@ -82,6 +95,15 @@ const CompanyPage: React.FC = () => {
 	} = useQuery({
 		queryKey: ['events', id],
 		queryFn: fetchCompanyEvents,
+	})
+
+	const {
+		data: postData,
+		isLoading: isLoadingPosts,
+		error: postError,
+	} = useQuery({
+		queryKey: ['posts', id],
+		queryFn: fetchCompanyPosts,
 	})
 
 	const handleApiLoaded = () => {
@@ -178,9 +200,10 @@ const CompanyPage: React.FC = () => {
 									{data?.email}
 								</Text>
 								<Text>{data?.description}</Text>
-								<Text fw={500}>
-									{t('companyPage.companyLocation')}: {data?.location}
-								</Text>
+								<Group align="center" gap="xs">
+									<FaMapLocationDot size={16} />
+									<Text fw={500}>{data?.location}</Text>
+								</Group>
 								{data?.location && (
 									<Box
 										mt="md"
@@ -209,18 +232,29 @@ const CompanyPage: React.FC = () => {
 						</MotionCard>
 					</Box>
 					<Box flex={1}>
-						<Group grow align="stretch">
+						<Stack h="100%">
 							<MotionCard
 								withBorder
 								radius="lg"
-								p="xl"
+								px="xl"
+								py="lg"
 								shadow="sm"
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5, ease: 'easeOut' }}
 							>
 								<Grid justify="space-between" align="center">
-									<Title order={3}>{t('companyPage.companyMembers')}</Title>
+									<Flex align="center" justify="center">
+										<Title order={3}>{t('companyPage.companyMembers')} </Title>
+										<Text
+											c="dimmed"
+											ml={2}
+											size="xs"
+											onClick={() => setMembersOpened(true)}
+										>
+											({t('companyPage.seeMore')})
+										</Text>
+									</Flex>
 									{admin && (
 										<Button
 											size={isMobile ? 'xs' : 'sm'}
@@ -231,31 +265,104 @@ const CompanyPage: React.FC = () => {
 										</Button>
 									)}
 								</Grid>
-								<ScrollArea h={300} mt="md" p={0}>
-									<Stack gap="sm">
-										{data?.users.map((member) => (
-											<Card key={member.user.id} withBorder radius="md" p="md">
-												<Group justify="space-between">
-													<Group>
-														<Avatar radius="xl" src={member.user.avatar} />
-														<Stack gap={0} justify="center">
-															<Text fw={600}>{member.user.username}</Text>
-															<Text size="xs" c="dimmed">
-																{member.role}
-															</Text>
-														</Stack>
-													</Group>
-													<Text size="xs" c="dimmed">
-														{t('companyPage.joined')}{' '}
-														{dayjs(member.createdAt).format('DD MMM YYYY')}
-													</Text>
-												</Group>
-											</Card>
+								<Stack gap="sm" my="md">
+									<Avatar.Group spacing="sm">
+										{data?.users.slice(0, 5).map((member) => (
+											<Avatar
+												key={member.user.id}
+												src={member.user.avatar}
+												alt={member.user.username}
+												radius="xl"
+												size="md"
+											/>
 										))}
-									</Stack>
-								</ScrollArea>
+										{data?.users && data?.users.length > 5 && (
+											<Avatar size="md" radius="xl">
+												+{data.users.length - 5}
+											</Avatar>
+										)}
+									</Avatar.Group>
+								</Stack>
 							</MotionCard>
-						</Group>
+							<MotionCard
+								withBorder
+								radius="lg"
+								px="xl"
+								pt="lg"
+								pb="md"
+								shadow="sm"
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.5, ease: 'easeOut' }}
+								h="100%"
+							>
+								<Stack gap="md" h="100%">
+									<Grid justify="space-between" align="center">
+										<Flex align="center" justify="center">
+											<Title order={3}>{t('companyPage.newsTitle')}</Title>
+											{postData?.data.length ? (
+												<Text
+													c="dimmed"
+													ml={2}
+													size="xs"
+													onClick={() =>
+														navigate(`/companies/${data?.id}/posts`)
+													}
+												>
+													({t('companyPage.seeMore')})
+												</Text>
+											) : (
+												<Text />
+											)}
+										</Flex>
+										{admin && (
+											<Button
+												size={isMobile ? 'xs' : 'sm'}
+												leftSection={<IoMdAdd />}
+												onClick={() => setCreateNewsOpened(true)}
+											>
+												{t('companyPage.addMember')}
+											</Button>
+										)}
+									</Grid>
+									{isLoadingPosts && (
+										<Center h="100%">
+											<Loader size="sm" />
+										</Center>
+									)}
+									{postError && (
+										<Center h="100%">
+											<Text>Error loading news</Text>
+										</Center>
+									)}
+									{postData?.data?.length ? (
+										<Carousel
+											pt="md"
+											slideSize="100%"
+											slideGap="md"
+											loop
+											withControls
+											align="start"
+											draggable
+											classNames={classes}
+											plugins={[autoplay.current]}
+											onMouseEnter={() => autoplay.current.stop()}
+											onMouseLeave={() => autoplay.current.play()}
+										>
+											{postData.data.map((post) => (
+												<Carousel.Slide key={post.id}>
+													<PostCard post={post} />
+												</Carousel.Slide>
+											))}
+										</Carousel>
+									) : (
+										<Center h="100%">
+											<Text c="dimmed">No news available</Text>
+										</Center>
+									)}
+								</Stack>
+							</MotionCard>
+						</Stack>
 					</Box>
 				</Flex>
 				<Divider
@@ -289,7 +396,7 @@ const CompanyPage: React.FC = () => {
 						</Grid>
 						<Box mt="md">
 							{isLoadingEvents ? (
-								<Center>
+								<Center h="100%">
 									<Loader size="sm" />
 								</Center>
 							) : eventError ? (
@@ -297,7 +404,9 @@ const CompanyPage: React.FC = () => {
 							) : eventData?.data.length ? (
 								<CarouselEvent events={eventData?.data} delay={2000} />
 							) : (
-								<Text c="dimmed">{t('companyPage.noEventsAvailable')}</Text>
+								<Center h="100%">
+									<Text c="dimmed">{t('companyPage.noEventsAvailable')}</Text>
+								</Center>
 							)}
 						</Box>
 					</MotionCard>
@@ -313,6 +422,16 @@ const CompanyPage: React.FC = () => {
 				opened={deleteCompany}
 				onClose={() => setDeleteCompany(false)}
 				company={data}
+			/>
+			<PostCreateModal
+				opened={isCreateNewsOpened}
+				onClose={() => setCreateNewsOpened(false)}
+				company={data}
+			/>
+			<UserListModal
+				opened={isMembersOpened}
+				onClose={() => setMembersOpened(false)}
+				members={data?.users}
 			/>
 		</Container>
 	)

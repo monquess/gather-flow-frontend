@@ -146,7 +146,8 @@
 		"allCompanies": "Wszystkie firmy",
 		"createCompany": "Utwórz firmę",
 		"searchMobile": "Kliknij, aby wyszukać",
-		"searchDesktop": "Kliknij lub użyj Ctrl+K"
+		"searchDesktop": "Kliknij lub użyj Ctrl+K",
+		"news": "Wieści"
 	},
 	"companiesPage": {
 		"searchPlaceholder": "Szukaj po nazwie...",
@@ -162,7 +163,9 @@
 		"createEvent": "Utwórz wydarzenie",
 		"noEventsAvailable": "Brak dostępnych wydarzeń.",
 		"loadingEvents": "Ładowanie wydarzeń...",
-		"joined": "Dołączył"
+		"joined": "Dołączył",
+		"seeMore": "Zobacz więcej",
+		"newsTitle": "Wieści"
 	},
 	"createEvent": {
 		"title": "Utwórz nowe wydarzenie"
@@ -220,7 +223,9 @@
 			"startDate": "Data rozpoczęcia",
 			"endDate": "Data zakończenia",
 			"publishDate": "Data publikacji",
-			"ticketPrice": "Cena biletu"
+			"ticketPrice": "Cena biletu",
+			"createdAt": "Utworzono",
+			"likes": "Polubienia"
 		},
 		"orders": {
 			"ASC": "Rosnąco",
