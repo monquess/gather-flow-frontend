@@ -412,8 +412,7 @@ const CompanyPage: React.FC = () => {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
-						<Grid justify="space-between" align="center">
-							<Title order={3}>{t('companyPage.companyEvents')}</Title>
+						<Grid justify="flex-end" align="end">
 							{admin && (
 								<Button
 									size={isMobile ? 'xs' : 'sm'}

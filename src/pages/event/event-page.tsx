@@ -23,13 +23,19 @@ import {
 	TextInput,
 	Title,
 } from '@mantine/core'
-import { Link, RichTextEditor } from '@mantine/tiptap'
+import { RichTextEditor } from '@mantine/tiptap'
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { useQuery } from '@tanstack/react-query'
+import Link from '@tiptap/extension-link'
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
+import { marked } from 'marked'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdCalendarToday } from 'react-icons/md'
@@ -40,6 +46,13 @@ const MotionCard = motion(
 		<Card ref={ref} withBorder radius="md" shadow="md" p="md" {...props} />
 	))
 )
+
+marked.setOptions({
+	gfm: true,
+	breaks: true,
+})
+
+const cleanMarkdown = (md: string) => md.replace(/(\|.*\|)\s*\n\s*\|/g, '$1\n|')
 
 const EventPage: React.FC = () => {
 	const { isMobile } = useResponsive()
@@ -65,10 +78,26 @@ const EventPage: React.FC = () => {
 	})
 
 	const editor = useEditor({
-		extensions: [Link, StarterKit],
-		content: event?.description || '',
+		extensions: [
+			Link,
+			StarterKit,
+			Table.configure({
+				resizable: true,
+			}),
+			TableRow,
+			TableHeader,
+			TableCell,
+		],
+		content: '',
 		editable: false,
 	})
+
+	useEffect(() => {
+		if (editor && event?.description) {
+			const html = marked.parse(cleanMarkdown(event.description))
+			editor.commands.setContent(html)
+		}
+	}, [editor, event?.description])
 
 	const fetchEventFromCompany = async (): Promise<EventsResponse> => {
 		const { data } = await apiClient(`/companies/${event?.company.id}/events`)
@@ -217,13 +246,20 @@ const EventPage: React.FC = () => {
 			>
 				<Stack>
 					{event?.description && (
-						<RichTextEditor editor={editor}>
+						<RichTextEditor
+							editor={editor}
+							styles={{
+								root: {
+									border: 'none',
+								},
+								content: {
+									background: 'inherit',
+								},
+							}}
+						>
 							<RichTextEditor.Content />
 						</RichTextEditor>
 					)}
-					<Text size="sm" c="dimmed">
-						{event?.description}
-					</Text>
 
 					<Divider my="md" />
 
