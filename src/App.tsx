@@ -29,6 +29,9 @@ import {
 	VerifyPage,
 } from './pages'
 
+import CompanyPostsPage from './pages/company/company-posts-page'
+import PostPage from './pages/post/post-page'
+import PostsPage from './pages/post/posts-page'
 import { theme } from './theme'
 
 const queryClient = new QueryClient()
@@ -50,11 +53,15 @@ const routes = [
 	{ path: '/companies/create', element: <CompanyCreatePage /> },
 	{ path: '/companies/:id/update', element: <CompanyUpdatePage /> },
 	{ path: '/companies/:id/event/create', element: <EventCreatePage /> },
+	{ path: '/companies/:id/posts', element: <CompanyPostsPage /> },
 
 	{ path: '/events', element: <EventsPage /> },
 	{ path: '/events/:id', element: <EventPage /> },
 	{ path: '/events/:id/checkout', element: <EventCheckoutPage /> },
 	{ path: '/checkout-success', element: <CheckoutSuccessPage /> },
+
+	{ path: '/news', element: <PostsPage /> },
+	{ path: '/news/:id', element: <PostPage /> },
 ]
 
 function App() {
