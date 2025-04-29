@@ -17,30 +17,30 @@ import {
 } from '@mantine/core'
 import { DateTimePicker } from '@mantine/dates'
 import { useForm, zodResolver } from '@mantine/form'
-import { useEditor } from '@tiptap/react'
 import {
 	Autocomplete,
 	GoogleMap,
 	LoadScript,
 	Marker,
 } from '@react-google-maps/api'
-import { IoImageOutline } from 'react-icons/io5'
-import { HiOutlineTicket } from 'react-icons/hi2'
-import { MdCalendarToday } from 'react-icons/md'
-import { FaMapLocationDot } from 'react-icons/fa6'
-import { IoIosSearch } from 'react-icons/io'
+import { useEditor } from '@tiptap/react'
 import { AxiosError } from 'axios'
+import { FaMapLocationDot } from 'react-icons/fa6'
+import { HiOutlineTicket } from 'react-icons/hi2'
+import { IoIosSearch } from 'react-icons/io'
+import { IoImageOutline } from 'react-icons/io5'
+import { MdCalendarToday } from 'react-icons/md'
 
+import MarkdownEditor from '@/components/editor/markdown-editor'
 import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { EventItem } from '@/shared/types/events'
 import { createEventSchema } from '@/shared/validations/create-event'
-import MarkdownEditor from '@/components/editor/markdown-editor'
 
-import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
+import StarterKit from '@tiptap/starter-kit'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 
@@ -91,7 +91,7 @@ const CreateEventForm: React.FC = () => {
 			Placeholder.configure({ placeholder: 'Describe the event' }),
 		],
 		onUpdate: ({ editor }) => {
-			form.setFieldValue('description', editor.getHTML())
+			form.setFieldValue('description', editor.getText())
 		},
 		content: form.values.description,
 	})

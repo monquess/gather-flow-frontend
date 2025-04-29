@@ -1,0 +1,100 @@
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient, ApiError } from '@/shared/api/axios'
+import { showNotification } from '@/shared/helpers/show-notification'
+import { CompanyItem } from '@/shared/types/companies'
+import { Button, FileInput, Modal, Stack, TextInput } from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { memo, useState } from 'react'
+import { IoImageOutline } from 'react-icons/io5'
+
+interface PostCreateModalProps {
+	company: CompanyItem | undefined
+	opened: boolean
+	onClose: () => void
+}
+
+const PostCreateModal: React.FC<PostCreateModalProps> = ({
+	opened,
+	onClose,
+	company,
+}) => {
+	const [loading, setLoading] = useState(false)
+	const { isMobile } = useResponsive()
+
+	const form = useForm({
+		mode: 'uncontrolled',
+		initialValues: {
+			title: '',
+			content: '',
+			poster: null as File | null,
+		},
+	})
+
+	const handleSubmit = async () => {
+		try {
+			console.log(form.getValues())
+			await apiClient.post(
+				`/companies/${company?.id}/posts`,
+				form.getValues(),
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				}
+			)
+		} catch (error) {
+			if (error instanceof ApiError && error.response) {
+				showNotification('Create news error', error.message, 'red')
+			}
+		} finally {
+			form.reset()
+			setLoading(false)
+			onClose()
+		}
+	}
+
+	return (
+		<Modal
+			opened={opened}
+			onClose={onClose}
+			title="Create news"
+			size={isMobile ? 'sm' : 'md'}
+			centered
+			closeOnClickOutside={false}
+			zIndex={1000}
+		>
+			<form onSubmit={form.onSubmit(handleSubmit)}>
+				<Stack gap="xs">
+					<TextInput
+						label="Title"
+						placeholder="Enter news title"
+						size={isMobile ? 'sm' : 'md'}
+						key={form.key('title')}
+						{...form.getInputProps('title')}
+					/>
+					<TextInput
+						label="Content"
+						placeholder="Enter news content"
+						size={isMobile ? 'sm' : 'md'}
+						key={form.key('content')}
+						{...form.getInputProps('content')}
+					/>
+					<FileInput
+						label="Upload poster"
+						placeholder="Choose file"
+						leftSection={<IoImageOutline />}
+						accept="image/png,image/jpeg,image/jpg,image/webp"
+						clearable
+						key={form.key('poster')}
+						{...form.getInputProps('poster')}
+					/>
+					<Button type="submit" variant="outline" loading={loading}>
+						Create news
+					</Button>
+				</Stack>
+			</form>
+		</Modal>
+	)
+}
+
+export default memo(PostCreateModal)

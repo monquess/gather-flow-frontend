@@ -3,12 +3,21 @@ import DeleteCompanyModal from '@/components/company/modal/delete-company-modal'
 import CarouselEvent from '@/components/general/carousel-event'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
+import PostCreateModal from '@/components/post/modal/post-create-modal'
+import PostCard from '@/components/post/post-card'
+import ReviewCreateModal from '@/components/review/modal/review-create-modal'
+import ReviewCard from '@/components/review/review-card'
+import UserListModal from '@/components/users/modal/user-list-modal'
 import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
 import useUserStore from '@/shared/store/user-store'
+import classes from '@/shared/styles/slider.module.css'
 import { CompanyItem, CompanyMember } from '@/shared/types/companies'
 import { EventsResponse } from '@/shared/types/events'
+import { PostsResponse } from '@/shared/types/posts'
+import { ReviewsResponse } from '@/shared/types/reviews'
+import { Carousel } from '@mantine/carousel'
 import {
 	ActionIcon,
 	Avatar,
@@ -20,24 +29,27 @@ import {
 	Container,
 	Divider,
 	Flex,
-	Grid,
 	Group,
 	Loader,
-	ScrollArea,
+	Pagination,
+	Paper,
+	SimpleGrid,
 	Stack,
 	Text,
 	Title,
 } from '@mantine/core'
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { useQuery } from '@tanstack/react-query'
-import dayjs from 'dayjs'
+import Autoplay from 'embla-carousel-autoplay'
 import { motion } from 'framer-motion'
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CiEdit } from 'react-icons/ci'
+import { FaMapLocationDot } from 'react-icons/fa6'
 import { GoTrash } from 'react-icons/go'
 import { GrUpdate } from 'react-icons/gr'
 import { IoMdAdd } from 'react-icons/io'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 const MotionCard = motion(
 	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
@@ -47,6 +59,8 @@ const MotionCard = motion(
 
 const CompanyPage: React.FC = () => {
 	const { t } = useTranslation()
+	const [searchParams, setSearchParams] = useSearchParams()
+	const page = Number(searchParams.get('page')) || 1
 	const navigate = useNavigate()
 	const [admin, setAdmin] = useState(false)
 	const { user } = useUserStore()
@@ -57,16 +71,34 @@ const CompanyPage: React.FC = () => {
 	const [inviteMembers, setInviteMembers] = useState(false)
 	const [deleteCompany, setDeleteCompany] = useState(false)
 	const [isMapLoaded, setIsMapLoaded] = useState(false)
+	const [isMembersOpened, setMembersOpened] = useState(false)
+	const [isCreateNewsOpened, setCreateNewsOpened] = useState(false)
+	const [isCreateReviewOpened, setCreateReviewOpened] = useState(false)
 	const { id } = useParams()
+	const autoplay = useRef(Autoplay({ delay: 3000 }))
 
 	const fetchCompany = async (): Promise<CompanyItem> => {
 		const { data } = await apiClient(`/companies/${id}`)
-		console.log(data)
 		return data
 	}
 
 	const fetchCompanyEvents = async (): Promise<EventsResponse> => {
 		const { data } = await apiClient(`/companies/${id}/events`)
+		return data
+	}
+
+	const fetchCompanyPosts = async (): Promise<PostsResponse> => {
+		const { data } = await apiClient(`/companies/${id}/posts`)
+		return data
+	}
+
+	const fetchCompanyReviews = async (): Promise<ReviewsResponse> => {
+		const params = new URLSearchParams({
+			page: page.toString(),
+		})
+		const { data } = await apiClient(
+			`/companies/${id}/reviews?${params.toString}`
+		)
 		return data
 	}
 
@@ -82,6 +114,20 @@ const CompanyPage: React.FC = () => {
 	} = useQuery({
 		queryKey: ['events', id],
 		queryFn: fetchCompanyEvents,
+	})
+
+	const {
+		data: postData,
+		isLoading: isLoadingPosts,
+		error: postError,
+	} = useQuery({
+		queryKey: ['posts', id],
+		queryFn: fetchCompanyPosts,
+	})
+
+	const { data: reviewsData } = useQuery({
+		queryKey: ['reviews', id],
+		queryFn: fetchCompanyReviews,
 	})
 
 	const handleApiLoaded = () => {
@@ -134,9 +180,17 @@ const CompanyPage: React.FC = () => {
 	}
 
 	return (
-		<Container size="xl" pt="md">
-			<Stack justify="space-between">
-				<MainHeader />
+		<Container
+			size="xl"
+			pt="md"
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				minHeight: '100vh',
+			}}
+		>
+			<MainHeader />
+			<Stack gap="md" style={{ flex: 1 }}>
 				<Flex gap="md" direction={isMobile ? 'column' : 'row'}>
 					<Box flex={1}>
 						<MotionCard
@@ -149,7 +203,7 @@ const CompanyPage: React.FC = () => {
 							transition={{ duration: 0.5, ease: 'easeOut' }}
 						>
 							<Stack>
-								<Grid justify="space-between" align="center">
+								<Group justify="space-between" align="center">
 									<Title order={1}>{data?.name}</Title>
 									{admin && (
 										<Flex
@@ -173,14 +227,15 @@ const CompanyPage: React.FC = () => {
 											</ActionIcon>
 										</Flex>
 									)}
-								</Grid>
+								</Group>
 								<Text size="sm" c="dimmed">
 									{data?.email}
 								</Text>
 								<Text>{data?.description}</Text>
-								<Text fw={500}>
-									{t('companyPage.companyLocation')}: {data?.location}
-								</Text>
+								<Group align="center" gap="xs">
+									<FaMapLocationDot size={16} />
+									<Text fw={500}>{data?.location}</Text>
+								</Group>
 								{data?.location && (
 									<Box
 										mt="md"
@@ -209,18 +264,29 @@ const CompanyPage: React.FC = () => {
 						</MotionCard>
 					</Box>
 					<Box flex={1}>
-						<Group grow align="stretch">
+						<Stack h="100%">
 							<MotionCard
 								withBorder
 								radius="lg"
-								p="xl"
+								px="xl"
+								py="lg"
 								shadow="sm"
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5, ease: 'easeOut' }}
 							>
-								<Grid justify="space-between" align="center">
-									<Title order={3}>{t('companyPage.companyMembers')}</Title>
+								<Group justify="space-between" align="center">
+									<Flex align="center" justify="center">
+										<Title order={3}>{t('companyPage.companyMembers')} </Title>
+										<Text
+											c="dimmed"
+											ml={2}
+											size="xs"
+											onClick={() => setMembersOpened(true)}
+										>
+											({t('companyPage.seeMore')})
+										</Text>
+									</Flex>
 									{admin && (
 										<Button
 											size={isMobile ? 'xs' : 'sm'}
@@ -230,32 +296,105 @@ const CompanyPage: React.FC = () => {
 											{t('companyPage.addMember')}
 										</Button>
 									)}
-								</Grid>
-								<ScrollArea h={300} mt="md" p={0}>
-									<Stack gap="sm">
-										{data?.users.map((member) => (
-											<Card key={member.user.id} withBorder radius="md" p="md">
-												<Group justify="space-between">
-													<Group>
-														<Avatar radius="xl" src={member.user.avatar} />
-														<Stack gap={0} justify="center">
-															<Text fw={600}>{member.user.username}</Text>
-															<Text size="xs" c="dimmed">
-																{member.role}
-															</Text>
-														</Stack>
-													</Group>
-													<Text size="xs" c="dimmed">
-														{t('companyPage.joined')}{' '}
-														{dayjs(member.createdAt).format('DD MMM YYYY')}
-													</Text>
-												</Group>
-											</Card>
+								</Group>
+								<Stack gap="sm" my="md">
+									<Avatar.Group spacing="sm">
+										{data?.users.slice(0, 5).map((member) => (
+											<Avatar
+												key={member.user.id}
+												src={member.user.avatar}
+												alt={member.user.username}
+												radius="xl"
+												size="md"
+											/>
 										))}
-									</Stack>
-								</ScrollArea>
+										{data?.users && data?.users.length > 5 && (
+											<Avatar size="md" radius="xl">
+												+{data.users.length - 5}
+											</Avatar>
+										)}
+									</Avatar.Group>
+								</Stack>
 							</MotionCard>
-						</Group>
+							<MotionCard
+								withBorder
+								radius="lg"
+								px="xl"
+								pt="lg"
+								pb="md"
+								shadow="sm"
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.5, ease: 'easeOut' }}
+								h="100%"
+							>
+								<Stack gap="md" h="100%">
+									<Group justify="space-between" align="center">
+										<Flex align="center" justify="center">
+											<Title order={3}>{t('companyPage.newsTitle')}</Title>
+											{postData?.data.length ? (
+												<Text
+													c="dimmed"
+													ml={2}
+													size="xs"
+													onClick={() =>
+														navigate(`/companies/${data?.id}/posts`)
+													}
+												>
+													({t('companyPage.seeMore')})
+												</Text>
+											) : (
+												<Text />
+											)}
+										</Flex>
+										{admin && (
+											<Button
+												size={isMobile ? 'xs' : 'sm'}
+												leftSection={<IoMdAdd />}
+												onClick={() => setCreateNewsOpened(true)}
+											>
+												{t('companyPage.addMember')}
+											</Button>
+										)}
+									</Group>
+									{isLoadingPosts && (
+										<Center h="100%">
+											<Loader size="sm" />
+										</Center>
+									)}
+									{postError && (
+										<Center h="100%">
+											<Text>Error loading news</Text>
+										</Center>
+									)}
+									{postData?.data?.length ? (
+										<Carousel
+											pt="md"
+											slideSize="100%"
+											slideGap="md"
+											loop
+											withControls
+											align="start"
+											draggable
+											classNames={classes}
+											plugins={[autoplay.current]}
+											onMouseEnter={() => autoplay.current.stop()}
+											onMouseLeave={() => autoplay.current.play()}
+										>
+											{postData.data.map((post) => (
+												<Carousel.Slide key={post.id}>
+													<PostCard post={post} />
+												</Carousel.Slide>
+											))}
+										</Carousel>
+									) : (
+										<Center h="100%">
+											<Text c="dimmed">No news available</Text>
+										</Center>
+									)}
+								</Stack>
+							</MotionCard>
+						</Stack>
 					</Box>
 				</Flex>
 				<Divider
@@ -273,8 +412,7 @@ const CompanyPage: React.FC = () => {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
-						<Grid justify="space-between" align="center">
-							<Title order={3}>{t('companyPage.companyEvents')}</Title>
+						<Group justify="flex-end" align="end">
 							{admin && (
 								<Button
 									size={isMobile ? 'xs' : 'sm'}
@@ -286,10 +424,10 @@ const CompanyPage: React.FC = () => {
 									{t('companyPage.createEvent')}
 								</Button>
 							)}
-						</Grid>
+						</Group>
 						<Box mt="md">
 							{isLoadingEvents ? (
-								<Center>
+								<Center h="100%">
 									<Loader size="sm" />
 								</Center>
 							) : eventError ? (
@@ -297,13 +435,83 @@ const CompanyPage: React.FC = () => {
 							) : eventData?.data.length ? (
 								<CarouselEvent events={eventData?.data} delay={2000} />
 							) : (
-								<Text c="dimmed">{t('companyPage.noEventsAvailable')}</Text>
+								<Center h="100%">
+									<Text c="dimmed">{t('companyPage.noEventsAvailable')}</Text>
+								</Center>
 							)}
 						</Box>
 					</MotionCard>
 				</Group>
-				<Footer />
+				<Divider
+					my="xl"
+					label={t('companyPage.reviews')}
+					labelPosition="center"
+				/>
+				<Group grow align="stretch">
+					<MotionCard
+						shadow="lg"
+						radius="xl"
+						withBorder
+						p="xl"
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.5, ease: 'easeOut' }}
+					>
+						<Group justify="space-between">
+							<Paper bg="inherit" withBorder px="sm" py="0">
+								<Flex align="flex-end" justify="center">
+									<Title order={1} fw={700}>
+										{data?.rating.toFixed(1)}
+									</Title>
+									<Text size="sm" c="dimmed" fw={500} ml="2">
+										out of 5 ({reviewsData?.meta.count})
+									</Text>
+								</Flex>
+							</Paper>
+							<Button
+								size={isMobile ? 'xs' : 'sm'}
+								leftSection={<CiEdit size={20} />}
+								onClick={() => setCreateReviewOpened(true)}
+								variant="transparent"
+							>
+								{t('companyPage.createReview')}
+							</Button>
+						</Group>
+						<SimpleGrid
+							cols={{ base: 1, sm: 2, md: 3 }}
+							spacing="lg"
+							verticalSpacing="xl"
+							mt="xl"
+						>
+							{reviewsData?.data.map((review) => (
+								<ReviewCard review={review} />
+							))}
+						</SimpleGrid>
+						{reviewsData?.meta.pageCount ? (
+							reviewsData?.meta.pageCount > 1 ? (
+								<Center mt="xl" p="center">
+									<Pagination
+										total={reviewsData?.meta.pageCount || 1}
+										value={page}
+										onChange={(newPage) => {
+											const newParams = new URLSearchParams(searchParams)
+											newParams.set('page', newPage.toString())
+											setSearchParams(newParams)
+										}}
+										size="md"
+										radius="xl"
+									/>
+								</Center>
+							) : (
+								<Text />
+							)
+						) : (
+							<Text />
+						)}
+					</MotionCard>
+				</Group>
 			</Stack>
+			<Footer />
 			<AddMemberModal
 				opened={inviteMembers}
 				onClose={() => setInviteMembers(false)}
@@ -312,6 +520,21 @@ const CompanyPage: React.FC = () => {
 			<DeleteCompanyModal
 				opened={deleteCompany}
 				onClose={() => setDeleteCompany(false)}
+				company={data}
+			/>
+			<PostCreateModal
+				opened={isCreateNewsOpened}
+				onClose={() => setCreateNewsOpened(false)}
+				company={data}
+			/>
+			<UserListModal
+				opened={isMembersOpened}
+				onClose={() => setMembersOpened(false)}
+				members={data?.users}
+			/>
+			<ReviewCreateModal
+				opened={isCreateReviewOpened}
+				onClose={() => setCreateReviewOpened(false)}
 				company={data}
 			/>
 		</Container>

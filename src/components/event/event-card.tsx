@@ -11,6 +11,11 @@ interface EventCardProps {
 	event: EventItem
 }
 
+// const truncateText = (text: string, maxLength: number) => {
+// 	if (!text) return ''
+// 	return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
+// }
+
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
 	const { t } = useTranslation()
 	const navigate = useNavigate()

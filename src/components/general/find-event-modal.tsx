@@ -67,7 +67,6 @@ const FindEventModal: React.FC<FindEventModalProps> = ({ opened, onClose }) => {
 				setEvents([])
 			}}
 			size={isMobile ? 'sm' : 'md'}
-			closeOnClickOutside={true}
 			zIndex={1000}
 			transitionProps={{
 				transition: 'fade',
