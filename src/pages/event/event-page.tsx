@@ -20,7 +20,6 @@ import {
 	Loader,
 	Stack,
 	Text,
-	TextInput,
 	Title,
 } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
@@ -38,8 +37,9 @@ import { motion } from 'framer-motion'
 import { marked } from 'marked'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { FaArrowRightLong } from 'react-icons/fa6'
 import { MdCalendarToday } from 'react-icons/md'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const MotionCard = motion(
 	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
@@ -118,6 +118,7 @@ const EventPage: React.FC = () => {
 		const { data } = await apiClient(`/events/${id}/similar`)
 		return data
 	}
+	const navigate = useNavigate()
 
 	const {
 		data: similarEvents,
@@ -147,7 +148,7 @@ const EventPage: React.FC = () => {
 		}
 	}, [event?.location, isMapLoaded])
 
-	if (isLoading || isLoadingCompanyEvents || isLoadingSimilarEvents) {
+	if (!event || isLoading || isLoadingCompanyEvents || isLoadingSimilarEvents) {
 		return (
 			<Center h="100vh">
 				<Loader />
@@ -185,15 +186,20 @@ const EventPage: React.FC = () => {
 								{event?.title}
 							</Title>
 
-							<Group mt="xs" gap="sm">
-								<Badge variant="light" size="md">
-									{event?.format}
-								</Badge>
+							<Group gap="sm" justify="space-between">
 								<Group gap="xs" align="center">
 									<MdCalendarToday size={18} />
 									<Text size="sm">
-										{dayjs(event?.startDate).format('DD MMM YYYY')}
+										{dayjs(event?.startDate).format('DD MMM YYYY, HH:mm')}
 									</Text>
+								</Group>
+								<Group gap="xs" align="center">
+									<Badge variant="light" size="md">
+										{event?.format}
+									</Badge>
+									<Badge variant="light" size="md">
+										{event?.theme}
+									</Badge>
 								</Group>
 							</Group>
 						</Stack>
@@ -211,18 +217,27 @@ const EventPage: React.FC = () => {
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
 						<Stack>
-							<Title order={3}>{t('eventPage.buyTicket')}</Title>
-							<Text fw={500}>
-								{t('eventPage.price')}: {event?.ticketPrice}$
-							</Text>
-
-							<TextInput
-								label={t('eventPage.promocode')}
-								placeholder={t('eventPage.enterYourCode')}
-							/>
-
-							<Button fullWidth color="green" mt="sm" size="md">
-								{t('eventPage.buyNow')}
+							<Title order={3}>Buy Ticket</Title>
+							{event.ticketPrice > 0 ? (
+								<Text fw={500}>{event.ticketPrice.toFixed(2)} USD</Text>
+							) : (
+								<Text fw={500}>FREE</Text>
+							)}
+							<Button
+								fullWidth
+								color="green"
+								size="md"
+								justify="space-between"
+								leftSection={<span />}
+								rightSection={<FaArrowRightLong size={20} />}
+								onClick={() => navigate(`checkout`)}
+								disabled={event.ticketsQuantity - event.ticketsSold === 0}
+							>
+								{event.ticketsQuantity - event.ticketsSold > 0 ? (
+									<Text fw={500}>Buy now</Text>
+								) : (
+									<Text fw={500}>SOLD OUT</Text>
+								)}
 							</Button>
 						</Stack>
 					</MotionCard>
