@@ -90,10 +90,17 @@ const PostPage: React.FC = () => {
 	}
 
 	return (
-		<Container size="xl" py="md" mih="100vh">
-			<Stack gap="lg" h="100%">
-				<MainHeader />
-
+		<Container
+			size="xl"
+			py="md"
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				minHeight: '100vh',
+			}}
+		>
+			<MainHeader />
+			<Stack gap="lg" style={{ flex: 1 }}>
 				<MotionCard
 					radius="xl"
 					withBorder
@@ -144,9 +151,8 @@ const PostPage: React.FC = () => {
 						</Group>
 					</Stack>
 				</MotionCard>
-
-				<Footer />
 			</Stack>
+			<Footer />
 		</Container>
 	)
 }

@@ -159,13 +159,15 @@
 		"companyLocation": "Location",
 		"companyMembers": "Members",
 		"addMember": "Add",
-		"companyEvents": "Company Events",
+		"companyEvents": "Events",
 		"createEvent": "Create",
 		"noEventsAvailable": "No events available.",
 		"loadingEvents": "Loading events...",
 		"joined": "Joined",
 		"seeMore": "See more",
-		"newsTitle": "News"
+		"newsTitle": "News",
+		"reviews": "Reviews & Rating",
+		"createReview": "Write a Review"
 	},
 	"createEvent": {
 		"title": "Create new event"

@@ -71,10 +71,17 @@ const Homepage: React.FC = () => {
 	}
 
 	return (
-		<Container size="xl" pt="md">
-			<Stack justify="space-between">
-				<MainHeader />
-
+		<Container
+			size="xl"
+			pt="md"
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				minHeight: '100vh',
+			}}
+		>
+			<MainHeader />
+			<Stack justify="space-between" flex={1}>
 				<Text
 					size="lg"
 					mb="xl"
@@ -152,9 +159,8 @@ const Homepage: React.FC = () => {
 				) : (
 					<Text>{t('homepage.noOtherEvents')}</Text>
 				)}
-
-				<Footer />
 			</Stack>
+			<Footer />
 		</Container>
 	)
 }

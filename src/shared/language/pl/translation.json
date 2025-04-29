@@ -159,13 +159,15 @@
 		"companyLocation": "Lokalizacja",
 		"companyMembers": "Członkowie",
 		"addMember": "Dodaj",
-		"companyEvents": "Wydarzenia firmy",
+		"companyEvents": "Wydarzenia",
 		"createEvent": "Utwórz wydarzenie",
 		"noEventsAvailable": "Brak dostępnych wydarzeń.",
 		"loadingEvents": "Ładowanie wydarzeń...",
 		"joined": "Dołączył",
 		"seeMore": "Zobacz więcej",
-		"newsTitle": "Wieści"
+		"newsTitle": "Wieści",
+		"reviews": "Recenzje & Oceny",
+		"createReview": "Napisz recenzję"
 	},
 	"createEvent": {
 		"title": "Utwórz nowe wydarzenie"

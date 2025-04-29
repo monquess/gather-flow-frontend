@@ -159,13 +159,15 @@
 		"companyLocation": "Місцезнаходження",
 		"companyMembers": "Учасники",
 		"addMember": "Додати",
-		"companyEvents": "Події компанії",
+		"companyEvents": "Події",
 		"createEvent": "Створити",
 		"noEventsAvailable": "Події недоступні.",
 		"loadingEvents": "Завантаження подій...",
 		"joined": "Приєднався",
 		"seeMore": "Дивитися більше",
-		"newsTitle": "Новини"
+		"newsTitle": "Новини",
+		"reviews": "Відгуки & Рейтинг",
+		"createReview": "Написати відгук"
 	},
 	"createEvent": {
 		"title": "Створити нову подію"

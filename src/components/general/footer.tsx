@@ -26,6 +26,7 @@ const Footer: React.FC = React.memo(() => {
 			justify="center"
 			align="center"
 			style={{ borderTop: '1px solid #ddd' }}
+			mt="md"
 		>
 			{isMobile ? (
 				<Stack align="center">
