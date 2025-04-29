@@ -26,6 +26,7 @@ import {
 	LandingPage,
 	NotFound,
 	UserProfilePage,
+	CheckoutSuccessPage,
 } from './pages'
 
 import { theme } from './theme'
@@ -53,6 +54,7 @@ const routes = [
 	{ path: '/events', element: <EventsPage /> },
 	{ path: '/events/:id', element: <EventPage /> },
 	{ path: '/events/:id/checkout', element: <EventCheckoutPage /> },
+	{ path: '/checkout-success', element: <CheckoutSuccessPage /> },
 ]
 
 function App() {

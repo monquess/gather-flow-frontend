@@ -1,16 +1,10 @@
-import React, { forwardRef } from 'react'
-import { Card, CardProps, Container, Stack, Title } from '@mantine/core'
-import { motion } from 'framer-motion'
+import React from 'react'
+import { Container, Stack, Title } from '@mantine/core'
 
 import CreateEventForm from '@/components/event/forms/create-event-form'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
-
-const MotionCard = motion(
-	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
-		<Card ref={ref} {...props} />
-	))
-)
+import { MotionCard } from '@/components/general'
 
 const EventCreatePage: React.FC = () => {
 	return (

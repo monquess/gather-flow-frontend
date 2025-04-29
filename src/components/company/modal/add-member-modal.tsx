@@ -69,7 +69,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 			)
 			onClose()
 		} catch (error) {
-			if (error instanceof ApiError && error.response) {
+			if (error.response) {
 				showNotification('Member invitation error', error.message, 'red')
 			}
 		} finally {

@@ -12,6 +12,7 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
 	const navigate = useNavigate()
+
 	return (
 		<Card
 			withBorder
@@ -67,7 +68,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 						<Group mt="xs" align="center" gap="xs">
 							<MdCalendarToday size={16} />
 							<Text size="xs" lineClamp={1}>
-								{dayjs(event.startDate).format('DD MMM YYYY')}
+								{dayjs(event.startDate).format('DD MMM YYYY, HH:mm')}
 							</Text>
 						</Group>
 
@@ -76,7 +77,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 								{event?.location?.split(',').pop()?.trim()}
 							</Text>
 							<Badge variant="filled" color="blue">
-								${event.ticketPrice}
+								${event.ticketPrice.toFixed(2)}
 							</Badge>
 						</Group>
 					</Stack>

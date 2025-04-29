@@ -1,13 +1,5 @@
-import CompanyCard from '@/components/company/company-card'
-import CarouselEvent from '@/components/general/carousel-event'
-import Footer from '@/components/general/footer'
-import MainHeader from '@/components/general/main-header'
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
-import classes from '@/shared/styles/slider.module.css'
-import { CompaniesResponse } from '@/shared/types/companies'
-import { EventsResponse } from '@/shared/types/events'
-import { Carousel } from '@mantine/carousel'
+import React, { useRef } from 'react'
+
 import {
 	Box,
 	Center,
@@ -18,9 +10,20 @@ import {
 	Text,
 	Title,
 } from '@mantine/core'
+import { Carousel } from '@mantine/carousel'
 import { useQuery } from '@tanstack/react-query'
 import Autoplay from 'embla-carousel-autoplay'
-import React, { useRef } from 'react'
+
+import CompanyCard from '@/components/company/company-card'
+import CarouselEvent from '@/components/general/carousel-event'
+import Footer from '@/components/general/footer'
+import MainHeader from '@/components/general/main-header'
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient } from '@/shared/api/axios'
+import classes from '@/shared/styles/slider.module.css'
+import { CompaniesResponse } from '@/shared/types/companies'
+import { EventsResponse } from '@/shared/types/events'
+import { AxiosError } from 'axios'
 
 const Homepage: React.FC = () => {
 	const { isMobile } = useResponsive()
@@ -29,34 +32,50 @@ const Homepage: React.FC = () => {
 	const { data: eventsData, isLoading: isLoadingEvents } = useQuery({
 		queryKey: ['homepage-events'],
 		queryFn: async (): Promise<EventsResponse> => {
-			const { data } = await apiClient(
-				`/events?page=1&limit=30&format=CONFERENCE,LECTURE,OTHER`
-			)
+			const { data } = await apiClient('/events', {
+				params: {
+					page: 1,
+					limit: 30,
+					format: ['CONFERENCE', 'LECTURE', 'OTHER'],
+				},
+			})
 			return data
 		},
 	})
 
 	const { data: eventsUpcomingData, isLoading: isLoadingUpcomingEvents } =
-		useQuery({
+		useQuery<EventsResponse, AxiosError>({
 			queryKey: ['homepage-events'],
 			queryFn: async (): Promise<EventsResponse> => {
-				const now = new Date()
-				const startDate = now.toISOString()
 				const endDate = new Date(
-					now.getTime() + 7 * 24 * 60 * 60 * 1000
+					new Date().getTime() + 7 * 24 * 60 * 60 * 1000
 				).toISOString()
 
-				const { data } = await apiClient(
-					`/events?page=1&limit=30&startDate=${startDate}&endDate=${endDate}`
-				)
+				const { data } = await apiClient('/events', {
+					params: {
+						page: 1,
+						limit: 30,
+						startDate: new Date().toISOString(),
+						endDate,
+					},
+				})
+
 				return data
+			},
+			throwOnError: (error) => {
+				return (error.response?.status ?? 0) >= 500
 			},
 		})
 
 	const { data: companiesData, isLoading: isLoadingCompanies } = useQuery({
 		queryKey: ['homepage-companies'],
 		queryFn: async (): Promise<CompaniesResponse> => {
-			const { data } = await apiClient('/companies?page=1&limit=10')
+			const { data } = await apiClient('/companies', {
+				params: {
+					page: 1,
+					limit: 10,
+				},
+			})
 			return data
 		},
 	})
@@ -78,8 +97,8 @@ const Homepage: React.FC = () => {
 	}
 
 	return (
-		<Container size="xl" pt="md">
-			<Stack justify="space-between">
+		<Container size="xl" pt="md" h="100vh">
+			<Stack justify="space-between" h="100%">
 				<MainHeader />
 
 				<Text

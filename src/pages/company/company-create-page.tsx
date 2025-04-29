@@ -5,7 +5,7 @@ import { Card, CardProps, Center, Container, Stack, Title } from '@mantine/core'
 import { motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
 
-const MotionCard = motion(
+const MotionCard = motion.create(
 	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
 		<Card ref={ref} {...props} />
 	))

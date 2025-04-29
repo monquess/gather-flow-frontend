@@ -11,6 +11,7 @@ export const apiClient = axios.create({
 	},
 })
 
+export type ApiError = AxiosError
 export const ApiError = AxiosError
 
 apiClient.interceptors.request.use(

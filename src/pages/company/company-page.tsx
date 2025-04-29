@@ -38,7 +38,7 @@ import { GrUpdate } from 'react-icons/gr'
 import { IoMdAdd } from 'react-icons/io'
 import { useNavigate, useParams } from 'react-router-dom'
 
-const MotionCard = motion(
+const MotionCard = motion.create(
 	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
 		<Card ref={ref} {...props} />
 	))
@@ -59,7 +59,6 @@ const CompanyPage: React.FC = () => {
 
 	const fetchCompany = async (): Promise<CompanyItem> => {
 		const { data } = await apiClient(`/companies/${id}`)
-		console.log(data)
 		return data
 	}
 

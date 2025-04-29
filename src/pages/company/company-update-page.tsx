@@ -18,7 +18,7 @@ import { motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
 import { useParams } from 'react-router-dom'
 
-const MotionCard = motion(
+const MotionCard = motion.create(
 	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
 		<Card ref={ref} {...props} />
 	))

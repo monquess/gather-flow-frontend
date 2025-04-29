@@ -1,6 +1,8 @@
 import { Button, Group, Menu } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 
+const languages = ['en', 'ua', 'pl']
+
 const LanguageSwitcher: React.FC = () => {
 	const { i18n } = useTranslation()
 
@@ -8,13 +10,13 @@ const LanguageSwitcher: React.FC = () => {
 		i18n.changeLanguage(lng)
 	}
 
-	const currentLang = i18n.language.toUpperCase()
+	const currentLang = languages.includes(i18n.language) ? i18n.language : 'en'
 
 	return (
 		<Group p="right">
 			<Menu shadow="md" width={150}>
 				<Menu.Target>
-					<Button variant="outline">{currentLang}</Button>
+					<Button variant="outline">{currentLang.toUpperCase()}</Button>
 				</Menu.Target>
 
 				<Menu.Dropdown>

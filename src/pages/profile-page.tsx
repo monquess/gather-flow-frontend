@@ -1,8 +1,10 @@
-import MainHeader from '@/components/general/main-header'
-import DeleteUserModal from '@/components/profile/delete-user-modal'
-import UpdateAvatarModal from '@/components/profile/update-avatar-modal'
-import UpdateUserModal from '@/components/profile/update-user-modal'
-import useUserStore from '@/shared/store/user-store'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { BsPencil } from 'react-icons/bs'
+import { CiLogout } from 'react-icons/ci'
+import { GoTrash } from 'react-icons/go'
+import { GrUpdate } from 'react-icons/gr'
+
 import {
 	ActionIcon,
 	Avatar,
@@ -17,12 +19,12 @@ import {
 	Title,
 } from '@mantine/core'
 import dayjs from 'dayjs'
-import React, { useState } from 'react'
-import { BsPencil } from 'react-icons/bs'
-import { CiLogout } from 'react-icons/ci'
-import { GoTrash } from 'react-icons/go'
-import { GrUpdate } from 'react-icons/gr'
-import { useNavigate } from 'react-router-dom'
+
+import MainHeader from '@/components/general/main-header'
+import DeleteUserModal from '@/components/profile/delete-user-modal'
+import UpdateAvatarModal from '@/components/profile/update-avatar-modal'
+import UpdateUserModal from '@/components/profile/update-user-modal'
+import useUserStore from '@/shared/store/user-store'
 
 const UserProfilePage: React.FC = () => {
 	const navigate = useNavigate()

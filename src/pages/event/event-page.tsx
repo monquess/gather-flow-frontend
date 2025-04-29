@@ -1,16 +1,12 @@
-import CarouselEvent from '@/components/general/carousel-event'
-import Footer from '@/components/general/footer'
-import MainHeader from '@/components/general/main-header'
-import { config } from '@/config/config'
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
-import { EventItem, EventsResponse } from '@/shared/types/events'
+import React, { useEffect, useState } from 'react'
+import { MdCalendarToday } from 'react-icons/md'
+import { useNavigate, useParams } from 'react-router-dom'
+
 import {
 	Badge,
 	Box,
 	Button,
 	Card,
-	CardProps,
 	Center,
 	Container,
 	Divider,
@@ -20,28 +16,28 @@ import {
 	Loader,
 	Stack,
 	Text,
-	TextInput,
 	Title,
 } from '@mantine/core'
 import { Link, RichTextEditor } from '@mantine/tiptap'
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
+import { FaArrowRightLong } from 'react-icons/fa6'
 import { useQuery } from '@tanstack/react-query'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import dayjs from 'dayjs'
-import { motion } from 'framer-motion'
-import React, { forwardRef, useEffect, useState } from 'react'
-import { MdCalendarToday } from 'react-icons/md'
-import { useParams } from 'react-router-dom'
 
-const MotionCard = motion(
-	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
-		<Card ref={ref} withBorder radius="md" shadow="md" p="md" {...props} />
-	))
-)
+import { MotionCard } from '@/components/general'
+import CarouselEvent from '@/components/general/carousel-event'
+import Footer from '@/components/general/footer'
+import MainHeader from '@/components/general/main-header'
+import { config } from '@/config/config'
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient } from '@/shared/api/axios'
+import { EventItem, EventsResponse } from '@/shared/types/events'
 
 const EventPage: React.FC = () => {
 	const { isMobile } = useResponsive()
+	const navigate = useNavigate()
 	const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(
 		null
 	)
@@ -70,8 +66,6 @@ const EventPage: React.FC = () => {
 
 	const fetchEventFromCompany = async (): Promise<EventsResponse> => {
 		const { data } = await apiClient(`/companies/${event?.company.id}/events`)
-		console.log(event?.company.id)
-		console.log(data)
 		return data
 	}
 
@@ -126,7 +120,7 @@ const EventPage: React.FC = () => {
 		)
 	}
 
-	if (error || errorCompanyEvents || errorSimilarEvents) {
+	if (!event || error || errorCompanyEvents || errorSimilarEvents) {
 		return (
 			<Center h="100vh">
 				<Text c="red">Error loading event</Text>
@@ -156,16 +150,16 @@ const EventPage: React.FC = () => {
 								{event?.title}
 							</Title>
 
-							<Group mt="xs" gap="sm">
-								<Badge variant="light" size="md">
-									{event?.format}
-								</Badge>
+							<Group gap="sm" justify="space-between">
 								<Group gap="xs" align="center">
 									<MdCalendarToday size={18} />
 									<Text size="sm">
-										{dayjs(event?.startDate).format('DD MMM YYYY')}
+										{dayjs(event?.startDate).format('DD MMM YYYY, HH:mm')}
 									</Text>
 								</Group>
+								<Badge variant="light" size="md">
+									{event?.format}
+								</Badge>
 							</Group>
 						</Stack>
 					</MotionCard>
@@ -183,12 +177,26 @@ const EventPage: React.FC = () => {
 					>
 						<Stack>
 							<Title order={3}>Buy Ticket</Title>
-							<Text fw={500}>Price: $200</Text>
-
-							<TextInput label="Promocode" placeholder="Enter your code" />
-
-							<Button fullWidth color="green" mt="sm" size="md">
-								Buy Now
+							{event.ticketPrice > 0 ? (
+								<Text fw={500}>{event.ticketPrice.toFixed(2)} USD</Text>
+							) : (
+								<Text fw={500}>FREE</Text>
+							)}
+							<Button
+								fullWidth
+								color="green"
+								size="md"
+								justify="space-between"
+								leftSection={<span />}
+								rightSection={<FaArrowRightLong size={20} />}
+								onClick={() => navigate(`checkout`)}
+								disabled={event.ticketsQuantity - event.ticketsSold === 0}
+							>
+								{event.ticketsQuantity - event.ticketsSold > 0 ? (
+									<Text fw={500}>Buy now</Text>
+								) : (
+									<Text fw={500}>SOLD OUT</Text>
+								)}
 							</Button>
 						</Stack>
 					</MotionCard>
