@@ -29,10 +29,10 @@ import {
 	Container,
 	Divider,
 	Flex,
-	Grid,
 	Group,
 	Loader,
 	Pagination,
+	Paper,
 	SimpleGrid,
 	Stack,
 	Text,
@@ -203,7 +203,7 @@ const CompanyPage: React.FC = () => {
 							transition={{ duration: 0.5, ease: 'easeOut' }}
 						>
 							<Stack>
-								<Grid justify="space-between" align="center">
+								<Group justify="space-between" align="center">
 									<Title order={1}>{data?.name}</Title>
 									{admin && (
 										<Flex
@@ -227,7 +227,7 @@ const CompanyPage: React.FC = () => {
 											</ActionIcon>
 										</Flex>
 									)}
-								</Grid>
+								</Group>
 								<Text size="sm" c="dimmed">
 									{data?.email}
 								</Text>
@@ -275,7 +275,7 @@ const CompanyPage: React.FC = () => {
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5, ease: 'easeOut' }}
 							>
-								<Grid justify="space-between" align="center">
+								<Group justify="space-between" align="center">
 									<Flex align="center" justify="center">
 										<Title order={3}>{t('companyPage.companyMembers')} </Title>
 										<Text
@@ -296,7 +296,7 @@ const CompanyPage: React.FC = () => {
 											{t('companyPage.addMember')}
 										</Button>
 									)}
-								</Grid>
+								</Group>
 								<Stack gap="sm" my="md">
 									<Avatar.Group spacing="sm">
 										{data?.users.slice(0, 5).map((member) => (
@@ -329,7 +329,7 @@ const CompanyPage: React.FC = () => {
 								h="100%"
 							>
 								<Stack gap="md" h="100%">
-									<Grid justify="space-between" align="center">
+									<Group justify="space-between" align="center">
 										<Flex align="center" justify="center">
 											<Title order={3}>{t('companyPage.newsTitle')}</Title>
 											{postData?.data.length ? (
@@ -356,7 +356,7 @@ const CompanyPage: React.FC = () => {
 												{t('companyPage.addMember')}
 											</Button>
 										)}
-									</Grid>
+									</Group>
 									{isLoadingPosts && (
 										<Center h="100%">
 											<Loader size="sm" />
@@ -412,7 +412,7 @@ const CompanyPage: React.FC = () => {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
-						<Grid justify="flex-end" align="end">
+						<Group justify="flex-end" align="end">
 							{admin && (
 								<Button
 									size={isMobile ? 'xs' : 'sm'}
@@ -424,7 +424,7 @@ const CompanyPage: React.FC = () => {
 									{t('companyPage.createEvent')}
 								</Button>
 							)}
-						</Grid>
+						</Group>
 						<Box mt="md">
 							{isLoadingEvents ? (
 								<Center h="100%">
@@ -457,15 +457,17 @@ const CompanyPage: React.FC = () => {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
-						<Grid justify="space-between" align="center">
-							<Flex align="flex-end" justify="center">
-								<Title order={1} fw={700}>
-									{data?.rating}
-								</Title>
-								<Text size="sm" c="dimmed" fw={500} ml="2">
-									out of 5({reviewsData?.meta.count})
-								</Text>
-							</Flex>
+						<Group justify="space-between">
+							<Paper bg="inherit" withBorder px="sm" py="0">
+								<Flex align="flex-end" justify="center">
+									<Title order={1} fw={700}>
+										{data?.rating.toFixed(1)}
+									</Title>
+									<Text size="sm" c="dimmed" fw={500} ml="2">
+										out of 5 ({reviewsData?.meta.count})
+									</Text>
+								</Flex>
+							</Paper>
 							<Button
 								size={isMobile ? 'xs' : 'sm'}
 								leftSection={<CiEdit size={20} />}
@@ -474,7 +476,7 @@ const CompanyPage: React.FC = () => {
 							>
 								{t('companyPage.createReview')}
 							</Button>
-						</Grid>
+						</Group>
 						<SimpleGrid
 							cols={{ base: 1, sm: 2, md: 3 }}
 							spacing="lg"
