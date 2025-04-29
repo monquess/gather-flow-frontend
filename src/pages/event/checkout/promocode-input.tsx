@@ -4,7 +4,7 @@ import { MdErrorOutline } from 'react-icons/md'
 import { useMutation } from '@tanstack/react-query'
 
 import { apiClient, ApiError } from '@/shared/api/axios'
-import { Event } from '@/shared/types/event'
+import { Event } from '@/shared/types'
 
 interface PromocodeInputProps {
 	event: Event

@@ -21,12 +21,13 @@ import { MdCalendarToday } from 'react-icons/md'
 import { IoCardOutline, IoTicketOutline } from 'react-icons/io5'
 import dayjs from 'dayjs'
 
+import Layout from '@/components/general/layout'
 import { MotionCard } from '@/components/general/motion-card'
-import { Event } from '@/shared/types/event'
+import { Event } from '@/shared/types'
 import { apiClient } from '@/shared/api/axios'
 import { useResponsive } from '@/hooks/use-responsive'
+
 import EventCheckoutForm from './event-checkout-form'
-import Layout from '@/components/general/layout'
 import PromocodeInput from './promocode-input'
 
 interface Promocode {

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
-import { User } from '../types/user'
+import { User } from '../types'
 
 interface UserState {
 	user: User | null
@@ -12,7 +12,7 @@ interface UserState {
 	updateUser: (user: User) => void
 }
 
-const useUserStore = create<UserState>()(
+export const useUserStore = create<UserState>()(
 	persist(
 		(set) => ({
 			user: null,
@@ -28,5 +28,3 @@ const useUserStore = create<UserState>()(
 		}
 	)
 )
-
-export default useUserStore

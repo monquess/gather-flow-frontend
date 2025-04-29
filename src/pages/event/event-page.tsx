@@ -34,7 +34,7 @@ import MainHeader from '@/components/general/main-header'
 import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
-import { Event, EventsResponse } from '@/shared/types/event'
+import { Event, EventsResponse } from '@/shared/types'
 
 const EventPage: React.FC = () => {
 	const { isMobile } = useResponsive()

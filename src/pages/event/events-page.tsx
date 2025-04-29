@@ -26,7 +26,7 @@ import EventCard from '@/components/event/event-card'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
 import { apiClient } from '@/shared/api/axios'
-import { EventsResponse } from '@/shared/types/event'
+import { EventsResponse } from '@/shared/types'
 
 const EventsPage: React.FC = () => {
 	const { t } = useTranslation()

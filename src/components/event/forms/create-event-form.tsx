@@ -27,14 +27,13 @@ import { HiOutlineTicket } from 'react-icons/hi2'
 import { MdCalendarToday } from 'react-icons/md'
 import { FaMapLocationDot } from 'react-icons/fa6'
 import { IoIosSearch } from 'react-icons/io'
-import { AxiosError } from 'axios'
 
 import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
+import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { Event } from '@/shared/types/event'
-import { createEventSchema } from '@/shared/validations/create-event'
+import { createEventSchema } from '@/shared/validations'
 import MarkdownEditor from '@/components/editor/markdown-editor'
 
 import dayjs from 'dayjs'
@@ -136,7 +135,7 @@ const CreateEventForm: React.FC = () => {
 			)
 			navigate(`/events/${res.data.id}`)
 		} catch (error) {
-			if (error instanceof AxiosError && error.response) {
+			if (error instanceof ApiError && error.response) {
 				showNotification('Error', error.response.data.message, 'red')
 			}
 		}

@@ -1,11 +1,11 @@
-import { Button, Flex, Modal, Stack, Text, TextInput } from '@mantine/core'
-import { useForm } from '@mantine/form'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Button, Flex, Modal, Stack, Text, TextInput } from '@mantine/core'
+import { useForm } from '@mantine/form'
 
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import useStore from '@/shared/store/user-store'
+import { useUserStore } from '@/shared/store/user-store'
 
 import { useResponsive } from '@/hooks/use-responsive'
 import { useTranslation } from 'react-i18next'
@@ -21,7 +21,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
 }) => {
 	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
-	const { user, logout } = useStore()
+	const { user, logout } = useUserStore()
 	const navigate = useNavigate()
 	const [loading, setLoading] = useState(false)
 

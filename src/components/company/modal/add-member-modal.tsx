@@ -48,6 +48,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault()
+
 		try {
 			setLoading(true)
 			const response = await Promise.all(

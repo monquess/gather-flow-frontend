@@ -1,14 +1,15 @@
+import React, { useState } from 'react'
 import { Button, Modal, Stack, Text, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
-import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import useStore, { User } from '@/shared/store/user-store'
+import { useUserStore } from '@/shared/store/user-store'
 import { updateUserSchema } from '@/shared/validations'
 
 import { useResponsive } from '@/hooks/use-responsive'
-import { useTranslation } from 'react-i18next'
+import { User } from '@/shared/types'
 
 interface updateUserModalProps {
 	opened: boolean
@@ -21,7 +22,7 @@ const UpdateUserModal: React.FC<updateUserModalProps> = ({
 }) => {
 	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
-	const { user, updateUser } = useStore()
+	const { user, updateUser } = useUserStore()
 	const [loading, setLoading] = useState(false)
 
 	const form = useForm({

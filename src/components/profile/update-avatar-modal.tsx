@@ -1,16 +1,16 @@
+import React, { useState } from 'react'
 import { Button, FileInput, Modal, Stack, Text } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
-import React, { useState } from 'react'
 
 import { IoImageOutline } from 'react-icons/io5'
+import { useTranslation } from 'react-i18next'
 
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import useStore, { User } from '@/shared/store/user-store'
+import { useUserStore } from '@/shared/store/user-store'
 import { avatarSchema } from '@/shared/validations'
-
+import { User } from '@/shared/types'
 import { useResponsive } from '@/hooks/use-responsive'
-import { useTranslation } from 'react-i18next'
 
 interface UploadAvatarModalProps {
 	opened: boolean
@@ -23,7 +23,7 @@ const UploadAvatarModal: React.FC<UploadAvatarModalProps> = ({
 }) => {
 	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
-	const { user, updateUser } = useStore()
+	const { user, updateUser } = useUserStore()
 	const [loading, setLoading] = useState(false)
 
 	const form = useForm({

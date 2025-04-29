@@ -1,15 +1,13 @@
-import { Box, Paper, Text, Title } from '@mantine/core'
 import React from 'react'
-
-import { FaArrowLeft } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import { Box, Paper, Text, Title } from '@mantine/core'
+import { FaArrowLeft } from 'react-icons/fa'
+import { useTranslation } from 'react-i18next'
 
 import PasswordResetForm from '@/components/auth/reset-password-form'
 import Footer from '@/components/general/footer'
 import Header from '@/components/general/header'
-
 import { useResponsive } from '@/hooks/use-responsive'
-import { useTranslation } from 'react-i18next'
 
 const ResetPasswordPage: React.FC = () => {
 	const { isMobile } = useResponsive()

@@ -1,7 +1,5 @@
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
-import { CompaniesResponse, CompanyItem } from '@/shared/types/company'
-import { EventItem, EventsResponse } from '@/shared/types/event'
+import { memo, useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
 	Card,
 	Divider,
@@ -11,12 +9,20 @@ import {
 	Text,
 	TextInput,
 } from '@mantine/core'
+import { CiSearch } from 'react-icons/ci'
+import { useTranslation } from 'react-i18next'
+
 import { motion } from 'framer-motion'
 import { debounce } from 'lodash'
-import { memo, useCallback, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { CiSearch } from 'react-icons/ci'
-import { useNavigate } from 'react-router-dom'
+
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient } from '@/shared/api/axios'
+import {
+	Event,
+	Company,
+	EventsResponse,
+	CompaniesResponse,
+} from '@/shared/types'
 
 interface FindEventModalProps {
 	opened: boolean
@@ -27,8 +33,8 @@ const FindEventModal: React.FC<FindEventModalProps> = ({ opened, onClose }) => {
 	const { t } = useTranslation()
 	const navigate = useNavigate()
 	const { isMobile } = useResponsive()
-	const [events, setEvents] = useState<EventItem[]>([])
-	const [companies, setCompanies] = useState<CompanyItem[]>([])
+	const [events, setEvents] = useState<Event[]>([])
+	const [companies, setCompanies] = useState<Company[]>([])
 	const [search, setSearch] = useState<string>('')
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,11 +1,13 @@
-import { useResponsive } from '@/hooks/use-responsive'
-import classes from '@/shared/styles/slider.module.css'
-import { Event } from '@/shared/types/event'
+import React, { useRef } from 'react'
 import { Carousel } from '@mantine/carousel'
 import { Box, Flex, Text } from '@mantine/core'
 import Autoplay from 'embla-carousel-autoplay'
-import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import { useResponsive } from '@/hooks/use-responsive'
+import { Event } from '@/shared/types'
+import classes from '@/shared/styles/slider.module.css'
+
 import EventCard from '../event/event-card'
 
 interface CarouselEventProps {

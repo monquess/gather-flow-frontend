@@ -1,13 +1,15 @@
-import { CompanyItem } from '@/shared/types/company'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Badge, Card, Flex, Group, Rating, Stack, Text } from '@mantine/core'
+import { useTranslation } from 'react-i18next'
+
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+
+import { Company } from '@/shared/types/company'
 
 interface CompanyCardProps {
-	company: CompanyItem
+	company: Company
 }
 
 const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {

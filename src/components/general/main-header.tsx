@@ -1,12 +1,14 @@
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
+import { Avatar, Button, Center, Group, Input, Menu, Text } from '@mantine/core'
+import { CiSearch } from 'react-icons/ci'
+import { useTranslation } from 'react-i18next'
+
 import LanguageSwitcher from '@/components/buttons/language-switcher'
 import ThemeSwitch from '@/components/buttons/theme-switch'
 import { useResponsive } from '@/hooks/use-responsive'
-import useUserStore from '@/shared/store/user-store'
-import { Avatar, Button, Center, Group, Input, Menu, Text } from '@mantine/core'
-import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { CiSearch } from 'react-icons/ci'
-import { useNavigate } from 'react-router'
+import { useUserStore } from '@/shared/store/user-store'
+
 import FindEventModal from './find-event-modal'
 
 const MainHeader: React.FC = () => {

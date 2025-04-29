@@ -1,14 +1,16 @@
-import { EventItem } from '@/shared/types/event'
-import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core'
-import dayjs from 'dayjs'
-import { motion } from 'framer-motion'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 import { MdCalendarToday } from 'react-icons/md'
-import { useNavigate } from 'react-router-dom'
+
+import dayjs from 'dayjs'
+import { motion } from 'framer-motion'
+
+import { Event } from '@/shared/types'
 
 interface EventCardProps {
-	event: EventItem
+	event: Event
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {

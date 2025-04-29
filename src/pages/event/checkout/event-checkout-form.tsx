@@ -13,8 +13,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { config } from '@/config/config'
 import { theme } from '@/theme'
-import { Event } from '@/shared/types/event'
-import { Promocode } from '@/shared/types/promocode'
+import { Event, Promocode } from '@/shared/types'
 import { apiClient } from '@/shared/api/axios'
 
 import CheckoutElement from './checkout-element'

@@ -1,21 +1,12 @@
-import AddMemberModal from '@/components/company/modal/add-member-modal'
-import DeleteCompanyModal from '@/components/company/modal/delete-company-modal'
-import CarouselEvent from '@/components/general/carousel-event'
-import Footer from '@/components/general/footer'
-import MainHeader from '@/components/general/main-header'
-import { config } from '@/config/config'
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
-import useUserStore from '@/shared/store/user-store'
-import { CompanyItem, CompanyMember } from '@/shared/types/company'
-import { EventsResponse } from '@/shared/types/event'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+
 import {
 	ActionIcon,
 	Avatar,
 	Box,
 	Button,
 	Card,
-	CardProps,
 	Center,
 	Container,
 	Divider,
@@ -28,22 +19,26 @@ import {
 	Text,
 	Title,
 } from '@mantine/core'
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
-import { useQuery } from '@tanstack/react-query'
-import dayjs from 'dayjs'
-import { motion } from 'framer-motion'
-import { forwardRef, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { GoTrash } from 'react-icons/go'
 import { GrUpdate } from 'react-icons/gr'
 import { IoMdAdd } from 'react-icons/io'
-import { useNavigate, useParams } from 'react-router-dom'
 
-const MotionCard = motion.create(
-	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
-		<Card ref={ref} {...props} />
-	))
-)
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
+import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
+
+import AddMemberModal from '@/components/company/modal/add-member-modal'
+import DeleteCompanyModal from '@/components/company/modal/delete-company-modal'
+import CarouselEvent from '@/components/general/carousel-event'
+import { MotionCard } from '@/components/general'
+import Footer from '@/components/general/footer'
+import MainHeader from '@/components/general/main-header'
+import { config } from '@/config/config'
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient } from '@/shared/api/axios'
+import { useUserStore } from '@/shared/store/user-store'
+import { Company, CompanyMember, EventsResponse } from '@/shared/types'
 
 const CompanyPage: React.FC = () => {
 	const { t } = useTranslation()
@@ -59,13 +54,13 @@ const CompanyPage: React.FC = () => {
 	const [isMapLoaded, setIsMapLoaded] = useState(false)
 	const { id } = useParams()
 
-	const fetchCompany = async (): Promise<CompanyItem> => {
-		const { data } = await apiClient(`/companies/${id}`)
+	const fetchCompany = async (): Promise<Company> => {
+		const { data } = await apiClient<Company>(`/companies/${id}`)
 		return data
 	}
 
 	const fetchCompanyEvents = async (): Promise<EventsResponse> => {
-		const { data } = await apiClient(`/companies/${id}/events`)
+		const { data } = await apiClient<EventsResponse>(`/companies/${id}/events`)
 		return data
 	}
 

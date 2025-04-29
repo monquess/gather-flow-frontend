@@ -14,7 +14,6 @@ import {
 } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import { useQuery } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
 import Autoplay from 'embla-carousel-autoplay'
 
@@ -23,9 +22,8 @@ import CarouselEvent from '@/components/general/carousel-event'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
 import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
-import { CompaniesResponse } from '@/shared/types/company'
-import { EventsResponse } from '@/shared/types/event'
+import { apiClient, ApiError } from '@/shared/api/axios'
+import { CompaniesResponse, EventsResponse } from '@/shared/types'
 
 import classes from '@/shared/styles/slider.module.css'
 
@@ -49,7 +47,7 @@ const Homepage: React.FC = () => {
 	})
 
 	const { data: eventsUpcomingData, isLoading: isLoadingUpcomingEvents } =
-		useQuery<EventsResponse, AxiosError>({
+		useQuery<EventsResponse, ApiError>({
 			queryKey: ['homepage-events'],
 			queryFn: async (): Promise<EventsResponse> => {
 				const endDate = new Date(

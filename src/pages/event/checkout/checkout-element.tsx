@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Loader, Stack, Text } from '@mantine/core'
 
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import useUserStore from '@/shared/store/user-store'
+import { useUserStore } from '@/shared/store/user-store'
 import { useQueryClient } from '@tanstack/react-query'
 
 interface CheckoutElementProps {

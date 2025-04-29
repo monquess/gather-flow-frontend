@@ -1,8 +1,6 @@
-import CompanyCard from '@/components/company/company-card'
-import Footer from '@/components/general/footer'
-import MainHeader from '@/components/general/main-header'
-import { apiClient } from '@/shared/api/axios'
-import { CompaniesResponse } from '@/shared/types/company'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 import {
 	Box,
 	Center,
@@ -17,9 +15,12 @@ import {
 	TextInput,
 } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'react-router-dom'
+
+import CompanyCard from '@/components/company/company-card'
+import Footer from '@/components/general/footer'
+import MainHeader from '@/components/general/main-header'
+import { apiClient } from '@/shared/api/axios'
+import { CompaniesResponse } from '@/shared/types'
 
 const CompaniesPage: React.FC = () => {
 	const { t } = useTranslation()
