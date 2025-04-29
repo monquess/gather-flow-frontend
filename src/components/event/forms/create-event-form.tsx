@@ -1,6 +1,3 @@
-import React, { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-
 import {
 	Box,
 	Button,
@@ -23,13 +20,14 @@ import {
 	LoadScript,
 	Marker,
 } from '@react-google-maps/api'
-import { useEditor } from '@tiptap/react'
 import { AxiosError } from 'axios'
+import React, { useState } from 'react'
 import { FaMapLocationDot } from 'react-icons/fa6'
 import { HiOutlineTicket } from 'react-icons/hi2'
 import { IoIosSearch } from 'react-icons/io'
 import { IoImageOutline } from 'react-icons/io5'
 import { MdCalendarToday } from 'react-icons/md'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import MarkdownEditor from '@/components/editor/markdown-editor'
 import { config } from '@/config/config'
@@ -39,8 +37,6 @@ import { showNotification } from '@/shared/helpers/show-notification'
 import { EventItem } from '@/shared/types/events'
 import { createEventSchema } from '@/shared/validations/create-event'
 
-import Placeholder from '@tiptap/extension-placeholder'
-import StarterKit from '@tiptap/starter-kit'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 
@@ -84,17 +80,6 @@ const CreateEventForm: React.FC = () => {
 		},
 	})
 	const [isPublishLater, setIsPublishLater] = useState(false)
-
-	const editor = useEditor({
-		extensions: [
-			StarterKit,
-			Placeholder.configure({ placeholder: 'Describe the event' }),
-		],
-		onUpdate: ({ editor }) => {
-			form.setFieldValue('description', editor.getText())
-		},
-		content: form.values.description,
-	})
 
 	const handleMapClick = (e: google.maps.MapMouseEvent) => {
 		const lat = e.latLng?.lat()
@@ -207,7 +192,11 @@ const CreateEventForm: React.FC = () => {
 					/>
 				</Group>
 
-				<MarkdownEditor editor={editor} />
+				<MarkdownEditor
+					value={form.values.description}
+					placeholder="Describe the event"
+					onChange={(value) => form.setFieldValue('description', value)}
+				/>
 
 				<Divider
 					mt="xs"

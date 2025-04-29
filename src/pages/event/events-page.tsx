@@ -1,8 +1,6 @@
-import EventCard from '@/components/event/event-card'
-import Footer from '@/components/general/footer'
-import MainHeader from '@/components/general/main-header'
-import { apiClient } from '@/shared/api/axios'
-import { EventsResponse } from '@/shared/types/events'
+import React, { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+
 import {
 	Accordion,
 	Box,
@@ -22,9 +20,13 @@ import {
 } from '@mantine/core'
 import { DatePickerInput } from '@mantine/dates'
 import { useQuery } from '@tanstack/react-query'
-import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'react-router-dom'
+
+import EventCard from '@/components/event/event-card'
+import Footer from '@/components/general/footer'
+import MainHeader from '@/components/general/main-header'
+import { apiClient } from '@/shared/api/axios'
+import { EventsResponse } from '@/shared/types/events'
 
 const EventsPage: React.FC = () => {
 	const { t } = useTranslation()

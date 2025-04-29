@@ -22,6 +22,7 @@ export type EventItem = {
 	location: string
 	ticketPrice: number
 	ticketsQuantity: number
+	ticketsSold: number
 	poster: string
 	visitorsVisibility: string
 	startDate: string

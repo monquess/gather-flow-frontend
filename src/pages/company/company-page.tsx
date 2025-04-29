@@ -51,7 +51,7 @@ import { GrUpdate } from 'react-icons/gr'
 import { IoMdAdd } from 'react-icons/io'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
-const MotionCard = motion(
+const MotionCard = motion.create(
 	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
 		<Card ref={ref} {...props} />
 	))
