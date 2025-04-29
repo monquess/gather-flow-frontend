@@ -23,6 +23,7 @@ const Footer: React.FC = React.memo(() => {
 			w="100%"
 			py="md"
 			px="sm"
+			mt="sm"
 			justify="center"
 			align="center"
 			style={{ borderTop: '1px solid #ddd' }}
@@ -53,35 +54,39 @@ const Footer: React.FC = React.memo(() => {
 					</Group>
 
 					<Group>
-						<a
+						<ActionIcon
+							component="a"
 							href="https://github.com/monquess"
 							target="_blank"
 							rel="noopener noreferrer"
+							size="lg"
+							color="gray"
+							variant="transparent"
 						>
-							<ActionIcon size="lg" color="gray" variant="subtle">
-								<FaGithub size={24} />
-							</ActionIcon>
-						</a>
-
-						<a
+							<FaGithub size={24} />
+						</ActionIcon>
+						<ActionIcon
+							component="a"
 							href="https://www.youtube.com/@Андрей-в9ы4с"
 							target="_blank"
 							rel="noopener noreferrer"
+							size="lg"
+							color="gray"
+							variant="transparent"
 						>
-							<ActionIcon size="lg" color="gray" variant="subtle">
-								<FaYoutube size={24} />
-							</ActionIcon>
-						</a>
-
-						<a
+							<FaYoutube size={24} />
+						</ActionIcon>
+						<ActionIcon
+							component="a"
 							href="https://www.instagram.com/batushka11/profilecard/?igsh=MWcyaTZqb3RheW1iZA=="
 							target="_blank"
 							rel="noopener noreferrer"
+							size="lg"
+							color="gray"
+							variant="transparent"
 						>
-							<ActionIcon size="lg" color="gray" variant="subtle">
-								<FaInstagram size={24} />
-							</ActionIcon>
-						</a>
+							<FaInstagram size={24} />
+						</ActionIcon>
 					</Group>
 				</Group>
 			)}

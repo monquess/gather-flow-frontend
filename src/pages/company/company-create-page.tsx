@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const MotionCard = motion(
+const MotionCard = motion.create(
 	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
 		<Card ref={ref} {...props} />
 	))
