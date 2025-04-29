@@ -2,7 +2,7 @@ import CompanyCard from '@/components/company/company-card'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
 import { apiClient } from '@/shared/api/axios'
-import { CompaniesResponse } from '@/shared/types/companies'
+import { CompaniesResponse } from '@/shared/types/company'
 import {
 	Box,
 	Center,

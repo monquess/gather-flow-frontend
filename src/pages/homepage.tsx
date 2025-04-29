@@ -24,8 +24,8 @@ import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
-import { CompaniesResponse } from '@/shared/types/companies'
-import { EventsResponse } from '@/shared/types/events'
+import { CompaniesResponse } from '@/shared/types/company'
+import { EventsResponse } from '@/shared/types/event'
 
 import classes from '@/shared/styles/slider.module.css'
 

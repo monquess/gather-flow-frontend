@@ -1,4 +1,4 @@
-import { EventItem } from '@/shared/types/events'
+import { EventItem } from '@/shared/types/event'
 import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'

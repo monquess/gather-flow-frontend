@@ -7,8 +7,8 @@ import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
 import useUserStore from '@/shared/store/user-store'
-import { CompanyItem, CompanyMember } from '@/shared/types/companies'
-import { EventsResponse } from '@/shared/types/events'
+import { CompanyItem, CompanyMember } from '@/shared/types/company'
+import { EventsResponse } from '@/shared/types/event'
 import {
 	ActionIcon,
 	Avatar,

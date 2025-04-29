@@ -33,7 +33,7 @@ import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import { EventItem } from '@/shared/types/events'
+import { Event } from '@/shared/types/event'
 import { createEventSchema } from '@/shared/validations/create-event'
 import MarkdownEditor from '@/components/editor/markdown-editor'
 
@@ -125,7 +125,7 @@ const CreateEventForm: React.FC = () => {
 		form.validate()
 
 		try {
-			const res = await apiClient.post<EventItem>(
+			const res = await apiClient.post<Event>(
 				`/companies/${companyId}/events`,
 				form.getValues(),
 				{

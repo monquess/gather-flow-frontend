@@ -13,22 +13,17 @@ import { useQuery } from '@tanstack/react-query'
 
 import { config } from '@/config/config'
 import { theme } from '@/theme'
-import { EventItem } from '@/shared/types/events'
+import { Event } from '@/shared/types/event'
+import { Promocode } from '@/shared/types/promocode'
 import { apiClient } from '@/shared/api/axios'
 
 import CheckoutElement from './checkout-element'
 
 const stripe = loadStripe(config.STRIPE_PUBLISHABLE_KEY)
 
-interface Promocode {
-	code: string
-	discount: number
-	expirationDate: string
-}
-
 interface EventCheckoutFormProps {
 	quantity: number
-	event: EventItem
+	event: Event
 	promocode?: Promocode
 }
 

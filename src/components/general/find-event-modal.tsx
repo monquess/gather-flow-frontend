@@ -1,7 +1,7 @@
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
-import { CompaniesResponse, CompanyItem } from '@/shared/types/companies'
-import { EventItem, EventsResponse } from '@/shared/types/events'
+import { CompaniesResponse, CompanyItem } from '@/shared/types/company'
+import { EventItem, EventsResponse } from '@/shared/types/event'
 import {
 	Card,
 	Divider,

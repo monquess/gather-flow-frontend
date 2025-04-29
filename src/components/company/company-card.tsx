@@ -1,4 +1,4 @@
-import { CompanyItem } from '@/shared/types/companies'
+import { CompanyItem } from '@/shared/types/company'
 import { Badge, Card, Flex, Group, Rating, Stack, Text } from '@mantine/core'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'

@@ -2,7 +2,7 @@ import UpdateCompanyForm from '@/components/company/forms/update-company-form'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
 import { apiClient } from '@/shared/api/axios'
-import { CompanyItem } from '@/shared/types/companies'
+import { CompanyItem } from '@/shared/types/company'
 import {
 	Card,
 	CardProps,

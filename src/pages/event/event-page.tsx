@@ -34,7 +34,7 @@ import MainHeader from '@/components/general/main-header'
 import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
-import { EventItem, EventsResponse } from '@/shared/types/events'
+import { Event, EventsResponse } from '@/shared/types/event'
 
 const EventPage: React.FC = () => {
 	const { isMobile } = useResponsive()
@@ -46,7 +46,7 @@ const EventPage: React.FC = () => {
 	const { id } = useParams()
 	const { t } = useTranslation()
 
-	const fetchEvent = async (): Promise<EventItem> => {
+	const fetchEvent = async (): Promise<Event> => {
 		const { data } = await apiClient(`/events/${id}`)
 		return data
 	}
@@ -81,7 +81,7 @@ const EventPage: React.FC = () => {
 		enabled: !!event?.company?.id,
 	})
 
-	const fetchSimilarEvent = async (): Promise<EventItem[]> => {
+	const fetchSimilarEvent = async (): Promise<Event[]> => {
 		const { data } = await apiClient(`/events/${id}/similar`)
 		return data
 	}

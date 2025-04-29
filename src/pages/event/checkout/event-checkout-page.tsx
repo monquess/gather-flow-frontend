@@ -22,7 +22,7 @@ import { IoCardOutline, IoTicketOutline } from 'react-icons/io5'
 import dayjs from 'dayjs'
 
 import { MotionCard } from '@/components/general/motion-card'
-import { EventItem } from '@/shared/types/events'
+import { Event } from '@/shared/types/event'
 import { apiClient } from '@/shared/api/axios'
 import { useResponsive } from '@/hooks/use-responsive'
 import EventCheckoutForm from './event-checkout-form'
@@ -61,8 +61,8 @@ const EventCheckoutPage: React.FC = () => {
 		error,
 	} = useQuery({
 		queryKey: ['payment-event', id],
-		queryFn: async (): Promise<EventItem> => {
-			const { data } = await apiClient<EventItem>(`/events/${id}`)
+		queryFn: async (): Promise<Event> => {
+			const { data } = await apiClient<Event>(`/events/${id}`)
 			return data
 		},
 	})

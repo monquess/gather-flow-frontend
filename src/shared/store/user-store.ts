@@ -1,15 +1,7 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
-export interface User {
-	id: number
-	username: string
-	email: string
-	verified: boolean
-	avatar: string
-	createdAt: string
-	updatedAt: string
-}
+import { User } from '../types/user'
 
 interface UserState {
 	user: User | null

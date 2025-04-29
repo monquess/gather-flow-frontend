@@ -1,6 +1,6 @@
 import { useResponsive } from '@/hooks/use-responsive'
 import classes from '@/shared/styles/slider.module.css'
-import { EventItem } from '@/shared/types/events'
+import { Event } from '@/shared/types/event'
 import { Carousel } from '@mantine/carousel'
 import { Box, Flex, Text } from '@mantine/core'
 import Autoplay from 'embla-carousel-autoplay'
@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import EventCard from '../event/event-card'
 
 interface CarouselEventProps {
-	events: EventItem[] | undefined
+	events?: Event[]
 	delay: number
 }
 const CarouselEvent: React.FC<CarouselEventProps> = ({ events, delay }) => {

@@ -4,10 +4,10 @@ import { MdErrorOutline } from 'react-icons/md'
 import { useMutation } from '@tanstack/react-query'
 
 import { apiClient, ApiError } from '@/shared/api/axios'
-import { EventItem } from '@/shared/types/events'
+import { Event } from '@/shared/types/event'
 
 interface PromocodeInputProps {
-	event: EventItem
+	event: Event
 	onSubmit: (promocode?: Promocode) => void
 }
 

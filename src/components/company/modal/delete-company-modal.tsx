@@ -1,7 +1,7 @@
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import { CompanyItem } from '@/shared/types/companies'
+import { CompanyItem } from '@/shared/types/company'
 import { Button, Flex, Modal, Stack, Text } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import React, { useState } from 'react'
