@@ -11,11 +11,6 @@ interface EventCardProps {
 	event: EventItem
 }
 
-// const truncateText = (text: string, maxLength: number) => {
-// 	if (!text) return ''
-// 	return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
-// }
-
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
 	const { t } = useTranslation()
 	const navigate = useNavigate()
@@ -26,7 +21,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 			shadow="xl"
 			radius="md"
 			padding="md"
-			h={475}
+			h={425}
 			onClick={() => navigate(`/events/${event.id}`)}
 		>
 			<motion.div
@@ -55,16 +50,6 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 					<Stack>
 						<Text size="lg" fw={700} lineClamp={1} style={{ minHeight: 24 }}>
 							{event.title}
-						</Text>
-
-						<Text
-							size="sm"
-							c="dimmed"
-							lineClamp={2}
-							mt={4}
-							style={{ minHeight: 36 }}
-						>
-							{event.description}
 						</Text>
 					</Stack>
 

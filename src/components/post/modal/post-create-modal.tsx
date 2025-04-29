@@ -1,8 +1,16 @@
+import MarkdownEditor from '@/components/editor/markdown-editor'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { CompanyItem } from '@/shared/types/companies'
-import { Button, FileInput, Modal, Stack, TextInput } from '@mantine/core'
+import {
+	Button,
+	FileInput,
+	Modal,
+	Stack,
+	TextInput,
+	Title,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { memo, useState } from 'react'
 import { IoImageOutline } from 'react-icons/io5'
@@ -57,8 +65,8 @@ const PostCreateModal: React.FC<PostCreateModalProps> = ({
 		<Modal
 			opened={opened}
 			onClose={onClose}
-			title="Create news"
-			size={isMobile ? 'sm' : 'md'}
+			title={<Title order={5}>Create news</Title>}
+			size={isMobile ? 'sm' : 'xl'}
 			centered
 			closeOnClickOutside={false}
 			zIndex={1000}
@@ -72,12 +80,10 @@ const PostCreateModal: React.FC<PostCreateModalProps> = ({
 						key={form.key('title')}
 						{...form.getInputProps('title')}
 					/>
-					<TextInput
-						label="Content"
-						placeholder="Enter news content"
-						size={isMobile ? 'sm' : 'md'}
-						key={form.key('content')}
-						{...form.getInputProps('content')}
+					<MarkdownEditor
+						value={form.values.content}
+						placeholder="News content"
+						onChange={(value) => form.setFieldValue('content', value)}
 					/>
 					<FileInput
 						label="Upload poster"

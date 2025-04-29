@@ -1,6 +1,7 @@
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
 import { apiClient, ApiError } from '@/shared/api/axios'
+import { cleanMarkdown } from '@/shared/helpers/markdown'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { PostItem } from '@/shared/types/posts'
 import {
@@ -17,10 +18,19 @@ import {
 	Text,
 	Title,
 } from '@mantine/core'
+import { RichTextEditor } from '@mantine/tiptap'
 import { useQuery } from '@tanstack/react-query'
+import Link from '@tiptap/extension-link'
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
-import React, { forwardRef, memo, useState } from 'react'
+import { marked } from 'marked'
+import React, { forwardRef, memo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CiHeart } from 'react-icons/ci'
 import { FaHeart } from 'react-icons/fa'
@@ -32,6 +42,11 @@ const MotionCard = motion(
 		<Card ref={ref} withBorder radius="md" shadow="md" p="md" {...props} />
 	))
 )
+
+marked.setOptions({
+	gfm: true,
+	breaks: true,
+})
 
 const PostPage: React.FC = () => {
 	const { t } = useTranslation()
@@ -50,6 +65,28 @@ const PostPage: React.FC = () => {
 		queryKey: ['post', id],
 		queryFn: fetchData,
 	})
+
+	const editor = useEditor({
+		extensions: [
+			Link,
+			StarterKit,
+			Table.configure({
+				resizable: true,
+			}),
+			TableRow,
+			TableHeader,
+			TableCell,
+		],
+		content: '',
+		editable: false,
+	})
+
+	useEffect(() => {
+		if (editor && post?.content) {
+			const html = marked.parse(cleanMarkdown(post.content))
+			editor.commands.setContent(html)
+		}
+	}, [editor, post?.content])
 
 	const [likes, setLikes] = useState<number>(post?.likes ?? 0)
 	const [liked, setLiked] = useState<boolean>(post?.liked ?? false)
@@ -137,17 +174,27 @@ const PostPage: React.FC = () => {
 
 						<Divider my="sm" />
 
-						<Text size="md" style={{ whiteSpace: 'pre-wrap' }}>
-							{post.content}
-						</Text>
+						<RichTextEditor
+							editor={editor}
+							styles={{
+								root: {
+									border: 'none',
+								},
+								content: {
+									background: 'inherit',
+								},
+							}}
+						>
+							<RichTextEditor.Content />
+						</RichTextEditor>
 
 						<Group mt="md" align="center" gap="xs" justify="center">
 							{liked ? (
-								<FaHeart size={20} color="red" onClick={handleLikeClick} />
+								<FaHeart size={28} color="red" onClick={handleLikeClick} />
 							) : (
-								<CiHeart size={20} onClick={handleLikeClick} />
+								<CiHeart size={28} onClick={handleLikeClick} />
 							)}
-							<Text size="sm">{likes}</Text>
+							<Text size="xl">{likes}</Text>
 						</Group>
 					</Stack>
 				</MotionCard>

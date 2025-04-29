@@ -50,7 +50,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 				<Card.Section>
 					<Image
 						src={post.poster}
-						height={200}
+						height={175}
 						alt={post.title}
 						radius="sm"
 						style={{ objectFit: 'fill' }}

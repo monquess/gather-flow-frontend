@@ -75,7 +75,6 @@ const CreateEventForm: React.FC = () => {
 			visitorsVisibility: 'EVERYONE',
 			startDate: '',
 			endDate: '',
-			publishDate: '',
 			poster: null as File | null,
 		},
 	})

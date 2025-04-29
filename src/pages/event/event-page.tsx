@@ -4,6 +4,7 @@ import MainHeader from '@/components/general/main-header'
 import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
+import { cleanMarkdown } from '@/shared/helpers/markdown'
 import { EventItem, EventsResponse } from '@/shared/types/events'
 import {
 	Badge,
@@ -51,8 +52,6 @@ marked.setOptions({
 	gfm: true,
 	breaks: true,
 })
-
-const cleanMarkdown = (md: string) => md.replace(/(\|.*\|)\s*\n\s*\|/g, '$1\n|')
 
 const EventPage: React.FC = () => {
 	const { isMobile } = useResponsive()
