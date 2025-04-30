@@ -1,4 +1,4 @@
-import { config } from '@/config/config'
+import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { verifyCodeSchema } from '@/shared/validations'
 import {

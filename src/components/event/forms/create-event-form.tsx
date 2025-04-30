@@ -29,7 +29,7 @@ import { FaMapLocationDot } from 'react-icons/fa6'
 import { IoIosSearch } from 'react-icons/io'
 
 import MarkdownEditor from '@/components/editor/markdown-editor'
-import { config } from '@/config/config'
+import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
@@ -140,14 +140,16 @@ const CreateEventForm: React.FC = () => {
 		}
 	}
 
+	const getPosterUrl = (file: File | null): string => {
+		return file ? URL.createObjectURL(file) : config.DEFAULT_POSTER_URL
+	}
+
 	return (
 		<form onSubmit={handleSubmit}>
 			<Stack gap="sm">
 				<Box w="100%" h="300px">
 					<Image
-						src={
-							form.values.poster ? URL.createObjectURL(form.values.poster) : ''
-						}
+						src={getPosterUrl(form.values.poster)}
 						alt="Poster preview"
 						width="100%"
 						height="100%"

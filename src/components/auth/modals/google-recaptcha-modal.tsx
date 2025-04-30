@@ -2,7 +2,7 @@ import { Modal, Stack, useMantineColorScheme } from '@mantine/core'
 import React from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 
-import { config } from '@/config/config'
+import { config } from '@/shared/config/config'
 
 interface GoogleRecaptchaModalProps {
 	opened: boolean

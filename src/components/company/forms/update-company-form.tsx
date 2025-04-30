@@ -10,7 +10,7 @@ import {
 } from '@react-google-maps/api'
 import { useTranslation } from 'react-i18next'
 
-import { config } from '@/config/config'
+import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'

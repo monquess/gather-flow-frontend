@@ -1,4 +1,4 @@
-import { config } from '@/config/config'
+import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { emailSchema } from '@/shared/validations'

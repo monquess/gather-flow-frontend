@@ -1,5 +1,5 @@
 // ResetPasswordModal.tsx
-import { config } from '@/config/config'
+import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { resetPasswordSchema } from '@/shared/validations'
 import {

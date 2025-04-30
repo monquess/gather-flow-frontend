@@ -10,7 +10,7 @@ const options: InitOptions = {
 		escapeValue: false,
 	},
 	backend: {
-		loadPath: '/src/shared/language/{{lng}}/translation.json',
+		loadPath: '/src/shared/locales/{{lng}}/translation.json',
 	},
 }
 

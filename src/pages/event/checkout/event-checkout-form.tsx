@@ -11,7 +11,7 @@ import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe, StripeElementLocale } from '@stripe/stripe-js'
 import { useQuery } from '@tanstack/react-query'
 
-import { config } from '@/config/config'
+import { config } from '@/shared/config/config'
 import { theme } from '@/theme'
 import { Event, Promocode } from '@/shared/types'
 import { apiClient } from '@/shared/api/axios'

@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { FaMapLocationDot } from 'react-icons/fa6'
 import { IoIosSearch } from 'react-icons/io'
 
-import { config } from '@/config/config'
+import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'

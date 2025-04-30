@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { config } from '@/config/config'
+import { config } from '@/shared/config/config'
 import { useUserStore } from '../store/user-store'
 
 export const apiClient = axios.create({
@@ -9,9 +9,6 @@ export const apiClient = axios.create({
 		'Content-Type': 'application/json',
 	},
 })
-
-export type ApiError = AxiosError
-export const ApiError = AxiosError
 
 apiClient.interceptors.request.use(
 	(config) => {
@@ -59,3 +56,6 @@ apiClient.interceptors.response.use(
 		return Promise.reject(error)
 	}
 )
+
+export type ApiError = AxiosError
+export const ApiError = AxiosError
