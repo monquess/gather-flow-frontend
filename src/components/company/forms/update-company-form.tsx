@@ -1,9 +1,5 @@
-import { config } from '@/config/config'
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
-import { showNotification } from '@/shared/helpers/show-notification'
-import { CompanyItem } from '@/shared/types/companies'
-import { createCompanySchema } from '@/shared/validations/create-company'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button, Group, Stack, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import {
@@ -12,13 +8,17 @@ import {
 	LoadScript,
 	Marker,
 } from '@react-google-maps/api'
-import { AxiosError } from 'axios'
-import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+
+import { config } from '@/config/config'
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient, ApiError } from '@/shared/api/axios'
+import { showNotification } from '@/shared/helpers/show-notification'
+import { Company } from '@/shared/types'
+import { createCompanySchema } from '@/shared/validations'
 
 interface UpdateCompanyFormProps {
-	company: CompanyItem | undefined
+	company?: Company
 }
 
 const containerStyle = {
@@ -108,7 +108,7 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 		const validation = form.validate()
 		if (!validation.hasErrors) {
 			try {
-				const res = await apiClient.patch<CompanyItem>(
+				const res = await apiClient.patch<Company>(
 					`/companies/${company?.id}`,
 					form.getValues()
 				)
@@ -119,7 +119,7 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 					'red'
 				)
 			} catch (error) {
-				if (error instanceof AxiosError && error.response) {
+				if (error instanceof ApiError && error.response) {
 					showNotification('Error', error.response.data.message, 'red')
 				}
 			}

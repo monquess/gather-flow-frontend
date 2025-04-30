@@ -1,16 +1,11 @@
+import React from 'react'
+import { Center, Container, Stack, Title } from '@mantine/core'
+import { useTranslation } from 'react-i18next'
+
 import CreateCompanyForm from '@/components/company/forms/create-company-form'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
-import { Card, CardProps, Center, Container, Stack, Title } from '@mantine/core'
-import { motion } from 'framer-motion'
-import React, { forwardRef } from 'react'
-import { useTranslation } from 'react-i18next'
-
-const MotionCard = motion.create(
-	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
-		<Card ref={ref} {...props} />
-	))
-)
+import { MotionCard } from '@/components/general'
 
 const CompanyCreatePage: React.FC = () => {
 	const { t } = useTranslation()

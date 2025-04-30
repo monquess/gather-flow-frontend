@@ -21,12 +21,13 @@ import { MdCalendarToday } from 'react-icons/md'
 import { IoCardOutline, IoTicketOutline } from 'react-icons/io5'
 import dayjs from 'dayjs'
 
+import Layout from '@/components/general/layout'
 import { MotionCard } from '@/components/general/motion-card'
-import { EventItem } from '@/shared/types/events'
+import { Event } from '@/shared/types'
 import { apiClient } from '@/shared/api/axios'
 import { useResponsive } from '@/hooks/use-responsive'
+
 import EventCheckoutForm from './event-checkout-form'
-import Layout from '@/components/general/layout'
 import PromocodeInput from './promocode-input'
 
 interface Promocode {
@@ -51,8 +52,7 @@ const EventCheckoutPage: React.FC = () => {
 		promocode?: Promocode
 	) => {
 		const discount = promocode?.discount ?? 0
-		const total = (price * quantity * (100 - discount)) / 100
-		return total.toFixed(2)
+		return ((price * quantity * (100 - discount)) / 100).toFixed(2)
 	}
 
 	const {
@@ -61,8 +61,8 @@ const EventCheckoutPage: React.FC = () => {
 		error,
 	} = useQuery({
 		queryKey: ['payment-event', id],
-		queryFn: async (): Promise<EventItem> => {
-			const { data } = await apiClient<EventItem>(`/events/${id}`)
+		queryFn: async (): Promise<Event> => {
+			const { data } = await apiClient<Event>(`/events/${id}`)
 			return data
 		},
 	})

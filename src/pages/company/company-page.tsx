@@ -1,30 +1,11 @@
-import AddMemberModal from '@/components/company/modal/add-member-modal'
-import DeleteCompanyModal from '@/components/company/modal/delete-company-modal'
-import CarouselEvent from '@/components/general/carousel-event'
-import Footer from '@/components/general/footer'
-import MainHeader from '@/components/general/main-header'
-import PostCreateModal from '@/components/post/modal/post-create-modal'
-import PostCard from '@/components/post/post-card'
-import ReviewCreateModal from '@/components/review/modal/review-create-modal'
-import ReviewCard from '@/components/review/review-card'
-import UserListModal from '@/components/users/modal/user-list-modal'
-import { config } from '@/config/config'
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
-import useUserStore from '@/shared/store/user-store'
-import classes from '@/shared/styles/slider.module.css'
-import { CompanyItem, CompanyMember } from '@/shared/types/companies'
-import { EventsResponse } from '@/shared/types/events'
-import { PostsResponse } from '@/shared/types/posts'
-import { ReviewsResponse } from '@/shared/types/reviews'
-import { Carousel } from '@mantine/carousel'
+import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+
 import {
 	ActionIcon,
 	Avatar,
 	Box,
 	Button,
-	Card,
-	CardProps,
 	Center,
 	Container,
 	Divider,
@@ -38,24 +19,36 @@ import {
 	Text,
 	Title,
 } from '@mantine/core'
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
-import { useQuery } from '@tanstack/react-query'
-import Autoplay from 'embla-carousel-autoplay'
-import { motion } from 'framer-motion'
-import { forwardRef, useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { CiEdit } from 'react-icons/ci'
-import { FaMapLocationDot } from 'react-icons/fa6'
 import { GoTrash } from 'react-icons/go'
 import { GrUpdate } from 'react-icons/gr'
 import { IoMdAdd } from 'react-icons/io'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
-const MotionCard = motion.create(
-	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
-		<Card ref={ref} {...props} />
-	))
-)
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
+import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+
+import AddMemberModal from '@/components/company/modal/add-member-modal'
+import DeleteCompanyModal from '@/components/company/modal/delete-company-modal'
+import CarouselEvent from '@/components/general/carousel-event'
+import { MotionCard } from '@/components/general'
+import Footer from '@/components/general/footer'
+import MainHeader from '@/components/general/main-header'
+import { config } from '@/config/config'
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient } from '@/shared/api/axios'
+import { useUserStore } from '@/shared/store/user-store'
+import { Company, CompanyMember, EventsResponse } from '@/shared/types'
+import { FaMapLocationDot } from 'react-icons/fa6'
+import { Carousel } from '@mantine/carousel'
+import PostCard from '@/components/post/post-card'
+import { CiEdit } from 'react-icons/ci'
+import ReviewCard from '@/components/review/review-card'
+import PostCreateModal from '@/components/post/modal/post-create-modal'
+import ReviewCreateModal from '@/components/review/modal/review-create-modal'
+import UserListModal from '@/components/users/modal/user-list-modal'
+import { PostsResponse } from '@/shared/types/posts'
+import { ReviewsResponse } from '@/shared/types/reviews'
+import Autoplay from 'embla-carousel-autoplay'
 
 const CompanyPage: React.FC = () => {
 	const { t } = useTranslation()
@@ -77,13 +70,13 @@ const CompanyPage: React.FC = () => {
 	const { id } = useParams()
 	const autoplay = useRef(Autoplay({ delay: 3000 }))
 
-	const fetchCompany = async (): Promise<CompanyItem> => {
-		const { data } = await apiClient(`/companies/${id}`)
+	const fetchCompany = async (): Promise<Company> => {
+		const { data } = await apiClient<Company>(`/companies/${id}`)
 		return data
 	}
 
 	const fetchCompanyEvents = async (): Promise<EventsResponse> => {
-		const { data } = await apiClient(`/companies/${id}/events`)
+		const { data } = await apiClient<EventsResponse>(`/companies/${id}/events`)
 		return data
 	}
 
@@ -273,24 +266,19 @@ const CompanyPage: React.FC = () => {
 								shadow="sm"
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.5, ease: 'easeOut' }}
+								transition={{
+									duration: 0.5,
+									ease: 'easeOut',
+								}}
 							>
 								<Group justify="space-between" align="center">
 									<Flex align="center" justify="center">
-										<Title order={3}>{t('companyPage.companyMembers')} </Title>
-										<Text
-											c="dimmed"
-											ml={2}
-											size="xs"
-											onClick={() => setMembersOpened(true)}
-										>
-											({t('companyPage.seeMore')})
-										</Text>
+										<Title order={3}>{t('companyPage.companyMembers')}</Title>
 									</Flex>
 									{admin && (
 										<Button
 											size={isMobile ? 'xs' : 'sm'}
-											leftSection={<IoMdAdd />}
+											rightSection={<IoMdAdd />}
 											onClick={() => setInviteMembers(true)}
 										>
 											{t('companyPage.addMember')}
@@ -298,7 +286,13 @@ const CompanyPage: React.FC = () => {
 									)}
 								</Group>
 								<Stack gap="sm" my="md">
-									<Avatar.Group spacing="sm">
+									<Avatar.Group
+										spacing="sm"
+										style={{
+											cursor: 'pointer',
+										}}
+										onClick={() => setMembersOpened(true)}
+									>
 										{data?.users.slice(0, 5).map((member) => (
 											<Avatar
 												key={member.user.id}
@@ -310,7 +304,7 @@ const CompanyPage: React.FC = () => {
 										))}
 										{data?.users && data?.users.length > 5 && (
 											<Avatar size="md" radius="xl">
-												+{data.users.length - 5}
+												{data.users.length - 5}
 											</Avatar>
 										)}
 									</Avatar.Group>
@@ -350,7 +344,7 @@ const CompanyPage: React.FC = () => {
 										{admin && (
 											<Button
 												size={isMobile ? 'xs' : 'sm'}
-												leftSection={<IoMdAdd />}
+												rightSection={<IoMdAdd />}
 												onClick={() => setCreateNewsOpened(true)}
 											>
 												{t('companyPage.addMember')}
@@ -416,7 +410,7 @@ const CompanyPage: React.FC = () => {
 							{admin && (
 								<Button
 									size={isMobile ? 'xs' : 'sm'}
-									leftSection={<IoMdAdd />}
+									rightSection={<IoMdAdd />}
 									onClick={() =>
 										navigate(`/companies/${data?.id}/event/create`)
 									}

@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Center, Loader } from '@mantine/core'
 
 import { apiClient } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import useUserStore, { User } from '@/shared/store/user-store'
+import { useUserStore } from '@/shared/store/user-store'
+import { User } from '@/shared/types'
 
 const GoogleAuthSuccessPage: React.FC = () => {
 	const [searchParams] = useSearchParams()
@@ -34,7 +36,11 @@ const GoogleAuthSuccessPage: React.FC = () => {
 		}
 	}, [user, navigate])
 
-	return <div>Loading ...</div>
+	return (
+		<Center h="100vh">
+			<Loader />
+		</Center>
+	)
 }
 
 export default React.memo(GoogleAuthSuccessPage)

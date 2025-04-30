@@ -1,8 +1,6 @@
-import CompanyCard from '@/components/company/company-card'
-import Footer from '@/components/general/footer'
-import MainHeader from '@/components/general/main-header'
-import { apiClient } from '@/shared/api/axios'
-import { CompaniesResponse } from '@/shared/types/companies'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 import {
 	Box,
 	Center,
@@ -17,9 +15,12 @@ import {
 	TextInput,
 } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'react-router-dom'
+
+import CompanyCard from '@/components/company/company-card'
+import Footer from '@/components/general/footer'
+import MainHeader from '@/components/general/main-header'
+import { apiClient } from '@/shared/api/axios'
+import { CompaniesResponse } from '@/shared/types'
 
 const CompaniesPage: React.FC = () => {
 	const { t } = useTranslation()
@@ -61,18 +62,21 @@ const CompaniesPage: React.FC = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [nameInput])
 
-	if (isLoading)
+	if (isLoading) {
 		return (
 			<Center h="100vh">
 				<Loader />
 			</Center>
 		)
-	if (error)
+	}
+
+	if (error) {
 		return (
 			<Center h="100vh">
 				<Text>{t('companiesPage.errorLoadingCompanies')}</Text>
 			</Center>
 		)
+	}
 
 	return (
 		<Container size="xl" pt="md">
@@ -104,8 +108,12 @@ const CompaniesPage: React.FC = () => {
 					spacing="lg"
 					verticalSpacing="xl"
 				>
-					{data?.data.map((company) => (
-						<CompanyCard key={company.id} company={company} />
+					{data?.data.map((company, index) => (
+						<CompanyCard
+							key={company.id}
+							company={company}
+							delay={index * 0.2}
+						/>
 					))}
 				</SimpleGrid>
 				{data?.meta?.pageCount && data.meta.pageCount > 1 && (

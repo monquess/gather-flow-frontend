@@ -1,13 +1,12 @@
-import { config } from '@/config/config'
 import axios, { AxiosError } from 'axios'
-import useUserStore from '../store/user-store'
+import { config } from '@/config/config'
+import { useUserStore } from '../store/user-store'
 
 export const apiClient = axios.create({
 	baseURL: config.API_BASE_URL,
 	withCredentials: true,
 	headers: {
 		'Content-Type': 'application/json',
-		'Accept-Timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
 	},
 })
 

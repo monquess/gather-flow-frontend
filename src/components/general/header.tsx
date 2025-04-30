@@ -1,3 +1,5 @@
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
 	ActionIcon,
 	Box,
@@ -8,13 +10,11 @@ import {
 	useMantineColorScheme,
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-
 import { FaBars } from 'react-icons/fa'
+import { useTranslation } from 'react-i18next'
 
 import { useResponsive } from '@/hooks/use-responsive'
-import { useTranslation } from 'react-i18next'
+
 import LanguageSwitcher from '../buttons/language-switcher'
 import ThemeSwitch from '../buttons/theme-switch'
 

@@ -25,7 +25,7 @@ import MainHeader from '@/components/general/main-header'
 import DeleteUserModal from '@/components/profile/delete-user-modal'
 import UpdateAvatarModal from '@/components/profile/update-avatar-modal'
 import UpdateUserModal from '@/components/profile/update-user-modal'
-import useUserStore from '@/shared/store/user-store'
+import { useUserStore } from '@/shared/store/user-store'
 
 const UserProfilePage: React.FC = () => {
 	const { t } = useTranslation()

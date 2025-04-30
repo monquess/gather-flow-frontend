@@ -1,14 +1,14 @@
-import { Box, Paper, Title } from '@mantine/core'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Box, Paper, Title } from '@mantine/core'
+import { useTranslation } from 'react-i18next'
 
 import { useResponsive } from '@/hooks/use-responsive'
-import useUserStore from '@/shared/store/user-store'
+import { useUserStore } from '@/shared/store/user-store'
 
 import LoginForm from '@/components/auth/login-form'
 import Footer from '@/components/general/footer'
 import Header from '@/components/general/header'
-import { useTranslation } from 'react-i18next'
 
 const LoginPage: React.FC = () => {
 	const { isMobile } = useResponsive()

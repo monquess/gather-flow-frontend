@@ -1,16 +1,19 @@
-import { CompanyItem } from '@/shared/types/companies'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Badge, Card, Flex, Group, Rating, Stack, Text } from '@mantine/core'
+import { useTranslation } from 'react-i18next'
+
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+
+import { Company } from '@/shared/types/company'
 
 interface CompanyCardProps {
-	company: CompanyItem
+	company: Company
+	delay?: number
 }
 
-const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
+const CompanyCard: React.FC<CompanyCardProps> = ({ company, delay }) => {
 	const { t } = useTranslation()
 	const navigate = useNavigate()
 
@@ -29,7 +32,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 				whileTap={{ scale: 0.98 }}
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5, ease: 'easeOut' }}
+				transition={{ duration: 0.5, ease: 'easeOut', delay }}
 				style={{ height: '100%' }}
 			>
 				<Stack justify="space-between" h="100%">

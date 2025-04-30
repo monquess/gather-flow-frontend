@@ -1,16 +1,10 @@
-import CarouselEvent from '@/components/general/carousel-event'
-import Footer from '@/components/general/footer'
-import MainHeader from '@/components/general/main-header'
-import { config } from '@/config/config'
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
-import { EventItem, EventsResponse } from '@/shared/types/events'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
 	Badge,
 	Box,
 	Button,
 	Card,
-	CardProps,
 	Center,
 	Container,
 	Divider,
@@ -23,8 +17,13 @@ import {
 	Title,
 } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
+import { useTranslation } from 'react-i18next'
+import { FaArrowRightLong } from 'react-icons/fa6'
+import { MdCalendarToday } from 'react-icons/md'
+
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { useQuery } from '@tanstack/react-query'
+
 import Link from '@tiptap/extension-link'
 import Table from '@tiptap/extension-table'
 import TableCell from '@tiptap/extension-table-cell'
@@ -32,20 +31,19 @@ import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import dayjs from 'dayjs'
-import { motion } from 'framer-motion'
-import { marked } from 'marked'
-import React, { forwardRef, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { FaArrowRightLong } from 'react-icons/fa6'
-import { MdCalendarToday } from 'react-icons/md'
-import { useNavigate, useParams } from 'react-router-dom'
 
-const MotionCard = motion(
-	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
-		<Card ref={ref} withBorder radius="md" shadow="md" p="md" {...props} />
-	))
-)
+import dayjs from 'dayjs'
+import { marked } from 'marked'
+
+import CarouselEvent from '@/components/general/carousel-event'
+import Footer from '@/components/general/footer'
+import MainHeader from '@/components/general/main-header'
+import { MotionCard } from '@/components/general'
+import { config } from '@/config/config'
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient } from '@/shared/api/axios'
+import { Event, EventsResponse } from '@/shared/types'
+import CommentSection from '@/components/comment/comment-section'
 
 marked.setOptions({
 	gfm: true,
@@ -63,7 +61,7 @@ const EventPage: React.FC = () => {
 	const { id } = useParams()
 	const { t } = useTranslation()
 
-	const fetchEvent = async (): Promise<EventItem> => {
+	const fetchEvent = async (): Promise<Event> => {
 		const { data } = await apiClient(`/events/${id}`)
 		return data
 	}
@@ -114,7 +112,7 @@ const EventPage: React.FC = () => {
 		enabled: !!event?.company?.id,
 	})
 
-	const fetchSimilarEvent = async (): Promise<EventItem[]> => {
+	const fetchSimilarEvent = async (): Promise<Event[]> => {
 		const { data } = await apiClient(`/events/${id}/similar`)
 		return data
 	}
@@ -171,7 +169,7 @@ const EventPage: React.FC = () => {
 			<Flex gap="md" mt="xl" direction={isMobile ? 'column' : 'row'}>
 				<Box flex={2} miw={0}>
 					<MotionCard
-						shadow="lg"
+						shadow="md"
 						radius="xl"
 						withBorder
 						initial={{ opacity: 0, y: 20 }}
@@ -208,7 +206,7 @@ const EventPage: React.FC = () => {
 
 				<Box flex={1} miw={280}>
 					<MotionCard
-						shadow="lg"
+						shadow="md"
 						radius="xl"
 						withBorder
 						p="xl"
@@ -249,9 +247,8 @@ const EventPage: React.FC = () => {
 				label={t('eventPage.aboutEvent')}
 				labelPosition="center"
 			/>
-
 			<MotionCard
-				shadow="lg"
+				shadow="md"
 				radius="xl"
 				withBorder
 				p="xl"
@@ -313,9 +310,8 @@ const EventPage: React.FC = () => {
 				label={t('eventPage.moreFromCompany')}
 				labelPosition="center"
 			/>
-
 			<MotionCard
-				shadow="lg"
+				shadow="md"
 				radius="xl"
 				withBorder
 				p="xl"
@@ -327,9 +323,8 @@ const EventPage: React.FC = () => {
 			</MotionCard>
 
 			<Divider my="xl" label={t('eventPage.seeMore')} labelPosition="center" />
-
 			<MotionCard
-				shadow="lg"
+				shadow="md"
 				radius="xl"
 				withBorder
 				p="xl"
@@ -338,6 +333,10 @@ const EventPage: React.FC = () => {
 				transition={{ duration: 0.5, ease: 'easeOut' }}
 			>
 				<CarouselEvent events={similarEvents} delay={3000} />
+			</MotionCard>
+
+			<MotionCard mt="xl">
+				<CommentSection event={event} />
 			</MotionCard>
 
 			<Footer />

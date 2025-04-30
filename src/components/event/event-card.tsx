@@ -1,22 +1,20 @@
-import { EventItem } from '@/shared/types/events'
-import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core'
-import dayjs from 'dayjs'
-import { motion } from 'framer-motion'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 import { MdCalendarToday } from 'react-icons/md'
-import { useNavigate } from 'react-router-dom'
+
+import dayjs from 'dayjs'
+import { motion } from 'framer-motion'
+
+import { Event } from '@/shared/types'
 
 interface EventCardProps {
-	event: EventItem
+	event: Event
+	delay?: number
 }
 
-// const truncateText = (text: string, maxLength: number) => {
-// 	if (!text) return ''
-// 	return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
-// }
-
-const EventCard: React.FC<EventCardProps> = ({ event }) => {
+const EventCard: React.FC<EventCardProps> = ({ event, delay }) => {
 	const { t } = useTranslation()
 	const navigate = useNavigate()
 
@@ -34,8 +32,12 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 				whileTap={{ scale: 0.98 }}
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5, ease: 'easeOut' }}
 				style={{ height: '100%' }}
+				transition={{
+					duration: 0.5,
+					ease: 'easeOut',
+					delay,
+				}}
 			>
 				<Card.Section>
 					<Image

@@ -1,8 +1,4 @@
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
-import { showNotification } from '@/shared/helpers/show-notification'
-import useUserStore from '@/shared/store/user-store'
-import { ReviewItem } from '@/shared/types/reviews'
+import React, { memo, useState } from 'react'
 import {
 	ActionIcon,
 	Button,
@@ -14,11 +10,15 @@ import {
 	Text,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { AxiosError } from 'axios'
-import dayjs from 'dayjs'
-import { motion } from 'framer-motion'
-import React, { memo, useState } from 'react'
 import { MdDelete } from 'react-icons/md'
+import { motion } from 'framer-motion'
+import dayjs from 'dayjs'
+
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient, ApiError } from '@/shared/api/axios'
+import { showNotification } from '@/shared/helpers/show-notification'
+import { useUserStore } from '@/shared/store/user-store'
+import { ReviewItem } from '@/shared/types/reviews'
 
 interface ReviewCardProps {
 	review: ReviewItem | undefined
@@ -34,7 +34,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 			await apiClient.delete(`/companies/${review?.companyId}/reviews`)
 			showNotification('Delete review', 'Delete review succesfully', 'green')
 		} catch (error) {
-			if (error instanceof AxiosError && error.response) {
+			if (error instanceof ApiError && error.response) {
 				showNotification('Delete review', error.response.data.message, 'red')
 			}
 		} finally {

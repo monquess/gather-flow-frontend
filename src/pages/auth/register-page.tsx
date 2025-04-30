@@ -1,12 +1,12 @@
-import { Box, Container, Paper, Title } from '@mantine/core'
 import React from 'react'
+import { Box, Container, Paper, Title } from '@mantine/core'
+import { useTranslation } from 'react-i18next'
 
 import RegisterForm from '@/components/auth/register-form'
 import Footer from '@/components/general/footer'
 import Header from '@/components/general/header'
 
 import { useResponsive } from '@/hooks/use-responsive'
-import { useTranslation } from 'react-i18next'
 
 const RegisterPage: React.FC = () => {
 	const { isMobile } = useResponsive()

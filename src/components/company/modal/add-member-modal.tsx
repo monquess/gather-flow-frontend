@@ -5,14 +5,14 @@ import { memo, useCallback, useEffect, useState } from 'react'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import { User } from '@/shared/store/user-store'
-import { CompanyItem } from '@/shared/types/companies'
+import { Company } from '@/shared/types/company'
+import { User } from '@/shared/types/user'
 import { useTranslation } from 'react-i18next'
 
 interface AddMemberModalProps {
 	opened: boolean
 	onClose: () => void
-	company: CompanyItem | undefined
+	company?: Company
 }
 
 const AddMemberModal: React.FC<AddMemberModalProps> = ({
@@ -48,6 +48,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault()
+
 		try {
 			setLoading(true)
 			const response = await Promise.all(

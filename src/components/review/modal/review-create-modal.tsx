@@ -1,7 +1,4 @@
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient, ApiError } from '@/shared/api/axios'
-import { showNotification } from '@/shared/helpers/show-notification'
-import { CompanyItem } from '@/shared/types/companies'
+import React, { memo, useState } from 'react'
 import {
 	Button,
 	Group,
@@ -13,10 +10,14 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useQueryClient } from '@tanstack/react-query'
-import React, { memo, useState } from 'react'
+
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient, ApiError } from '@/shared/api/axios'
+import { showNotification } from '@/shared/helpers/show-notification'
+import { Company } from '@/shared/types'
 
 interface ReviewCreateModalProps {
-	company: CompanyItem | undefined
+	company?: Company
 	opened: boolean
 	onClose: () => void
 }

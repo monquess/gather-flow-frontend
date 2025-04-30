@@ -1,17 +1,19 @@
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Button, Flex, Modal, Stack, Text } from '@mantine/core'
+import { useForm } from '@mantine/form'
+
+import { useTranslation } from 'react-i18next'
+
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import { CompanyItem } from '@/shared/types/companies'
-import { Button, Flex, Modal, Stack, Text } from '@mantine/core'
-import { useForm } from '@mantine/form'
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { Company } from '@/shared/types'
 
 interface DeleteCompanyModalProps {
 	opened: boolean
 	onClose: () => void
-	company: CompanyItem | undefined
+	company?: Company
 }
 
 const DeleteCompanyModal: React.FC<DeleteCompanyModalProps> = ({

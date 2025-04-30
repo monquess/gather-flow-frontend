@@ -26,37 +26,40 @@ import EventCard from '@/components/event/event-card'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
 import { apiClient } from '@/shared/api/axios'
-import { EventsResponse } from '@/shared/types/events'
+import { EventsResponse } from '@/shared/types'
 
 const EventsPage: React.FC = () => {
 	const { t } = useTranslation()
-	const dataFormat = [
-		{ value: 'CONFERENCE', label: t('eventsPage.formats.CONFERENCE') },
-		{ value: 'LECTURE', label: t('eventsPage.formats.LECTURE') },
-		{ value: 'WORKSHOP', label: t('eventsPage.formats.WORKSHOP') },
-		{ value: 'FEST', label: t('eventsPage.formats.FEST') },
-		{ value: 'OTHER', label: t('eventsPage.formats.OTHER') },
-	]
 
-	const dataTheme = [
-		{ value: 'BUSINESS', label: t('eventsPage.themes.BUSINESS') },
-		{ value: 'POLITICS', label: t('eventsPage.themes.POLITICS') },
-		{ value: 'PSYCHOLOGY', label: t('eventsPage.themes.PSYCHOLOGY') },
-		{ value: 'OTHER', label: t('eventsPage.themes.OTHER') },
-	]
+	const dataFormat = ['CONFERENCE', 'LECTURE', 'WORKSHOP', 'FEST', 'OTHER'].map(
+		(format) => ({
+			value: format,
+			label: t(`eventsPage.formats.${format}`),
+		})
+	)
+
+	const dataTheme = ['BUSINESS', 'POLITICS', 'PSYCHOLOGY', 'OTHER'].map(
+		(theme) => ({
+			value: theme,
+			label: t(`eventsPage.themes.${theme}`),
+		})
+	)
 
 	const dataSort = [
-		{ value: 'title', label: t('eventsPage.sorts.title') },
-		{ value: 'startDate', label: t('eventsPage.sorts.startDate') },
-		{ value: 'endDate', label: t('eventsPage.sorts.endDate') },
-		{ value: 'publishDate', label: t('eventsPage.sorts.publishDate') },
-		{ value: 'ticketPrice', label: t('eventsPage.sorts.ticketPrice') },
-	]
+		'title',
+		'startDate',
+		'endDate',
+		'publishDate',
+		'ticketPrice',
+	].map((sort) => ({
+		value: sort,
+		label: t(`eventsPage.sorts.${sort}`),
+	}))
 
-	const dataOrder = [
-		{ value: 'asc', label: 'ASC' },
-		{ value: 'desc', label: 'DESC' },
-	]
+	const dataOrder = ['asc', 'desc'].map((order) => ({
+		value: order,
+		label: order.toLocaleUpperCase(),
+	}))
 
 	const [searchParams, setSearchParams] = useSearchParams()
 
@@ -305,8 +308,8 @@ const EventsPage: React.FC = () => {
 					spacing="lg"
 					verticalSpacing="xl"
 				>
-					{data?.data.map((event) => (
-						<EventCard key={event.id} event={event} />
+					{data?.data.map((event, index) => (
+						<EventCard key={event.id} event={event} delay={index * 0.2} />
 					))}
 				</SimpleGrid>
 

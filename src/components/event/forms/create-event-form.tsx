@@ -1,3 +1,5 @@
+import React, { useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import {
 	Box,
 	Button,
@@ -20,22 +22,19 @@ import {
 	LoadScript,
 	Marker,
 } from '@react-google-maps/api'
-import { AxiosError } from 'axios'
-import React, { useState } from 'react'
-import { FaMapLocationDot } from 'react-icons/fa6'
-import { HiOutlineTicket } from 'react-icons/hi2'
-import { IoIosSearch } from 'react-icons/io'
 import { IoImageOutline } from 'react-icons/io5'
+import { HiOutlineTicket } from 'react-icons/hi2'
 import { MdCalendarToday } from 'react-icons/md'
-import { useNavigate, useParams } from 'react-router-dom'
+import { FaMapLocationDot } from 'react-icons/fa6'
+import { IoIosSearch } from 'react-icons/io'
 
 import MarkdownEditor from '@/components/editor/markdown-editor'
 import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
+import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import { EventItem } from '@/shared/types/events'
-import { createEventSchema } from '@/shared/validations/create-event'
+import { Event } from '@/shared/types/event'
+import { createEventSchema } from '@/shared/validations'
 
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
@@ -125,7 +124,7 @@ const CreateEventForm: React.FC = () => {
 		form.validate()
 
 		try {
-			const res = await apiClient.post<EventItem>(
+			const res = await apiClient.post<Event>(
 				`/companies/${companyId}/events`,
 				form.getValues(),
 				{
@@ -136,7 +135,7 @@ const CreateEventForm: React.FC = () => {
 			)
 			navigate(`/events/${res.data.id}`)
 		} catch (error) {
-			if (error instanceof AxiosError && error.response) {
+			if (error instanceof ApiError && error.response) {
 				showNotification('Error', error.response.data.message, 'red')
 			}
 		}
