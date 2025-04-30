@@ -11,9 +11,10 @@ import { Event } from '@/shared/types'
 
 interface EventCardProps {
 	event: Event
+	delay?: number
 }
 
-const EventCard: React.FC<EventCardProps> = ({ event }) => {
+const EventCard: React.FC<EventCardProps> = ({ event, delay }) => {
 	const { t } = useTranslation()
 	const navigate = useNavigate()
 
@@ -31,8 +32,12 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 				whileTap={{ scale: 0.98 }}
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5, ease: 'easeOut' }}
 				style={{ height: '100%' }}
+				transition={{
+					duration: 0.5,
+					ease: 'easeOut',
+					delay,
+				}}
 			>
 				<Card.Section>
 					<Image

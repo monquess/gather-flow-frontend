@@ -6,4 +6,5 @@ export type Comment = {
 	author: Pick<User, 'id' | 'username' | 'avatar'>
 	updatedAt: string
 	hasReplies: boolean
+	parentId: number
 } & Entity

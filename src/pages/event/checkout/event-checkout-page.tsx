@@ -52,8 +52,7 @@ const EventCheckoutPage: React.FC = () => {
 		promocode?: Promocode
 	) => {
 		const discount = promocode?.discount ?? 0
-		const total = (price * quantity * (100 - discount)) / 100
-		return total.toFixed(2)
+		return ((price * quantity * (100 - discount)) / 100).toFixed(2)
 	}
 
 	const {

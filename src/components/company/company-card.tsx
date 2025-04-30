@@ -10,9 +10,10 @@ import { Company } from '@/shared/types/company'
 
 interface CompanyCardProps {
 	company: Company
+	delay?: number
 }
 
-const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
+const CompanyCard: React.FC<CompanyCardProps> = ({ company, delay }) => {
 	const { t } = useTranslation()
 	const navigate = useNavigate()
 
@@ -31,7 +32,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 				whileTap={{ scale: 0.98 }}
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5, ease: 'easeOut' }}
+				transition={{ duration: 0.5, ease: 'easeOut', delay }}
 				style={{ height: '100%' }}
 			>
 				<Stack justify="space-between" h="100%">

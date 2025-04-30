@@ -30,7 +30,7 @@ const CheckoutSuccessPage: React.FC = () => {
 						or in your profile.
 					</Text>
 					<Group>
-						<Button variant="light" onClick={() => navigate('/')}>
+						<Button variant="light" onClick={() => navigate('/home')}>
 							Home page
 						</Button>
 						<Button

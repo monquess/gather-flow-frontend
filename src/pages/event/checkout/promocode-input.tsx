@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Badge, Button, Group, Loader, TextInput } from '@mantine/core'
+import { Alert, Badge, Button, Group, TextInput } from '@mantine/core'
 import { MdErrorOutline } from 'react-icons/md'
 import { useMutation } from '@tanstack/react-query'
 
@@ -72,8 +72,9 @@ const PromocodeInput: React.FC<PromocodeInputProps> = ({ event, onSubmit }) => {
 				<Button
 					type="submit"
 					disabled={code.trim().length === 0 || mutation.isPending}
+					loading={mutation.isPending}
 				>
-					{mutation.isPending ? <Loader size="sm" /> : '>'}
+					{'>'}
 				</Button>
 			</Group>
 			{message ? (
@@ -83,7 +84,6 @@ const PromocodeInput: React.FC<PromocodeInputProps> = ({ event, onSubmit }) => {
 					color="red"
 					mt="xs"
 					icon={<MdErrorOutline />}
-					withCloseButton
 				>
 					Please, try another one.
 				</Alert>

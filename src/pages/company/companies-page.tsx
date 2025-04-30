@@ -62,18 +62,21 @@ const CompaniesPage: React.FC = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [nameInput])
 
-	if (isLoading)
+	if (isLoading) {
 		return (
 			<Center h="100vh">
 				<Loader />
 			</Center>
 		)
-	if (error)
+	}
+
+	if (error) {
 		return (
 			<Center h="100vh">
 				<Text>{t('companiesPage.errorLoadingCompanies')}</Text>
 			</Center>
 		)
+	}
 
 	return (
 		<Container size="xl" pt="md">
@@ -105,8 +108,12 @@ const CompaniesPage: React.FC = () => {
 					spacing="lg"
 					verticalSpacing="xl"
 				>
-					{data?.data.map((company) => (
-						<CompanyCard key={company.id} company={company} />
+					{data?.data.map((company, index) => (
+						<CompanyCard
+							key={company.id}
+							company={company}
+							delay={index * 0.2}
+						/>
 					))}
 				</SimpleGrid>
 				{data?.meta?.pageCount && data.meta.pageCount > 1 && (

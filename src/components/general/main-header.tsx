@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
-import { Avatar, Button, Center, Group, Input, Menu, Text } from '@mantine/core'
+import { useLocation, useNavigate } from 'react-router'
+import {
+	Avatar,
+	Button,
+	Center,
+	Flex,
+	Group,
+	Input,
+	Menu,
+	Text,
+} from '@mantine/core'
 import { CiSearch } from 'react-icons/ci'
 import { useTranslation } from 'react-i18next'
 
@@ -12,6 +21,7 @@ import { useUserStore } from '@/shared/store/user-store'
 import FindEventModal from './find-event-modal'
 
 const MainHeader: React.FC = () => {
+	const { pathname } = useLocation()
 	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
 	const { user } = useUserStore()
@@ -32,10 +42,17 @@ const MainHeader: React.FC = () => {
 		}
 	}, [])
 
+	const isActive = (path: string) => pathname === path
+
 	return (
 		<>
 			<header>
-				<Group justify="space-between" mb="lg">
+				<Flex
+					direction={isMobile ? 'column' : 'row'}
+					gap="sm"
+					justify="space-between"
+					mb="lg"
+				>
 					<Group justify="space-between" w={isMobile ? '100%' : ''}>
 						<Text fw={600} size="xl">
 							Gather Flow
@@ -52,25 +69,37 @@ const MainHeader: React.FC = () => {
 						)}
 					</Group>
 					<Center>
-						<Button variant="subtle" onClick={() => navigate('/home')}>
-							{t('mainHeader.home')}
-						</Button>
-						<Button variant="subtle" onClick={() => navigate('/events')}>
-							{t('mainHeader.events')}
-						</Button>
-						<Menu position="bottom" withArrow shadow="md">
-							<Menu.Target>
-								<Button variant="subtle">{t('mainHeader.companies')}</Button>
-							</Menu.Target>
-							<Menu.Dropdown>
-								<Menu.Item onClick={() => navigate('/companies')}>
-									{t('mainHeader.allCompanies')}
-								</Menu.Item>
-								<Menu.Item onClick={() => navigate('/companies/create')}>
-									{t('mainHeader.createCompany')}
-								</Menu.Item>
-							</Menu.Dropdown>
-						</Menu>
+						<Group>
+							<Button
+								variant={isActive('/home') ? 'outline' : 'subtle'}
+								onClick={() => navigate('/home')}
+							>
+								{t('mainHeader.home')}
+							</Button>
+							<Button
+								variant={isActive('/events') ? 'outline' : 'subtle'}
+								onClick={() => navigate('/events')}
+							>
+								{t('mainHeader.events')}
+							</Button>
+							<Menu position="bottom" withArrow shadow="md">
+								<Menu.Target>
+									<Button
+										variant={isActive('/companies') ? 'outline' : 'subtle'}
+									>
+										{t('mainHeader.companies')}
+									</Button>
+								</Menu.Target>
+								<Menu.Dropdown>
+									<Menu.Item onClick={() => navigate('/companies')}>
+										{t('mainHeader.allCompanies')}
+									</Menu.Item>
+									<Menu.Item onClick={() => navigate('/companies/create')}>
+										{t('mainHeader.createCompany')}
+									</Menu.Item>
+								</Menu.Dropdown>
+							</Menu>
+						</Group>
 					</Center>
 					<Group w={isMobile ? '100%' : ''}>
 						<Input
@@ -100,7 +129,7 @@ const MainHeader: React.FC = () => {
 							</Group>
 						)}
 					</Group>
-				</Group>
+				</Flex>
 			</header>
 			<FindEventModal opened={isOpen} onClose={() => setIsOpen(false)} />
 		</>

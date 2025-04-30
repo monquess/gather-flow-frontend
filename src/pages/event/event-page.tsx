@@ -35,6 +35,7 @@ import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
 import { Event, EventsResponse } from '@/shared/types'
+import CommentSection from '@/components/comment/comment-section'
 
 const EventPage: React.FC = () => {
 	const { isMobile } = useResponsive()
@@ -137,7 +138,7 @@ const EventPage: React.FC = () => {
 			<Flex gap="md" mt="xl" direction={isMobile ? 'column' : 'row'}>
 				<Box flex={2} miw={0}>
 					<MotionCard
-						shadow="lg"
+						shadow="md"
 						radius="xl"
 						withBorder
 						initial={{ opacity: 0, y: 20 }}
@@ -169,7 +170,7 @@ const EventPage: React.FC = () => {
 
 				<Box flex={1} miw={280}>
 					<MotionCard
-						shadow="lg"
+						shadow="md"
 						radius="xl"
 						withBorder
 						p="xl"
@@ -203,9 +204,8 @@ const EventPage: React.FC = () => {
 				label={t('eventPage.aboutEvent')}
 				labelPosition="center"
 			/>
-
 			<MotionCard
-				shadow="lg"
+				shadow="md"
 				radius="xl"
 				withBorder
 				p="xl"
@@ -260,9 +260,8 @@ const EventPage: React.FC = () => {
 				label={t('eventPage.moreFromCompany')}
 				labelPosition="center"
 			/>
-
 			<MotionCard
-				shadow="lg"
+				shadow="md"
 				radius="xl"
 				withBorder
 				p="xl"
@@ -274,9 +273,8 @@ const EventPage: React.FC = () => {
 			</MotionCard>
 
 			<Divider my="xl" label={t('eventPage.seeMore')} labelPosition="center" />
-
 			<MotionCard
-				shadow="lg"
+				shadow="md"
 				radius="xl"
 				withBorder
 				p="xl"
@@ -285,6 +283,10 @@ const EventPage: React.FC = () => {
 				transition={{ duration: 0.5, ease: 'easeOut' }}
 			>
 				<CarouselEvent events={similarEvents} delay={3000} />
+			</MotionCard>
+
+			<MotionCard mt="xl">
+				<CommentSection event={event} />
 			</MotionCard>
 
 			<Footer />

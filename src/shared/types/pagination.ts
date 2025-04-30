@@ -1,7 +1,7 @@
 export type PaginationMeta = {
 	page: number
 	limit: number
-	itemCount: number
+	count: number
 	pageCount: number
 	prev: number | null
 	next: number | null

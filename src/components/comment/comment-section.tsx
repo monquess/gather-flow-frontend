@@ -1,19 +1,26 @@
 import React from 'react'
-import { Stack } from '@mantine/core'
+import { Divider, Stack } from '@mantine/core'
 
 import { Event } from '@/shared/types/event'
+import CommentList from './comment-list'
+import { useUserStore } from '@/shared/store/user-store'
+
 import { MotionCard } from '../general'
-import CreateCommentForm from './create-comment-form'
+import CreateCommentForm from './forms/create-comment-form'
 
 interface CommentSectionProps {
 	event: Event
 }
 
 const CommentSection: React.FC<CommentSectionProps> = ({ event }) => {
+	const { user } = useUserStore()
+
 	return (
 		<MotionCard>
-			<Stack gap="md">
-				<CreateCommentForm event={event}></CreateCommentForm>
+			<Stack gap="xl">
+				{user && <CreateCommentForm event={event} />}
+				<Divider my="md" />
+				<CommentList event={event} />
 			</Stack>
 		</MotionCard>
 	)
