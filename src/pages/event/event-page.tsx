@@ -42,6 +42,7 @@ import { MotionCard } from '@/components/general'
 import { config } from '@/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
+import { cleanMarkdown } from '@/shared/helpers/markdown'
 import { Event, EventsResponse } from '@/shared/types'
 import CommentSection from '@/components/comment/comment-section'
 
@@ -49,8 +50,6 @@ marked.setOptions({
 	gfm: true,
 	breaks: true,
 })
-
-const cleanMarkdown = (md: string) => md.replace(/(\|.*\|)\s*\n\s*\|/g, '$1\n|')
 
 const EventPage: React.FC = () => {
 	const { isMobile } = useResponsive()

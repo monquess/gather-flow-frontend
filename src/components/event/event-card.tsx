@@ -24,7 +24,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, delay }) => {
 			shadow="xl"
 			radius="md"
 			padding="md"
-			h={475}
+			h={425}
 			onClick={() => navigate(`/events/${event.id}`)}
 		>
 			<motion.div
@@ -57,16 +57,6 @@ const EventCard: React.FC<EventCardProps> = ({ event, delay }) => {
 					<Stack>
 						<Text size="lg" fw={700} lineClamp={1} style={{ minHeight: 24 }}>
 							{event.title}
-						</Text>
-
-						<Text
-							size="sm"
-							c="dimmed"
-							lineClamp={2}
-							mt={4}
-							style={{ minHeight: 36 }}
-						>
-							{event.description}
 						</Text>
 					</Stack>
 

@@ -156,7 +156,7 @@ const CompanyPage: React.FC = () => {
 		}
 	}, [data?.location, isMapLoaded])
 
-	if (isLoading) {
+	if (!reviewsData || isLoading) {
 		return (
 			<Center h="100vh">
 				<Loader />
@@ -453,14 +453,20 @@ const CompanyPage: React.FC = () => {
 					>
 						<Group justify="space-between">
 							<Paper bg="inherit" withBorder px="sm" py="0">
-								<Flex align="flex-end" justify="center">
-									<Title order={1} fw={700}>
-										{data?.rating.toFixed(1)}
-									</Title>
-									<Text size="sm" c="dimmed" fw={500} ml="2">
-										out of 5 ({reviewsData?.meta.count})
+								{reviewsData?.data.length > 0 ? (
+									<Flex align="flex-end" justify="center">
+										<Title order={1} fw={700}>
+											{data?.rating.toFixed(1)}
+										</Title>
+										<Text size="sm" c="dimmed" fw={500} ml="2">
+											out of 5 ({reviewsData?.meta.count})
+										</Text>
+									</Flex>
+								) : (
+									<Text size="md" c="dimmed" fw={500} ml="2">
+										No reviews
 									</Text>
-								</Flex>
+								)}
 							</Paper>
 							<Button
 								size={isMobile ? 'xs' : 'sm'}

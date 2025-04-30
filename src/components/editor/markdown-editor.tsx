@@ -1,8 +1,8 @@
-import React from 'react'
 import { RichTextEditor } from '@mantine/tiptap'
+import Placeholder from '@tiptap/extension-placeholder'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import Placeholder from '@tiptap/extension-placeholder'
+import React from 'react'
 
 interface MarkdownEditorProps {
 	value: string
@@ -18,7 +18,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 	const editor = useEditor({
 		extensions: [StarterKit, Placeholder.configure({ placeholder })],
 		onUpdate: ({ editor }) => {
-			onChange(editor.getHTML())
+			onChange(editor.getText())
 		},
 		content: value,
 	})
