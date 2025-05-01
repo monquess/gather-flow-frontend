@@ -284,6 +284,8 @@
 	"common": {
 		"cancel": "Anuluj",
 		"error": "Błąd",
-		"delete": "Usuń"
+		"delete": "Usuń",
+		"free": "Darmowe",
+		"draft": "Projekt"
 	}
 }

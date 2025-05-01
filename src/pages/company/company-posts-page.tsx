@@ -4,7 +4,6 @@ import PostCard from '@/components/post/post-card'
 import { apiClient } from '@/shared/api/axios'
 import { PostsResponse } from '@/shared/types/posts'
 import {
-	Box,
 	Center,
 	Container,
 	Group,
@@ -77,8 +76,16 @@ const CompanyPostsPage: React.FC = () => {
 		)
 
 	return (
-		<Container size="xl" pt="md">
-			<Stack justify="space-between">
+		<Container
+			size="xl"
+			pt="md"
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				minHeight: '100vh',
+			}}
+		>
+			<Stack style={{ flex: 1 }}>
 				<MainHeader />
 				<Group justify="end" gap="xs" pb="md">
 					<Select
@@ -145,10 +152,8 @@ const CompanyPostsPage: React.FC = () => {
 						/>
 					</Center>
 				)}
-				<Box pt="lg">
-					<Footer />
-				</Box>
 			</Stack>
+			<Footer />
 		</Container>
 	)
 }

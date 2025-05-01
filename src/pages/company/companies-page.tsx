@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'react-router-dom'
 import {
 	Box,
 	Center,
@@ -15,6 +12,9 @@ import {
 	TextInput,
 } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 
 import CompanyCard from '@/components/company/company-card'
 import Footer from '@/components/general/footer'
@@ -52,15 +52,17 @@ const CompaniesPage: React.FC = () => {
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
-			const params = new URLSearchParams(searchParams)
-			params.set('name', nameInput)
-			params.set('page', '1')
-			setSearchParams(params)
+			const currentName = searchParams.get('name') || ''
+			if (currentName !== nameInput) {
+				const params = new URLSearchParams(searchParams)
+				params.set('name', nameInput)
+				params.set('page', '1')
+				setSearchParams(params)
+			}
 		}, 1000)
 
 		return () => clearTimeout(timeout)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [nameInput])
+	}, [nameInput, searchParams, setSearchParams])
 
 	if (isLoading) {
 		return (

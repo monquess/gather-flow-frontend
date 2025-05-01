@@ -18,6 +18,7 @@ import {
 	Stack,
 	Text,
 	Title,
+	UnstyledButton,
 } from '@mantine/core'
 import { GoTrash } from 'react-icons/go'
 import { GrUpdate } from 'react-icons/gr'
@@ -29,26 +30,30 @@ import { useTranslation } from 'react-i18next'
 
 import AddMemberModal from '@/components/company/modal/add-member-modal'
 import DeleteCompanyModal from '@/components/company/modal/delete-company-modal'
-import CarouselEvent from '@/components/general/carousel-event'
 import { MotionCard } from '@/components/general'
+import CarouselEvent from '@/components/general/carousel-event'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
-import { config } from '@/shared/config/config'
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
-import { useUserStore } from '@/shared/store/user-store'
-import { Company, CompanyMember, EventsResponse } from '@/shared/types'
-import { FaMapLocationDot } from 'react-icons/fa6'
-import { Carousel } from '@mantine/carousel'
-import PostCard from '@/components/post/post-card'
-import { CiEdit } from 'react-icons/ci'
-import ReviewCard from '@/components/review/review-card'
 import PostCreateModal from '@/components/post/modal/post-create-modal'
+import PostCard from '@/components/post/post-card'
 import ReviewCreateModal from '@/components/review/modal/review-create-modal'
+import ReviewCard from '@/components/review/review-card'
 import UserListModal from '@/components/users/modal/user-list-modal'
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient, ApiError } from '@/shared/api/axios'
+import { config } from '@/shared/config/config'
+import { showNotification } from '@/shared/helpers/show-notification'
+import { useUserStore } from '@/shared/store/user-store'
+import classes from '@/shared/styles/slider.module.css'
+import { Company, CompanyMember, EventsResponse } from '@/shared/types'
 import { PostsResponse } from '@/shared/types/posts'
 import { ReviewsResponse } from '@/shared/types/reviews'
+import { CompanySubscriptions } from '@/shared/types/subscriptions'
+import { Carousel } from '@mantine/carousel'
 import Autoplay from 'embla-carousel-autoplay'
+import { CiEdit } from 'react-icons/ci'
+import { FaRegBell } from 'react-icons/fa'
+import { FaBell, FaMapLocationDot } from 'react-icons/fa6'
 
 const CompanyPage: React.FC = () => {
 	const { t } = useTranslation()
@@ -70,8 +75,25 @@ const CompanyPage: React.FC = () => {
 	const { id } = useParams()
 	const autoplay = useRef(Autoplay({ delay: 3000 }))
 
+	const [subscribed, setSubscribed] = useState(false)
+	const [connectedStripe, isConnectedStripe] = useState(false)
+
 	const fetchCompany = async (): Promise<Company> => {
 		const { data } = await apiClient<Company>(`/companies/${id}`)
+
+		if (data.stripeAccountId !== null) isConnectedStripe(true)
+
+		if (user && data?.users?.length) {
+			const currentUser = data.users.find(
+				(u: CompanyMember) => u.user.id === user.id
+			)
+
+			if (currentUser) {
+				setAdmin(currentUser.role === 'ADMIN')
+			} else {
+				setAdmin(false)
+			}
+		}
 		return data
 	}
 
@@ -81,7 +103,7 @@ const CompanyPage: React.FC = () => {
 	}
 
 	const fetchCompanyPosts = async (): Promise<PostsResponse> => {
-		const { data } = await apiClient(`/companies/${id}/posts`)
+		const { data } = await apiClient(`/companies/${id}/posts?limit=5`)
 		return data
 	}
 
@@ -92,6 +114,18 @@ const CompanyPage: React.FC = () => {
 		const { data } = await apiClient(
 			`/companies/${id}/reviews?${params.toString}`
 		)
+		return data
+	}
+
+	const fetchIsSubscribed = async (): Promise<CompanySubscriptions> => {
+		const { data } = await apiClient(
+			`/company-subscriptions?userId=${user?.id}&companyId=${id}`
+		)
+
+		if (data.length > 0) {
+			setSubscribed(true)
+		}
+
 		return data
 	}
 
@@ -123,23 +157,14 @@ const CompanyPage: React.FC = () => {
 		queryFn: fetchCompanyReviews,
 	})
 
+	useQuery({
+		queryKey: ['subscription'],
+		queryFn: fetchIsSubscribed,
+	})
+
 	const handleApiLoaded = () => {
 		setIsMapLoaded(true)
 	}
-
-	useEffect(() => {
-		if (user && data?.users?.length) {
-			const currentUser = data.users.find(
-				(u: CompanyMember) => u.user.id === user.id
-			)
-
-			if (currentUser) {
-				setAdmin(currentUser.role === 'ADMIN')
-			} else {
-				setAdmin(false)
-			}
-		}
-	}, [user, data])
 
 	useEffect(() => {
 		if (data?.location && isMapLoaded && window.google?.maps?.Geocoder) {
@@ -155,6 +180,17 @@ const CompanyPage: React.FC = () => {
 			})
 		}
 	}, [data?.location, isMapLoaded])
+
+	const handleStripeRedirect = async () => {
+		try {
+			const response = await apiClient.get(`/payments/connect-stripe/${id}`)
+			window.open(response.data.url, '_blank')
+		} catch (error) {
+			if (error instanceof ApiError && error.response) {
+				showNotification(t('common.error'), error.response.data.message, 'red')
+			}
+		}
+	}
 
 	if (!reviewsData || isLoading) {
 		return (
@@ -183,6 +219,11 @@ const CompanyPage: React.FC = () => {
 			}}
 		>
 			<MainHeader />
+			{connectedStripe ? null : (
+				<Button color="red" my="md" onClick={handleStripeRedirect}>
+					Please, connect stripe account to unlock all features
+				</Button>
+			)}
 			<Stack gap="md" style={{ flex: 1 }}>
 				<Flex gap="md" direction={isMobile ? 'column' : 'row'}>
 					<Box flex={1}>
@@ -198,28 +239,57 @@ const CompanyPage: React.FC = () => {
 							<Stack>
 								<Group justify="space-between" align="center">
 									<Title order={1}>{data?.name}</Title>
-									{admin && (
-										<Flex
-											gap="md"
-											mt={{ base: 'md', sm: 0 }}
-											ml={{ base: 0, sm: 'auto' }}
-										>
-											<ActionIcon
-												variant="outline"
-												onClick={() =>
-													navigate(`/companies/${data?.id}/update`)
-												}
-											>
-												<GrUpdate size={14} />
-											</ActionIcon>
-											<ActionIcon
-												variant="outline"
-												onClick={() => setDeleteCompany(true)}
-											>
-												<GoTrash size={14} />
-											</ActionIcon>
-										</Flex>
-									)}
+									<Flex
+										gap="md"
+										mt={{ base: 'md', sm: 0 }}
+										ml={{ base: 0, sm: 'auto' }}
+									>
+										{admin && (
+											<Group>
+												<ActionIcon
+													variant="outline"
+													onClick={() =>
+														navigate(`/companies/${data?.id}/update`)
+													}
+												>
+													<GrUpdate size={14} />
+												</ActionIcon>
+												<ActionIcon
+													variant="outline"
+													onClick={() => setDeleteCompany(true)}
+												>
+													<GoTrash size={14} />
+												</ActionIcon>
+											</Group>
+										)}
+										{user ? (
+											subscribed ? (
+												<ActionIcon
+													variant="outline"
+													onClick={async () => {
+														setSubscribed(false)
+														await apiClient.delete(
+															`/company-subscriptions/${id}`
+														)
+													}}
+												>
+													<FaBell size={16} />
+												</ActionIcon>
+											) : (
+												<ActionIcon
+													variant="outline"
+													onClick={async () => {
+														setSubscribed(true)
+														await apiClient.post(`/company-subscriptions`, {
+															companyId: id,
+														})
+													}}
+												>
+													<FaRegBell size={14} />
+												</ActionIcon>
+											)
+										) : null}
+									</Flex>
 								</Group>
 								<Text size="sm" c="dimmed">
 									{data?.email}
@@ -285,7 +355,7 @@ const CompanyPage: React.FC = () => {
 										</Button>
 									)}
 								</Group>
-								<Stack gap="sm" my="md">
+								<Stack gap="sm" mt="xs" mb="lg">
 									<Avatar.Group
 										spacing="sm"
 										style={{
@@ -327,16 +397,16 @@ const CompanyPage: React.FC = () => {
 										<Flex align="center" justify="center">
 											<Title order={3}>{t('companyPage.newsTitle')}</Title>
 											{postData?.data.length ? (
-												<Text
+												<UnstyledButton
 													c="dimmed"
 													ml={2}
-													size="xs"
+													fz="xs"
 													onClick={() =>
 														navigate(`/companies/${data?.id}/posts`)
 													}
 												>
 													({t('companyPage.seeMore')})
-												</Text>
+												</UnstyledButton>
 											) : (
 												<Text />
 											)}
@@ -406,18 +476,31 @@ const CompanyPage: React.FC = () => {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
-						<Group justify="flex-end" align="end">
-							{admin && (
+						<Group
+							justify={connectedStripe && admin ? 'space-between' : 'flex-end'}
+							align="center"
+						>
+							{admin && connectedStripe ? (
 								<Button
 									size={isMobile ? 'xs' : 'sm'}
 									rightSection={<IoMdAdd />}
-									onClick={() =>
-										navigate(`/companies/${data?.id}/event/create`)
-									}
+									onClick={() => navigate(`/companies/${id}/event/create`)}
 								>
 									{t('companyPage.createEvent')}
 								</Button>
-							)}
+							) : null}
+							{eventData?.data.length ? (
+								<UnstyledButton
+									c="dimmed"
+									ml={2}
+									size="md"
+									onClick={() => {
+										navigate(`/companies/${id}/events`)
+									}}
+								>
+									{t('companyPage.seeMore')}
+								</UnstyledButton>
+							) : null}
 						</Group>
 						<Box mt="md">
 							{isLoadingEvents ? (

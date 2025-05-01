@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import {
 	Badge,
 	Box,
@@ -17,9 +15,11 @@ import {
 	Title,
 } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FaArrowRightLong } from 'react-icons/fa6'
+import { FaArrowRightLong, FaMapLocationDot } from 'react-icons/fa6'
 import { MdCalendarToday } from 'react-icons/md'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { useQuery } from '@tanstack/react-query'
@@ -35,16 +35,18 @@ import StarterKit from '@tiptap/starter-kit'
 import dayjs from 'dayjs'
 import { marked } from 'marked'
 
+import CommentSection from '@/components/comment/comment-section'
+import EventDeleteModal from '@/components/event/modal/event-delete-modal'
+import { MotionCard } from '@/components/general'
 import CarouselEvent from '@/components/general/carousel-event'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
-import { MotionCard } from '@/components/general'
-import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
+import { config } from '@/shared/config/config'
 import { cleanMarkdown } from '@/shared/helpers/markdown'
-import { Event, EventsResponse } from '@/shared/types'
-import CommentSection from '@/components/comment/comment-section'
+import { useUserStore } from '@/shared/store/user-store'
+import { Company, CompanyMember, Event, EventsResponse } from '@/shared/types'
 
 marked.setOptions({
 	gfm: true,
@@ -52,6 +54,7 @@ marked.setOptions({
 })
 
 const EventPage: React.FC = () => {
+	const { user } = useUserStore()
 	const { isMobile } = useResponsive()
 	const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(
 		null
@@ -59,6 +62,9 @@ const EventPage: React.FC = () => {
 	const [isMapLoaded, setIsMapLoaded] = useState(false)
 	const { id } = useParams()
 	const { t } = useTranslation()
+
+	const [deleteEvent, setDeleteEvent] = useState(false)
+	const [admin, setAdmin] = useState(false)
 
 	const fetchEvent = async (): Promise<Event> => {
 		const { data } = await apiClient(`/events/${id}`)
@@ -130,6 +136,28 @@ const EventPage: React.FC = () => {
 		setIsMapLoaded(true)
 	}
 
+	const fetchCompany = async (): Promise<Company> => {
+		const { data } = await apiClient<Company>(`/companies/${event?.company.id}`)
+
+		if (user && data?.users?.length) {
+			const currentUser = data.users.find(
+				(u: CompanyMember) => u.user.id === user.id
+			)
+
+			if (currentUser) {
+				setAdmin(currentUser.role === 'ADMIN')
+			} else {
+				setAdmin(false)
+			}
+		}
+		return data
+	}
+
+	useQuery({
+		queryKey: ['companyData', event?.company.id],
+		queryFn: fetchCompany,
+	})
+
 	useEffect(() => {
 		if (event?.location && isMapLoaded && window.google?.maps?.Geocoder) {
 			const geocoder = new window.google.maps.Geocoder()
@@ -162,184 +190,215 @@ const EventPage: React.FC = () => {
 	}
 
 	return (
-		<Container size="xl" pt="md">
-			<MainHeader />
+		<>
+			<Container size="xl" pt="md">
+				<MainHeader />
 
-			<Flex gap="md" mt="xl" direction={isMobile ? 'column' : 'row'}>
-				<Box flex={2} miw={0}>
-					<MotionCard
-						shadow="md"
-						radius="xl"
-						withBorder
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.5, ease: 'easeOut' }}
-					>
-						<Card.Section>
-							<Image src={event?.poster} height={300} alt={event?.title} />
-						</Card.Section>
-						<Stack mt="md" gap="xs">
-							<Title order={2} lineClamp={2}>
-								{event?.title}
-							</Title>
+				<Flex gap="md" mt="xl" direction={isMobile ? 'column' : 'row'}>
+					<Box flex={2} miw={0}>
+						<MotionCard
+							shadow="md"
+							radius="xl"
+							withBorder
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.5, ease: 'easeOut' }}
+						>
+							<Card.Section>
+								<Image src={event?.poster} height={300} alt={event?.title} />
+							</Card.Section>
+							<Stack mt="md" gap="xs">
+								<Title order={2} lineClamp={2}>
+									{event?.title}
+								</Title>
 
-							<Group gap="sm" justify="space-between">
-								<Group gap="xs" align="center">
-									<MdCalendarToday size={18} />
-									<Text size="sm">
-										{dayjs(event?.startDate).format('DD MMM YYYY, HH:mm')}
-									</Text>
+								<Group gap="sm" justify="space-between">
+									<Group gap="xs" align="center">
+										<MdCalendarToday size={18} />
+										<Text size="sm">
+											{dayjs(event?.startDate).format('DD MMM YYYY, HH:mm')}
+										</Text>
+									</Group>
+									<Group gap="xs" align="center">
+										<Badge variant="light" size="md">
+											{event?.format}
+										</Badge>
+										<Badge variant="light" size="md">
+											{event?.theme}
+										</Badge>
+									</Group>
 								</Group>
-								<Group gap="xs" align="center">
-									<Badge variant="light" size="md">
-										{event?.format}
-									</Badge>
-									<Badge variant="light" size="md">
-										{event?.theme}
-									</Badge>
-								</Group>
-							</Group>
-						</Stack>
-					</MotionCard>
-				</Box>
+							</Stack>
+						</MotionCard>
+					</Box>
 
-				<Box flex={1} miw={280}>
-					<MotionCard
-						shadow="md"
-						radius="xl"
-						withBorder
-						p="xl"
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.5, ease: 'easeOut' }}
-					>
-						<Stack>
-							<Title order={3}>Buy Ticket</Title>
-							{event.ticketPrice > 0 ? (
-								<Text fw={500}>{event.ticketPrice.toFixed(2)} USD</Text>
-							) : (
-								<Text fw={500}>FREE</Text>
-							)}
-							<Button
-								fullWidth
-								color="green"
-								size="md"
-								justify="space-between"
-								leftSection={<span />}
-								rightSection={<FaArrowRightLong size={20} />}
-								onClick={() => navigate(`checkout`)}
-								disabled={event.ticketsQuantity - event.ticketsSold === 0}
-							>
-								{event.ticketsQuantity - event.ticketsSold > 0 ? (
-									<Text fw={500}>Buy now</Text>
+					<Box flex={1} miw={280}>
+						<MotionCard
+							shadow="md"
+							radius="xl"
+							withBorder
+							p="xl"
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.5, ease: 'easeOut' }}
+						>
+							<Stack>
+								<Title order={3}>Buy Ticket</Title>
+								{event.ticketPrice > 0 ? (
+									<Text fw={500}>{event.ticketPrice.toFixed(2)} USD</Text>
 								) : (
-									<Text fw={500}>SOLD OUT</Text>
+									<Text fw={500}>FREE</Text>
 								)}
-							</Button>
-						</Stack>
-					</MotionCard>
-				</Box>
-			</Flex>
-
-			<Divider
-				my="xl"
-				label={t('eventPage.aboutEvent')}
-				labelPosition="center"
-			/>
-			<MotionCard
-				shadow="md"
-				radius="xl"
-				withBorder
-				p="xl"
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5, ease: 'easeOut' }}
-			>
-				<Stack>
-					{event?.description && (
-						<RichTextEditor
-							editor={editor}
-							styles={{
-								root: {
-									border: 'none',
-								},
-								content: {
-									background: 'inherit',
-								},
-							}}
-						>
-							<RichTextEditor.Content />
-						</RichTextEditor>
-					)}
-
-					<Divider my="md" />
-
-					<Text fw={600}>
-						{t('eventPage.location')}: {event?.location}
-					</Text>
-
-					{event?.location && (
-						<Box
-							mt="md"
-							style={{
-								height: '300px',
-								overflow: 'hidden',
-								borderRadius: '10px',
-							}}
-						>
-							<LoadScript
-								googleMapsApiKey={config.GOOGLE_API}
-								onLoad={handleApiLoaded}
-							>
-								<GoogleMap
-									mapContainerStyle={{ width: '100%', height: '100%' }}
-									center={marker || { lat: 0, lng: 0 }}
-									zoom={15}
+								<Button
+									fullWidth
+									color="green"
+									size="md"
+									justify="space-between"
+									leftSection={<span />}
+									rightSection={<FaArrowRightLong size={20} />}
+									onClick={() => navigate(`checkout`)}
+									disabled={event.ticketsQuantity - event.ticketsSold === 0}
 								>
-									{marker && <Marker position={marker} />}
-								</GoogleMap>
-							</LoadScript>
-						</Box>
-					)}
-				</Stack>
-			</MotionCard>
+									{event.ticketsQuantity - event.ticketsSold > 0 ? (
+										<Text fw={500}>Buy now</Text>
+									) : (
+										<Text fw={500}>SOLD OUT</Text>
+									)}
+								</Button>
+							</Stack>
+						</MotionCard>
+					</Box>
+				</Flex>
+				{admin ? (
+					<>
+						<Divider my="xl" label="Admin zone" labelPosition="center" />
+						<Group>
+							<Button onClick={() => navigate(`events/${id}/manage-promocode`)}>
+								Manage code
+							</Button>
+							{event.status === 'DRAFT' ? (
+								<>
+									<Button onClick={() => navigate(`events/${id}/update`)}>
+										Update event info
+									</Button>
+									<Button onClick={() => setDeleteEvent(true)}>
+										Delete event
+									</Button>
+								</>
+							) : null}
+						</Group>
+					</>
+				) : null}
+				<Divider
+					my="xl"
+					label={t('eventPage.aboutEvent')}
+					labelPosition="center"
+				/>
+				<MotionCard
+					shadow="md"
+					radius="xl"
+					withBorder
+					p="xl"
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5, ease: 'easeOut' }}
+				>
+					<Stack>
+						{event?.description && (
+							<RichTextEditor
+								editor={editor}
+								styles={{
+									root: {
+										border: 'none',
+									},
+									content: {
+										background: 'inherit',
+									},
+								}}
+							>
+								<RichTextEditor.Content />
+							</RichTextEditor>
+						)}
 
-			<Divider
-				my="xl"
-				label={t('eventPage.moreFromCompany')}
-				labelPosition="center"
+						<Divider my="md" />
+						<Group align="center" gap="xs">
+							<FaMapLocationDot size={16} />
+							<Text fw={600}>{event?.location}</Text>
+						</Group>
+
+						{event?.location && (
+							<Box
+								mt="md"
+								style={{
+									height: '300px',
+									overflow: 'hidden',
+									borderRadius: '10px',
+								}}
+							>
+								<LoadScript
+									googleMapsApiKey={config.GOOGLE_API}
+									onLoad={handleApiLoaded}
+								>
+									<GoogleMap
+										mapContainerStyle={{ width: '100%', height: '100%' }}
+										center={marker || { lat: 0, lng: 0 }}
+										zoom={15}
+									>
+										{marker && <Marker position={marker} />}
+									</GoogleMap>
+								</LoadScript>
+							</Box>
+						)}
+					</Stack>
+				</MotionCard>
+
+				<Divider
+					my="xl"
+					label={t('eventPage.moreFromCompany')}
+					labelPosition="center"
+				/>
+				<MotionCard
+					shadow="md"
+					radius="xl"
+					withBorder
+					p="xl"
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5, ease: 'easeOut' }}
+				>
+					<CarouselEvent events={companyEvents?.data} delay={2000} />
+				</MotionCard>
+
+				<Divider
+					my="xl"
+					label={t('eventPage.seeMore')}
+					labelPosition="center"
+				/>
+				<MotionCard
+					shadow="md"
+					radius="xl"
+					withBorder
+					p="xl"
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5, ease: 'easeOut' }}
+				>
+					<CarouselEvent events={similarEvents} delay={3000} />
+				</MotionCard>
+
+				<MotionCard mt="xl">
+					<CommentSection event={event} />
+				</MotionCard>
+
+				<Footer />
+			</Container>
+			<EventDeleteModal
+				opened={deleteEvent}
+				onClose={() => setDeleteEvent(false)}
+				event={event}
+				companyId={event.company.id}
 			/>
-			<MotionCard
-				shadow="md"
-				radius="xl"
-				withBorder
-				p="xl"
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5, ease: 'easeOut' }}
-			>
-				<CarouselEvent events={companyEvents?.data} delay={2000} />
-			</MotionCard>
-
-			<Divider my="xl" label={t('eventPage.seeMore')} labelPosition="center" />
-			<MotionCard
-				shadow="md"
-				radius="xl"
-				withBorder
-				p="xl"
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5, ease: 'easeOut' }}
-			>
-				<CarouselEvent events={similarEvents} delay={3000} />
-			</MotionCard>
-
-			<MotionCard mt="xl">
-				<CommentSection event={event} />
-			</MotionCard>
-
-			<Footer />
-		</Container>
+		</>
 	)
 }
 

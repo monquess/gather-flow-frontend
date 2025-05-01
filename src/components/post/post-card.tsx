@@ -53,7 +53,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 						height={175}
 						alt={post.title}
 						radius="sm"
-						style={{ objectFit: 'fill' }}
+						style={{ objectFit: 'cover' }}
 						onClick={() => navigate(`/news/${post.id}`)}
 					/>
 				</Card.Section>

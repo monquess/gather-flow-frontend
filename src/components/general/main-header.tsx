@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router'
 import {
 	Avatar,
 	Button,
@@ -10,8 +8,10 @@ import {
 	Menu,
 	Text,
 } from '@mantine/core'
-import { CiSearch } from 'react-icons/ci'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CiSearch } from 'react-icons/ci'
+import { useLocation, useNavigate } from 'react-router'
 
 import LanguageSwitcher from '@/components/buttons/language-switcher'
 import ThemeSwitch from '@/components/buttons/theme-switch'
@@ -99,6 +99,12 @@ const MainHeader: React.FC = () => {
 									</Menu.Item>
 								</Menu.Dropdown>
 							</Menu>
+							<Button
+								variant={isActive('/news') ? 'outline' : 'subtle'}
+								onClick={() => navigate('/news')}
+							>
+								{t('mainHeader.news')}
+							</Button>
 						</Group>
 					</Center>
 					<Group w={isMobile ? '100%' : ''}>

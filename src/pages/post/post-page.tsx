@@ -142,7 +142,6 @@ const PostPage: React.FC = () => {
 					radius="xl"
 					withBorder
 					shadow="lg"
-					p="xl"
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -157,7 +156,7 @@ const PostPage: React.FC = () => {
 						/>
 					</Card.Section>
 
-					<Stack gap="sm">
+					<Stack gap="sm" p="xl">
 						<Group justify="space-between" align="center">
 							<Title order={2}>{post.title}</Title>
 							<Badge variant="light" radius="xl" size="lg">
@@ -188,7 +187,7 @@ const PostPage: React.FC = () => {
 							<RichTextEditor.Content />
 						</RichTextEditor>
 
-						<Group mt="md" align="center" gap="xs" justify="center">
+						<Group mt="md" align="center" gap="xs" justify="end">
 							{liked ? (
 								<FaHeart size={28} color="red" onClick={handleLikeClick} />
 							) : (
