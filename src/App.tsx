@@ -29,6 +29,7 @@ import {
 	VerifyPage,
 } from './pages'
 
+import ConnectSuccessPage from './pages/company/company-connect-success'
 import CompanyEventsPage from './pages/company/company-events-page'
 import CompanyPostsPage from './pages/company/company-posts-page'
 import PostPage from './pages/post/post-page'
@@ -56,6 +57,7 @@ const routes = [
 	{ path: '/companies/:id/event/create', element: <EventCreatePage /> },
 	{ path: '/companies/:id/posts', element: <CompanyPostsPage /> },
 	{ path: '/companies/:id/events', element: <CompanyEventsPage /> },
+	{ path: '/company/:id/success-connect', element: <ConnectSuccessPage /> },
 
 	{ path: '/events', element: <EventsPage /> },
 	{ path: '/events/:id', element: <EventPage /> },

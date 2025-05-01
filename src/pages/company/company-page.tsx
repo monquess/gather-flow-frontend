@@ -18,6 +18,7 @@ import {
 	Stack,
 	Text,
 	Title,
+	UnstyledButton,
 } from '@mantine/core'
 import { GoTrash } from 'react-icons/go'
 import { GrUpdate } from 'react-icons/gr'
@@ -39,8 +40,9 @@ import ReviewCreateModal from '@/components/review/modal/review-create-modal'
 import ReviewCard from '@/components/review/review-card'
 import UserListModal from '@/components/users/modal/user-list-modal'
 import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient } from '@/shared/api/axios'
+import { apiClient, ApiError } from '@/shared/api/axios'
 import { config } from '@/shared/config/config'
+import { showNotification } from '@/shared/helpers/show-notification'
 import { useUserStore } from '@/shared/store/user-store'
 import classes from '@/shared/styles/slider.module.css'
 import { Company, CompanyMember, EventsResponse } from '@/shared/types'
@@ -74,9 +76,24 @@ const CompanyPage: React.FC = () => {
 	const autoplay = useRef(Autoplay({ delay: 3000 }))
 
 	const [subscribed, setSubscribed] = useState(false)
+	const [connectedStripe, isConnectedStripe] = useState(false)
 
 	const fetchCompany = async (): Promise<Company> => {
 		const { data } = await apiClient<Company>(`/companies/${id}`)
+
+		if (data.stripeAccountId !== null) isConnectedStripe(true)
+
+		if (user && data?.users?.length) {
+			const currentUser = data.users.find(
+				(u: CompanyMember) => u.user.id === user.id
+			)
+
+			if (currentUser) {
+				setAdmin(currentUser.role === 'ADMIN')
+			} else {
+				setAdmin(false)
+			}
+		}
 		return data
 	}
 
@@ -150,20 +167,6 @@ const CompanyPage: React.FC = () => {
 	}
 
 	useEffect(() => {
-		if (user && data?.users?.length) {
-			const currentUser = data.users.find(
-				(u: CompanyMember) => u.user.id === user.id
-			)
-
-			if (currentUser) {
-				setAdmin(currentUser.role === 'ADMIN')
-			} else {
-				setAdmin(false)
-			}
-		}
-	}, [user, data])
-
-	useEffect(() => {
 		if (data?.location && isMapLoaded && window.google?.maps?.Geocoder) {
 			const geocoder = new window.google.maps.Geocoder()
 			geocoder.geocode({ address: data.location }, (results, status) => {
@@ -177,6 +180,17 @@ const CompanyPage: React.FC = () => {
 			})
 		}
 	}, [data?.location, isMapLoaded])
+
+	const handleStripeRedirect = async () => {
+		try {
+			const response = await apiClient.get(`/payments/connect-stripe/${id}`)
+			window.open(response.data.url, '_blank')
+		} catch (error) {
+			if (error instanceof ApiError && error.response) {
+				showNotification(t('common.error'), error.response.data.message, 'red')
+			}
+		}
+	}
 
 	if (!reviewsData || isLoading) {
 		return (
@@ -205,6 +219,11 @@ const CompanyPage: React.FC = () => {
 			}}
 		>
 			<MainHeader />
+			{connectedStripe ? null : (
+				<Button color="red" my="md" onClick={handleStripeRedirect}>
+					Please, connect stripe account to unlock all features
+				</Button>
+			)}
 			<Stack gap="md" style={{ flex: 1 }}>
 				<Flex gap="md" direction={isMobile ? 'column' : 'row'}>
 					<Box flex={1}>
@@ -336,7 +355,7 @@ const CompanyPage: React.FC = () => {
 										</Button>
 									)}
 								</Group>
-								<Stack gap="sm" my="md">
+								<Stack gap="sm" mt="xs" mb="lg">
 									<Avatar.Group
 										spacing="sm"
 										style={{
@@ -378,16 +397,16 @@ const CompanyPage: React.FC = () => {
 										<Flex align="center" justify="center">
 											<Title order={3}>{t('companyPage.newsTitle')}</Title>
 											{postData?.data.length ? (
-												<Text
+												<UnstyledButton
 													c="dimmed"
 													ml={2}
-													size="xs"
+													fz="xs"
 													onClick={() =>
 														navigate(`/companies/${data?.id}/posts`)
 													}
 												>
 													({t('companyPage.seeMore')})
-												</Text>
+												</UnstyledButton>
 											) : (
 												<Text />
 											)}
@@ -457,8 +476,11 @@ const CompanyPage: React.FC = () => {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
-						<Group justify="flex-end" align="end">
-							{admin && (
+						<Group
+							justify={connectedStripe && admin ? 'space-between' : 'flex-end'}
+							align="center"
+						>
+							{admin && connectedStripe ? (
 								<Button
 									size={isMobile ? 'xs' : 'sm'}
 									rightSection={<IoMdAdd />}
@@ -466,21 +488,21 @@ const CompanyPage: React.FC = () => {
 								>
 									{t('companyPage.createEvent')}
 								</Button>
-							)}
-						</Group>
-						<Box mt="md">
+							) : null}
 							{eventData?.data.length ? (
-								<Text
+								<UnstyledButton
 									c="dimmed"
 									ml={2}
-									size="xs"
+									size="md"
 									onClick={() => {
 										navigate(`/companies/${id}/events`)
 									}}
 								>
-									({t('companyPage.seeMore')})
-								</Text>
+									{t('companyPage.seeMore')}
+								</UnstyledButton>
 							) : null}
+						</Group>
+						<Box mt="md">
 							{isLoadingEvents ? (
 								<Center h="100%">
 									<Loader size="sm" />

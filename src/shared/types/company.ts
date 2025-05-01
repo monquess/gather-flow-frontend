@@ -18,6 +18,7 @@ export type Company = {
 	reviews: number
 	users: CompanyMember[]
 	createdAt: string
+	stripeAccountId: string
 } & Entity
 
 export type CompaniesResponse = Paginated<Company>
