@@ -122,19 +122,21 @@ const EventsPage: React.FC = () => {
 		queryFn: fetchEvents,
 	})
 
-	if (isLoading)
+	if (isLoading) {
 		return (
 			<Center h="100vh">
 				<Loader />
 			</Center>
 		)
+	}
 
-	if (error)
+	if (error) {
 		return (
 			<Center h="100vh">
 				<Text>{t('eventsPage.errorLoadingEvents')}</Text>
 			</Center>
 		)
+	}
 
 	return (
 		<Container size="xl" pt="md">

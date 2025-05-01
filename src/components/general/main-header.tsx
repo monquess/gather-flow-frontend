@@ -18,7 +18,7 @@ import ThemeSwitch from '@/components/buttons/theme-switch'
 import { useResponsive } from '@/hooks/use-responsive'
 import { useUserStore } from '@/shared/store/user-store'
 
-import FindEventModal from './find-event-modal'
+import FindEventModal from './search-modal'
 
 const MainHeader: React.FC = () => {
 	const { pathname } = useLocation()

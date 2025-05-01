@@ -21,7 +21,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
 }) => {
 	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
-	const { user, logout } = useUserStore()
+	const { logout } = useUserStore()
 	const navigate = useNavigate()
 	const [loading, setLoading] = useState(false)
 
@@ -32,7 +32,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
 	const handleSubmit = async () => {
 		try {
 			setLoading(true)
-			await apiClient.delete(`/users/${user?.id}`)
+			await apiClient.delete(`/users`)
 
 			logout()
 			showNotification(

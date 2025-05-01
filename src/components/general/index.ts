@@ -1,5 +1,5 @@
 export * from './carousel-event'
-export * from './find-event-modal'
+export * from './search-modal'
 export * from './header'
 export * from './footer'
 export * from './main-header'

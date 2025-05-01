@@ -18,10 +18,10 @@ import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { useUserStore } from '@/shared/store/user-store'
-import { ReviewItem } from '@/shared/types/reviews'
+import { Review } from '@/shared/types'
 
 interface ReviewCardProps {
-	review: ReviewItem | undefined
+	review?: Review
 }
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {

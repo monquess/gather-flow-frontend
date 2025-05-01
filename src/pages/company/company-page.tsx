@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-
 import {
 	ActionIcon,
 	Avatar,
@@ -20,9 +19,14 @@ import {
 	Title,
 	UnstyledButton,
 } from '@mantine/core'
+import { Carousel } from '@mantine/carousel'
+
 import { GoTrash } from 'react-icons/go'
 import { GrUpdate } from 'react-icons/gr'
 import { IoMdAdd } from 'react-icons/io'
+import { CiEdit } from 'react-icons/ci'
+import { FaRegBell } from 'react-icons/fa'
+import { FaBell, FaMapLocationDot } from 'react-icons/fa6'
 
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { useQuery } from '@tanstack/react-query'
@@ -34,26 +38,27 @@ import { MotionCard } from '@/components/general'
 import CarouselEvent from '@/components/general/carousel-event'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
-import PostCreateModal from '@/components/post/modal/post-create-modal'
-import PostCard from '@/components/post/post-card'
-import ReviewCreateModal from '@/components/review/modal/review-create-modal'
-import ReviewCard from '@/components/review/review-card'
-import UserListModal from '@/components/users/modal/user-list-modal'
+import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
-import { config } from '@/shared/config/config'
-import { showNotification } from '@/shared/helpers/show-notification'
 import { useUserStore } from '@/shared/store/user-store'
-import classes from '@/shared/styles/slider.module.css'
-import { Company, CompanyMember, EventsResponse } from '@/shared/types'
-import { PostsResponse } from '@/shared/types/posts'
-import { ReviewsResponse } from '@/shared/types/reviews'
-import { CompanySubscriptions } from '@/shared/types/subscriptions'
-import { Carousel } from '@mantine/carousel'
+import {
+	Company,
+	CompanyMember,
+	CompanySubscriptions,
+	EventsResponse,
+} from '@/shared/types'
+import PostCard from '@/components/post/post-card'
+import ReviewCard from '@/components/review/review-card'
+import PostCreateModal from '@/components/post/modal/post-create-modal'
+import ReviewCreateModal from '@/components/review/modal/review-create-modal'
+import UserListModal from '@/components/users/modal/user-list-modal'
+import { PostsResponse } from '@/shared/types'
+import { ReviewsResponse } from '@/shared/types/review'
 import Autoplay from 'embla-carousel-autoplay'
-import { CiEdit } from 'react-icons/ci'
-import { FaRegBell } from 'react-icons/fa'
-import { FaBell, FaMapLocationDot } from 'react-icons/fa6'
+
+import classes from '@/shared/styles/slider.module.css'
+import { showNotification } from '@/shared/helpers/show-notification'
 
 const CompanyPage: React.FC = () => {
 	const { t } = useTranslation()

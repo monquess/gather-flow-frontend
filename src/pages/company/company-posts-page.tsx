@@ -1,8 +1,6 @@
-import Footer from '@/components/general/footer'
-import MainHeader from '@/components/general/main-header'
-import PostCard from '@/components/post/post-card'
-import { apiClient } from '@/shared/api/axios'
-import { PostsResponse } from '@/shared/types/posts'
+import React, { useState } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
 	Center,
 	Container,
@@ -15,9 +13,12 @@ import {
 	Text,
 } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
-import React, { memo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useParams, useSearchParams } from 'react-router-dom'
+
+import Footer from '@/components/general/footer'
+import MainHeader from '@/components/general/main-header'
+import PostCard from '@/components/post/post-card'
+import { apiClient } from '@/shared/api/axios'
+import { PostsResponse } from '@/shared/types'
 
 const CompanyPostsPage: React.FC = () => {
 	const { id } = useParams()
@@ -158,4 +159,4 @@ const CompanyPostsPage: React.FC = () => {
 	)
 }
 
-export default memo(CompanyPostsPage)
+export default React.memo(CompanyPostsPage)

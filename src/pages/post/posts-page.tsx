@@ -2,7 +2,7 @@ import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
 import PostCard from '@/components/post/post-card'
 import { apiClient } from '@/shared/api/axios'
-import { PostsResponse } from '@/shared/types/posts'
+import { PostsResponse } from '@/shared/types/post'
 import {
 	Center,
 	Container,

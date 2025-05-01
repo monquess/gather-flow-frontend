@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
-import { Carousel } from '@mantine/carousel'
 import { Box, Flex, Text } from '@mantine/core'
-import Autoplay from 'embla-carousel-autoplay'
+import { Carousel } from '@mantine/carousel'
 import { useTranslation } from 'react-i18next'
+import Autoplay from 'embla-carousel-autoplay'
 
 import { useResponsive } from '@/hooks/use-responsive'
 import { Event } from '@/shared/types'

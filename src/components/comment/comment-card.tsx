@@ -77,10 +77,10 @@ const CommentCard: React.FC<CommentCardProps> = ({
 			)
 			return data
 		},
-		onSuccess: (data) => {
+		onSuccess: async (data) => {
 			form.setInitialValues({ content: data.content })
 			form.reset()
-			client.invalidateQueries({ queryKey: ['comments', event.id] })
+			await client.invalidateQueries({ queryKey: ['comments', event.id] })
 			showNotification('Success', 'Comment updated successfully', 'green')
 			setIsEditing(false)
 		},
