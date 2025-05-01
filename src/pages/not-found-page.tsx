@@ -1,6 +1,6 @@
 import { Button, Container, Group, Text, Title } from '@mantine/core'
-import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const NotFound: React.FC = () => {
 	const { t } = useTranslation()
@@ -18,7 +18,7 @@ const NotFound: React.FC = () => {
 				{t('notFound.message')}
 			</Text>
 			<Group mt="lg" justify="center">
-				<Button component={Link} to="/" variant="filled">
+				<Button component={Link} to="/home" variant="filled">
 					{t('notFound.goHome')}
 				</Button>
 			</Group>
