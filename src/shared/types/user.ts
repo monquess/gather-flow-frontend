@@ -6,4 +6,5 @@ export type User = {
 	verified: boolean
 	avatar: string
 	updatedAt: string
+	showAsAttendee: boolean
 } & Entity

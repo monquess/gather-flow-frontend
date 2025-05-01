@@ -247,7 +247,8 @@
 		"noOtherEvents": "No other events available."
 	},
 	"profile": {
-		"verified": "Verified",
+		"public": "Public",
+		"private": "Private",
 		"joined": "Joined",
 		"lastUpdated": "Last updated"
 	},

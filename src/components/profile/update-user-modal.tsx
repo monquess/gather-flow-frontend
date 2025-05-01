@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Button, Modal, Stack, Text, TextInput } from '@mantine/core'
+import { Button, Modal, Stack, Switch, Text, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { apiClient, ApiError } from '@/shared/api/axios'
@@ -24,12 +24,14 @@ const UpdateUserModal: React.FC<updateUserModalProps> = ({
 	const { isMobile } = useResponsive()
 	const { user, updateUser } = useUserStore()
 	const [loading, setLoading] = useState(false)
+	const [isPrivate, setPrivate] = useState(!user?.showAsAttendee)
 
 	const form = useForm({
 		mode: 'uncontrolled',
 		initialValues: {
 			username: user?.username,
 			email: user?.email,
+			showAsAttendee: !user?.showAsAttendee,
 		},
 		validate: zodResolver(updateUserSchema),
 	})
@@ -82,12 +84,22 @@ const UpdateUserModal: React.FC<updateUserModalProps> = ({
 						label={t('updateUser.usernameLabel')}
 						key={form.key('username')}
 						{...form.getInputProps('username')}
-					></TextInput>
+					/>
 					<TextInput
 						label={t('updateUser.emailLabel')}
 						key={form.key('email')}
 						{...form.getInputProps('email')}
-					></TextInput>
+					/>
+					<Switch
+						label="Private Account"
+						description="When enabled, other users can't see you in the event attendees list."
+						size="md"
+						checked={isPrivate}
+						key={form.key('showAsAttendee')}
+						{...form.getInputProps('showAsAttendee')}
+						onChange={() => setPrivate((prev) => !prev)}
+					/>
+
 					<Button type="submit" variant="outline" loading={loading}>
 						{t('updateUser.saveChangesButton')}
 					</Button>

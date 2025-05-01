@@ -247,7 +247,8 @@
 		"noOtherEvents": "Немає інших подій."
 	},
 	"profile": {
-		"verified": "Перевірено",
+		"public": "Публічний",
+		"private": "Приватний",
 		"joined": "Приєднався",
 		"lastUpdated": "Останнє оновлення"
 	},

@@ -1,4 +1,3 @@
-import { memo, useState } from 'react'
 import {
 	Button,
 	FileInput,
@@ -8,6 +7,7 @@ import {
 	Title,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
+import { memo, useState } from 'react'
 import { IoImageOutline } from 'react-icons/io5'
 
 import MarkdownEditor from '@/components/editor/markdown-editor'
@@ -15,6 +15,8 @@ import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { Company } from '@/shared/types'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
 
 interface PostCreateModalProps {
 	company?: Company
@@ -27,6 +29,8 @@ const PostCreateModal: React.FC<PostCreateModalProps> = ({
 	onClose,
 	company,
 }) => {
+	const { id } = useParams()
+	const client = useQueryClient()
 	const [loading, setLoading] = useState(false)
 	const { isMobile } = useResponsive()
 
@@ -50,6 +54,9 @@ const PostCreateModal: React.FC<PostCreateModalProps> = ({
 					},
 				}
 			)
+			client.invalidateQueries({
+				queryKey: ['posts', id],
+			})
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
 				showNotification('Create news error', error.message, 'red')

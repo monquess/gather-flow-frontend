@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Button, Group, Stack, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import {
@@ -9,11 +7,13 @@ import {
 	LoadScript,
 	Marker,
 } from '@react-google-maps/api'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
-import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
+import { config } from '@/shared/config/config'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { Company } from '@/shared/types'
 import { createCompanySchema } from '@/shared/validations'
@@ -119,7 +119,7 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 				showNotification(
 					t('updateCompany.successTitle'),
 					t('updateCompany.successMessage'),
-					'red'
+					'green'
 				)
 			} catch (error) {
 				if (error instanceof ApiError && error.response) {

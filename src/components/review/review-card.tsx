@@ -1,4 +1,3 @@
-import React, { memo, useState } from 'react'
 import {
 	ActionIcon,
 	Button,
@@ -10,15 +9,18 @@ import {
 	Text,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { MdDelete } from 'react-icons/md'
-import { motion } from 'framer-motion'
 import dayjs from 'dayjs'
+import { motion } from 'framer-motion'
+import React, { memo, useState } from 'react'
+import { MdDelete } from 'react-icons/md'
 
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { useUserStore } from '@/shared/store/user-store'
 import { Review } from '@/shared/types'
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
 
 interface ReviewCardProps {
 	review?: Review
@@ -28,11 +30,19 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 	const { isMobile } = useResponsive()
 	const { user } = useUserStore()
 	const [opened, setOpened] = useState(false)
+	const client = useQueryClient()
+	const { id } = useParams()
 
 	const handleDeleteClick = async () => {
 		try {
 			await apiClient.delete(`/companies/${review?.companyId}/reviews`)
 			showNotification('Delete review', 'Delete review succesfully', 'green')
+			client.invalidateQueries({
+				queryKey: ['companies', id],
+			})
+			client.invalidateQueries({
+				queryKey: ['reviews', id],
+			})
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
 				showNotification('Delete review', error.response.data.message, 'red')

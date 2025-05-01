@@ -1,4 +1,5 @@
 import {
+	Avatar,
 	Badge,
 	Box,
 	Button,
@@ -36,19 +37,26 @@ import dayjs from 'dayjs'
 import { marked } from 'marked'
 
 import CommentSection from '@/components/comment/comment-section'
+import AttendeesModal from '@/components/event/attendees/attendees-modal'
+import { EventMetaTags } from '@/components/event/event-meta-tags'
 import EventDeleteModal from '@/components/event/modal/event-delete-modal'
 import { MotionCard } from '@/components/general'
 import CarouselEvent from '@/components/general/carousel-event'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
+import SocialShareButtons from '@/components/general/social-share-buttons'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
 import { config } from '@/shared/config/config'
 import { cleanMarkdown } from '@/shared/helpers/markdown'
 import { useUserStore } from '@/shared/store/user-store'
-import { Company, CompanyMember, Event, EventsResponse } from '@/shared/types'
-import SocialShareButtons from '@/components/general/social-share-buttons'
-import { EventMetaTags } from '@/components/event/event-meta-tags'
+import {
+	AttendeesResponse,
+	Company,
+	CompanyMember,
+	Event,
+	EventsResponse,
+} from '@/shared/types'
 
 marked.setOptions({
 	gfm: true,
@@ -68,6 +76,7 @@ const EventPage: React.FC = () => {
 
 	const [deleteEvent, setDeleteEvent] = useState(false)
 	const [admin, setAdmin] = useState(false)
+	const [isAttendeesOpened, setAttendeesOpened] = useState(false)
 
 	const fetchEvent = async (): Promise<Event> => {
 		const { data } = await apiClient(`/events/${id}`)
@@ -155,9 +164,19 @@ const EventPage: React.FC = () => {
 		return data
 	}
 
+	const fetchAttendees = async (): Promise<AttendeesResponse> => {
+		const { data } = await apiClient(`/events/${id}/attendees?limit=5`)
+		return data
+	}
+
 	useQuery({
 		queryKey: ['companyData', event?.company.id],
 		queryFn: fetchCompany,
+	})
+
+	const { data: attendeesData } = useQuery({
+		queryKey: ['attendeesData', id],
+		queryFn: fetchAttendees,
 	})
 
 	useEffect(() => {
@@ -175,7 +194,13 @@ const EventPage: React.FC = () => {
 		}
 	}, [event?.location, isMapLoaded])
 
-	if (!event || isLoading || isLoadingCompanyEvents || isLoadingSimilarEvents) {
+	if (
+		!event ||
+		!attendeesData ||
+		isLoading ||
+		isLoadingCompanyEvents ||
+		isLoadingSimilarEvents
+	) {
 		return (
 			<Center h="100vh">
 				<Loader />
@@ -234,7 +259,50 @@ const EventPage: React.FC = () => {
 					</MotionCard>
 				</Box>
 
-				<Box flex={1} miw={280}>
+				<Stack flex={1} miw={280} gap="sm">
+					{attendeesData.meta.count !== 0 ? (
+						<MotionCard
+							shadow="md"
+							radius="xl"
+							withBorder
+							p="xl"
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.5, ease: 'easeOut' }}
+						>
+							<Stack>
+								<Title order={3}>Visitors</Title>
+								<Stack gap="sm" mt="xs" mb="md">
+									<Avatar.Group
+										spacing="xs"
+										style={{
+											cursor: 'pointer',
+										}}
+										onClick={() => setAttendeesOpened(true)}
+									>
+										{attendeesData?.data
+											.slice(0, 5)
+											.map((attendee) =>
+												attendee.showAsAttendee ? (
+													<Avatar
+														key={attendee.id}
+														src={attendee.avatar}
+														alt={attendee.username}
+														radius="xl"
+														size="lg"
+													/>
+												) : null
+											)}
+										{attendeesData?.meta.count > 5 && (
+											<Avatar size="md" radius="xl">
+												{attendeesData.meta.count - 5}
+											</Avatar>
+										)}
+									</Avatar.Group>
+								</Stack>
+							</Stack>
+						</MotionCard>
+					) : null}
 					<MotionCard
 						shadow="md"
 						radius="xl"
@@ -269,7 +337,7 @@ const EventPage: React.FC = () => {
 							</Button>
 						</Stack>
 					</MotionCard>
-				</Box>
+				</Stack>
 			</Flex>
 			{admin ? (
 				<>
@@ -401,6 +469,10 @@ const EventPage: React.FC = () => {
 				onClose={() => setDeleteEvent(false)}
 				event={event}
 				companyId={event.company.id}
+			/>
+			<AttendeesModal
+				opened={isAttendeesOpened}
+				onClose={() => setAttendeesOpened(false)}
 			/>
 		</Container>
 	)

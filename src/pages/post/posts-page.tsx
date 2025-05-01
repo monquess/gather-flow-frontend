@@ -1,4 +1,5 @@
 import Footer from '@/components/general/footer'
+import Layout from '@/components/general/layout'
 import MainHeader from '@/components/general/main-header'
 import PostCard from '@/components/post/post-card'
 import { apiClient } from '@/shared/api/axios'
@@ -59,17 +60,21 @@ const PostsPage: React.FC = () => {
 		queryFn: fetchData,
 	})
 
-	if (isLoading)
+	if (!data || isLoading)
 		return (
-			<Center h="100vh">
-				<Loader />
-			</Center>
+			<Layout>
+				<Center>
+					<Loader />
+				</Center>
+			</Layout>
 		)
 	if (error)
 		return (
-			<Center h="100vh">
-				<Text>{t('companiesPage.errorLoadingCompanies')}</Text>
-			</Center>
+			<Layout>
+				<Center>
+					<Text>{t('companiesPage.errorLoadingCompanies')}</Text>
+				</Center>
+			</Layout>
 		)
 
 	return (
@@ -134,7 +139,7 @@ const PostsPage: React.FC = () => {
 						<PostCard key={post.id} post={post} />
 					))}
 				</SimpleGrid>
-				{data?.meta?.pageCount && data.meta.pageCount > 1 && (
+				{data.meta.pageCount > 1 ? (
 					<Center mt="xl" p="center">
 						<Pagination
 							total={data?.meta.pageCount || 1}
@@ -148,7 +153,7 @@ const PostsPage: React.FC = () => {
 							radius="xl"
 						/>
 					</Center>
-				)}
+				) : null}
 			</Stack>
 			<Footer />
 		</Container>

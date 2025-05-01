@@ -247,7 +247,8 @@
 		"noOtherEvents": "Brak innych wydarzeń."
 	},
 	"profile": {
-		"verified": "Zweryfikowane",
+		"public": "Publiczny",
+		"private": "Prywatny",
 		"joined": "Dołączył",
 		"lastUpdated": "Ostatnia aktualizacja"
 	},

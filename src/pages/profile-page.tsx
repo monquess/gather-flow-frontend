@@ -104,7 +104,9 @@ const UserProfilePage: React.FC = () => {
 									</Text>
 									{user.verified && (
 										<Badge color="green" variant="light">
-											{t('profile.verified')}
+											{user.showAsAttendee
+												? t('profile.public')
+												: t('profile.private')}
 										</Badge>
 									)}
 								</Group>

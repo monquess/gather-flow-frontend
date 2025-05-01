@@ -1,4 +1,3 @@
-import React, { memo, useState } from 'react'
 import {
 	Button,
 	Group,
@@ -10,11 +9,13 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useQueryClient } from '@tanstack/react-query'
+import React, { memo, useState } from 'react'
 
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { Company } from '@/shared/types'
+import { useParams } from 'react-router-dom'
 
 interface ReviewCreateModalProps {
 	company?: Company
@@ -27,6 +28,7 @@ const ReviewCreateModal: React.FC<ReviewCreateModalProps> = ({
 	onClose,
 	company,
 }) => {
+	const { id } = useParams()
 	const client = useQueryClient()
 	const [value, setValue] = useState(0)
 	const [loading, setLoading] = useState(false)
@@ -45,6 +47,12 @@ const ReviewCreateModal: React.FC<ReviewCreateModalProps> = ({
 				stars: value,
 			})
 			showNotification('Create review', 'Create review succesfully', 'green')
+			client.invalidateQueries({
+				queryKey: ['companies', id],
+			})
+			client.invalidateQueries({
+				queryKey: ['reviews', id],
+			})
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
 				showNotification('Create review error', error.message, 'red')
@@ -53,10 +61,6 @@ const ReviewCreateModal: React.FC<ReviewCreateModalProps> = ({
 			form.reset()
 			setLoading(false)
 			onClose()
-			client.invalidateQueries({
-				queryKey: ['reviews', company?.id],
-				refetchType: 'active',
-			})
 		}
 	}
 

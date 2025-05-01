@@ -1,5 +1,6 @@
 import { useResponsive } from '@/hooks/use-responsive'
-import { CompanyMember } from '@/shared/types/companies'
+import { useUserStore } from '@/shared/store/user-store'
+import { CompanyMember } from '@/shared/types'
 import {
 	Avatar,
 	Card,
@@ -12,18 +13,22 @@ import {
 import dayjs from 'dayjs'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
+import EditRoleSelect from '../edit-role-select'
 
 interface UserListModalProps {
 	opened: boolean
 	onClose: () => void
 	members: CompanyMember[] | undefined
+	admin: boolean
 }
 
 const UserListModal: React.FC<UserListModalProps> = ({
 	opened,
 	onClose,
 	members,
+	admin,
 }) => {
+	const { user } = useUserStore()
 	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
 	return (
@@ -50,9 +55,13 @@ const UserListModal: React.FC<UserListModalProps> = ({
 									<Avatar radius="xl" src={member.user.avatar} />
 									<Stack gap={0} justify="center">
 										<Text fw={600}>{member.user.username}</Text>
-										<Text size="xs" c="dimmed">
-											{member.role}
-										</Text>
+										{admin && member.user.id !== user.id ? (
+											<EditRoleSelect member={member} />
+										) : (
+											<Text size="xs" c="dimmed">
+												{member.role}
+											</Text>
+										)}
 									</Stack>
 								</Group>
 								<Text size="xs" c="dimmed">

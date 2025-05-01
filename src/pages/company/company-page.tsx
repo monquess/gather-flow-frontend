@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { Carousel } from '@mantine/carousel'
 import {
 	ActionIcon,
 	Avatar,
@@ -19,14 +18,15 @@ import {
 	Title,
 	UnstyledButton,
 } from '@mantine/core'
-import { Carousel } from '@mantine/carousel'
+import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
-import { GoTrash } from 'react-icons/go'
-import { GrUpdate } from 'react-icons/gr'
-import { IoMdAdd } from 'react-icons/io'
 import { CiEdit } from 'react-icons/ci'
 import { FaRegBell } from 'react-icons/fa'
 import { FaBell, FaMapLocationDot } from 'react-icons/fa6'
+import { GoTrash } from 'react-icons/go'
+import { GrUpdate } from 'react-icons/gr'
+import { IoMdAdd } from 'react-icons/io'
 
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { useQuery } from '@tanstack/react-query'
@@ -38,27 +38,27 @@ import { MotionCard } from '@/components/general'
 import CarouselEvent from '@/components/general/carousel-event'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
-import { config } from '@/shared/config/config'
+import PostCreateModal from '@/components/post/modal/post-create-modal'
+import PostCard from '@/components/post/post-card'
+import ReviewCreateModal from '@/components/review/modal/review-create-modal'
+import ReviewCard from '@/components/review/review-card'
+import UserListModal from '@/components/users/modal/user-list-modal'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
+import { config } from '@/shared/config/config'
 import { useUserStore } from '@/shared/store/user-store'
 import {
 	Company,
 	CompanyMember,
 	CompanySubscriptions,
 	EventsResponse,
+	PostsResponse,
 } from '@/shared/types'
-import PostCard from '@/components/post/post-card'
-import ReviewCard from '@/components/review/review-card'
-import PostCreateModal from '@/components/post/modal/post-create-modal'
-import ReviewCreateModal from '@/components/review/modal/review-create-modal'
-import UserListModal from '@/components/users/modal/user-list-modal'
-import { PostsResponse } from '@/shared/types'
 import { ReviewsResponse } from '@/shared/types/review'
 import Autoplay from 'embla-carousel-autoplay'
 
-import classes from '@/shared/styles/slider.module.css'
 import { showNotification } from '@/shared/helpers/show-notification'
+import classes from '@/shared/styles/slider.module.css'
 
 const CompanyPage: React.FC = () => {
 	const { t } = useTranslation()
@@ -224,11 +224,11 @@ const CompanyPage: React.FC = () => {
 			}}
 		>
 			<MainHeader />
-			{connectedStripe ? null : (
+			{connectedStripe ? null : admin ? (
 				<Button color="red" my="md" onClick={handleStripeRedirect}>
 					Please, connect stripe account to unlock all features
 				</Button>
-			)}
+			) : null}
 			<Stack gap="md" style={{ flex: 1 }}>
 				<Flex gap="md" direction={isMobile ? 'column' : 'row'}>
 					<Box flex={1}>
@@ -572,7 +572,10 @@ const CompanyPage: React.FC = () => {
 							mt="xl"
 						>
 							{reviewsData?.data.map((review) => (
-								<ReviewCard review={review} />
+								<ReviewCard
+									review={review}
+									key={`${review.id}-${review.stars}`}
+								/>
 							))}
 						</SimpleGrid>
 						{reviewsData?.meta.pageCount ? (
@@ -619,6 +622,7 @@ const CompanyPage: React.FC = () => {
 				opened={isMembersOpened}
 				onClose={() => setMembersOpened(false)}
 				members={data?.users}
+				admin={admin}
 			/>
 			<ReviewCreateModal
 				opened={isCreateReviewOpened}

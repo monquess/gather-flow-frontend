@@ -25,6 +25,7 @@ import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { CompaniesResponse, EventsResponse } from '@/shared/types'
 
+import Layout from '@/components/general/layout'
 import classes from '@/shared/styles/slider.module.css'
 
 const Homepage: React.FC = () => {
@@ -85,9 +86,11 @@ const Homepage: React.FC = () => {
 
 	if (isLoadingEvents || isLoadingCompanies || isLoadingUpcomingEvents) {
 		return (
-			<Center h="100vh">
-				<Loader size="xl" />
-			</Center>
+			<Layout>
+				<Center>
+					<Loader />
+				</Center>
+			</Layout>
 		)
 	}
 

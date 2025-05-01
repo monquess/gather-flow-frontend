@@ -1,10 +1,11 @@
+import { MemberRole } from '../enum/member-role-enum'
 import { Entity } from './entity'
 import { Paginated } from './pagination'
 import { User } from './user'
 
 export type CompanyMember = {
 	user: Pick<User, 'id' | 'username' | 'avatar'>
-	role: string
+	role: MemberRole
 	createdAt: string
 }
 

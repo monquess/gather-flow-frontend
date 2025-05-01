@@ -18,6 +18,7 @@ import { useSearchParams } from 'react-router-dom'
 
 import CompanyCard from '@/components/company/company-card'
 import Footer from '@/components/general/footer'
+import Layout from '@/components/general/layout'
 import MainHeader from '@/components/general/main-header'
 import { apiClient } from '@/shared/api/axios'
 import { CompaniesResponse } from '@/shared/types'
@@ -66,17 +67,21 @@ const CompaniesPage: React.FC = () => {
 
 	if (isLoading) {
 		return (
-			<Center h="100vh">
-				<Loader />
-			</Center>
+			<Layout>
+				<Center>
+					<Loader />
+				</Center>
+			</Layout>
 		)
 	}
 
 	if (error) {
 		return (
-			<Center h="100vh">
-				<Text>{t('companiesPage.errorLoadingCompanies')}</Text>
-			</Center>
+			<Layout>
+				<Center>
+					<Text>{t('companiesPage.errorLoadingCompanies')}</Text>
+				</Center>
+			</Layout>
 		)
 	}
 

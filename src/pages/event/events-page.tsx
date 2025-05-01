@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom'
 
 import {
 	Accordion,
-	Box,
 	Button,
 	Center,
 	Container,
@@ -24,6 +23,7 @@ import { useTranslation } from 'react-i18next'
 
 import EventCard from '@/components/event/event-card'
 import Footer from '@/components/general/footer'
+import Layout from '@/components/general/layout'
 import MainHeader from '@/components/general/main-header'
 import { apiClient } from '@/shared/api/axios'
 import { EventsResponse } from '@/shared/types'
@@ -124,25 +124,36 @@ const EventsPage: React.FC = () => {
 
 	if (isLoading) {
 		return (
-			<Center h="100vh">
-				<Loader />
-			</Center>
+			<Layout>
+				<Center>
+					<Loader />
+				</Center>
+			</Layout>
 		)
 	}
 
 	if (error) {
 		return (
-			<Center h="100vh">
-				<Text>{t('eventsPage.errorLoadingEvents')}</Text>
-			</Center>
+			<Layout>
+				<Center>
+					<Text>{t('eventsPage.errorLoadingEvents')}</Text>
+				</Center>
+			</Layout>
 		)
 	}
 
 	return (
-		<Container size="xl" pt="md">
-			<Stack justify="space-between">
-				<MainHeader />
-
+		<Container
+			size="xl"
+			pt="md"
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				minHeight: '100vh',
+			}}
+		>
+			<MainHeader />
+			<Stack mt="xs" flex={1}>
 				<Stack mb="xl">
 					<Accordion variant="contained">
 						<Accordion.Item value="advanced">
@@ -330,10 +341,8 @@ const EventsPage: React.FC = () => {
 						/>
 					</Center>
 				)}
-				<Box pt="lg">
-					<Footer />
-				</Box>
 			</Stack>
+			<Footer />
 		</Container>
 	)
 }

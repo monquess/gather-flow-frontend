@@ -28,7 +28,6 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
 	const { data } = useQuery<NotificationsResponse>({
 		queryKey: ['notifications', user?.id],
 		queryFn: fetchData,
-		enabled: opened,
 	})
 
 	return (
@@ -50,7 +49,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
 							onClick={async () => {
 								const ids = data?.data.map((e) => e.id).join(',')
 								await apiClient.patch(`/notifications/read?ids=${ids}`)
-								await client.invalidateQueries({
+								client.invalidateQueries({
 									queryKey: ['notifications', user?.id],
 								})
 							}}
@@ -63,7 +62,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
 					{data?.data.map((notification) => (
 						<NotificationCard
 							notification={notification}
-							key={notification.id}
+							key={`${notification.id}-${notification.isRead}`}
 						/>
 					))}
 				</Stack>
