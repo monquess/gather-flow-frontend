@@ -1,43 +1,50 @@
 import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
+	ActionIcon,
+	Badge,
 	Box,
 	Button,
 	Checkbox,
 	Divider,
-	FileInput,
+	FileButton,
+	Flex,
 	Group,
 	Image,
 	NumberInput,
+	Radio,
 	Select,
 	Stack,
 	Text,
 	TextInput,
+	Tooltip,
 } from '@mantine/core'
 import { DateTimePicker } from '@mantine/dates'
 import { useForm, zodResolver } from '@mantine/form'
 import {
 	Autocomplete,
 	GoogleMap,
+	Libraries,
 	LoadScript,
 	Marker,
 } from '@react-google-maps/api'
-import { IoImageOutline } from 'react-icons/io5'
 import { HiOutlineTicket } from 'react-icons/hi2'
-import { MdCalendarToday } from 'react-icons/md'
+import { MdCalendarToday, MdDelete, MdDiscount } from 'react-icons/md'
 import { FaMapLocationDot } from 'react-icons/fa6'
-import { IoIosSearch } from 'react-icons/io'
+import { IoIosSearch, IoMdImages } from 'react-icons/io'
 
 import MarkdownEditor from '@/components/editor/markdown-editor'
 import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import { Event } from '@/shared/types/event'
+import { Event, Promocode } from '@/shared/types'
 import { createEventSchema } from '@/shared/validations'
 
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
+
+import CreatePromocodeInput from '../create-promocode-input'
 
 dayjs.extend(duration)
 
@@ -47,6 +54,8 @@ const containerStyle = {
 	borderRadius: '8px',
 	overflow: 'hidden',
 }
+
+const mapLibraries: Libraries = ['places']
 
 const CreateEventForm: React.FC = () => {
 	const { id: companyId } = useParams()
@@ -72,9 +81,15 @@ const CreateEventForm: React.FC = () => {
 			ticketPrice: '',
 			ticketsQuantity: '',
 			visitorsVisibility: 'EVERYONE',
-			startDate: '',
-			endDate: '',
-			poster: null as File | null,
+			startDate: dayjs(new Date())
+				.add(dayjs.duration({ days: 7 }))
+				.toDate(),
+			endDate: dayjs(new Date())
+				.add(dayjs.duration({ days: 7, hours: 1 }))
+				.toDate(),
+			publishDate: null as Date | null,
+			poster: undefined,
+			promocodes: [] as Promocode[],
 		},
 	})
 	const [isPublishLater, setIsPublishLater] = useState(false)
@@ -120,27 +135,39 @@ const CreateEventForm: React.FC = () => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
-		form.validate()
 
-		try {
-			const res = await apiClient.post<Event>(
-				`/companies/${companyId}/events`,
-				form.getValues(),
-				{
-					headers: {
-						'Content-Type': 'multipart/form-data',
-					},
+		if (!form.validate().hasErrors) {
+			try {
+				const { startDate, endDate, publishDate, ...values } = form.getValues()
+				const body = {
+					...values,
+					startDate: startDate?.toISOString(),
+					endDate: endDate?.toISOString(),
+					publishDate: publishDate?.toISOString(),
 				}
-			)
-			navigate(`/events/${res.data.id}`)
-		} catch (error) {
-			if (error instanceof ApiError && error.response) {
-				showNotification('Error', error.response.data.message, 'red')
+
+				console.log(body)
+
+				const { data } = await apiClient.post<Event>(
+					`/companies/${companyId}/events`,
+					body,
+					{
+						headers: {
+							'Content-Type': 'multipart/form-data',
+						},
+					}
+				)
+
+				navigate(`/events/${data.id}`)
+			} catch (error) {
+				if (error instanceof ApiError && error.response) {
+					showNotification('Error', error.response.data.message, 'red')
+				}
 			}
 		}
 	}
 
-	const getPosterUrl = (file: File | null): string => {
+	const getPosterUrl = (file?: File): string => {
 		return file ? URL.createObjectURL(file) : config.DEFAULT_POSTER_URL
 	}
 
@@ -148,24 +175,43 @@ const CreateEventForm: React.FC = () => {
 		<form onSubmit={handleSubmit}>
 			<Stack gap="sm">
 				<Box w="100%" h="300px">
-					<Image
-						src={getPosterUrl(form.values.poster)}
-						alt="Poster preview"
-						width="100%"
-						height="100%"
-						style={{ objectFit: 'cover' }}
-					/>
+					<Box pos="relative" w="100%" h="100%" mb="md">
+						<Image
+							src={getPosterUrl(form.values.poster)}
+							alt="Poster preview"
+							width="100%"
+							height="100%"
+							style={{ objectFit: 'cover', borderRadius: '8px' }}
+						/>
+
+						<FileButton
+							key={form.key('poster')}
+							{...form.getInputProps('poster')}
+							accept="image/png,image/jpeg,image/jpg,image/webp"
+						>
+							{(props) => (
+								<Tooltip label="Upload poster" withArrow>
+									<ActionIcon
+										{...props}
+										variant="outline"
+										size="lg"
+										style={{
+											position: 'absolute',
+											right: 12,
+											bottom: 12,
+											zIndex: 2,
+										}}
+									>
+										<IoMdImages size={20} />
+									</ActionIcon>
+								</Tooltip>
+							)}
+						</FileButton>
+					</Box>
 				</Box>
-				<FileInput
-					label="Poster"
-					placeholder="Upload image"
-					leftSection={<IoImageOutline />}
-					accept="image/png,image/jpeg,image/jpg,image/webp"
-					clearable
-					key={form.key('poster')}
-					{...form.getInputProps('poster')}
-				/>
+
 				<TextInput
+					mt="lg"
 					label="Title"
 					placeholder="Enter event title"
 					size={isMobile ? 'sm' : 'md'}
@@ -173,7 +219,7 @@ const CreateEventForm: React.FC = () => {
 					{...form.getInputProps('title')}
 				/>
 
-				<Group grow>
+				<Flex gap="xs" direction={isMobile ? 'column' : 'row'}>
 					<Select
 						label="Format"
 						placeholder="Choose event format"
@@ -181,6 +227,7 @@ const CreateEventForm: React.FC = () => {
 						key={form.key('format')}
 						{...form.getInputProps('format')}
 						clearable
+						flex={1}
 					/>
 					<Select
 						label="Theme"
@@ -189,8 +236,9 @@ const CreateEventForm: React.FC = () => {
 						key={form.key('theme')}
 						{...form.getInputProps('theme')}
 						clearable
+						flex={1}
 					/>
-				</Group>
+				</Flex>
 
 				<MarkdownEditor
 					value={form.values.description}
@@ -198,6 +246,20 @@ const CreateEventForm: React.FC = () => {
 					onChange={(value) => form.setFieldValue('description', value)}
 				/>
 
+				<Radio.Group
+					label="Visitors visibility"
+					description="Choose who can see the participants of the future event"
+					value={form.values.visitorsVisibility}
+					error={form.errors.visitorsVisibility}
+					onChange={(value) => {
+						form.setFieldValue('visitorsVisibility', value)
+					}}
+				>
+					<Group mt="xs">
+						<Radio value="EVERYONE" label="Everyone" />
+						<Radio value="VISITOR" label="Participants" />
+					</Group>
+				</Radio.Group>
 				<Divider
 					mt="xs"
 					labelPosition="left"
@@ -208,7 +270,10 @@ const CreateEventForm: React.FC = () => {
 						</>
 					}
 				/>
-				<LoadScript googleMapsApiKey={config.GOOGLE_API} libraries={['places']}>
+				<LoadScript
+					googleMapsApiKey={config.GOOGLE_API}
+					libraries={mapLibraries}
+				>
 					<Autocomplete
 						key={autoKey}
 						onLoad={onLoadAutocomplete}
@@ -246,14 +311,16 @@ const CreateEventForm: React.FC = () => {
 						</>
 					}
 				/>
-				<Group grow>
+				<Flex direction={isMobile ? 'column' : 'row'} gap="sm">
 					<NumberInput
-						label="Price, USD"
+						label="Price"
 						placeholder="Set ticket price"
 						size={isMobile ? 'sm' : 'md'}
 						key={form.key('ticketPrice')}
 						min={0}
+						suffix="$"
 						{...form.getInputProps('ticketPrice')}
+						flex={1}
 					/>
 					<NumberInput
 						label="Quantity"
@@ -263,8 +330,9 @@ const CreateEventForm: React.FC = () => {
 						min={0}
 						decimalScale={0}
 						{...form.getInputProps('ticketsQuantity')}
+						flex={1}
 					/>
-				</Group>
+				</Flex>
 
 				<Divider
 					mt="xs"
@@ -276,16 +344,17 @@ const CreateEventForm: React.FC = () => {
 						</>
 					}
 				/>
-				<Group grow>
+				<Flex direction={isMobile ? 'column' : 'row'} gap="sm">
 					<DateTimePicker
 						label="Start"
 						placeholder="Select event start date and time"
 						minDate={dayjs()
-							.add(dayjs.duration({ hours: 1 }))
+							.add(dayjs.duration({ days: 1 }))
 							.toDate()}
 						size={isMobile ? 'sm' : 'md'}
 						key={form.key('startDate')}
 						{...form.getInputProps('startDate')}
+						flex={1}
 					/>
 					<DateTimePicker
 						label="End"
@@ -296,25 +365,91 @@ const CreateEventForm: React.FC = () => {
 						size={isMobile ? 'sm' : 'md'}
 						key={form.key('endDate')}
 						{...form.getInputProps('endDate')}
+						flex={1}
 					/>
-				</Group>
+				</Flex>
 
 				<Checkbox
 					checked={isPublishLater}
-					onChange={() => setIsPublishLater((prev) => !prev)}
+					onChange={() => {
+						if (isPublishLater) {
+							form.setFieldValue('publishDate', null)
+						}
+						setIsPublishLater((prev) => !prev)
+					}}
 					label="Publish later"
 				/>
 				{isPublishLater && (
 					<DateTimePicker
 						label="Publish date"
 						placeholder="Choose when to publish"
-						minDate={dayjs(new Date(form.values.startDate))
-							.add(dayjs.duration({ days: 1 }))
+						minDate={new Date()}
+						maxDate={dayjs(new Date(form.values.startDate))
+							.subtract(dayjs.duration({ days: 1 }))
 							.toDate()}
 						size={isMobile ? 'sm' : 'md'}
 						key={form.key('publishDate')}
 						{...form.getInputProps('publishDate')}
 					/>
+				)}
+
+				<Divider
+					mt="xs"
+					labelPosition="left"
+					label={
+						<>
+							<MdDiscount size={18} />
+							<Text ml={5}>Promocodes</Text>
+						</>
+					}
+				/>
+				<Text size="sm" c="dimmed">
+					You can optionally add promo codes to offer discounts on tickets for
+					your attendees.
+				</Text>
+				<CreatePromocodeInput
+					promocodes={form.getValues().promocodes}
+					minDate={new Date(form.values.startDate)}
+					onAdd={(promocode) => {
+						form.setFieldValue('promocodes', (prev) => [...prev, promocode])
+					}}
+				/>
+				{form.getValues().promocodes.length > 0 && <Divider />}
+				{form.values.promocodes.length > 0 && (
+					<Stack gap="xs">
+						{form.values.promocodes.map((promocode, index) => (
+							<Group
+								key={index}
+								style={{ borderRadius: 8 }}
+								justify="space-between"
+								align="center"
+							>
+								<Box flex={1}>
+									<Badge variant="light" color="blue" size="lg" w={140}>
+										{promocode.code}
+									</Badge>
+								</Box>
+								<Text flex={1} fw={500} c="green">
+									{promocode.discount}%
+								</Text>
+								<Text flex={1} w={200} c="dimmed">
+									{dayjs(promocode.expirationDate).format('DD MMM YYYY, HH:mm')}
+								</Text>
+								<ActionIcon
+									size="lg"
+									color="red"
+									onClick={() =>
+										form.setFieldValue(
+											'promocodes',
+											form.values.promocodes.filter((_, i) => i !== index)
+										)
+									}
+								>
+									<MdDelete />
+								</ActionIcon>
+							</Group>
+						))}
+					</Stack>
 				)}
 
 				<Group justify="flex-end" mt="md">
@@ -326,7 +461,7 @@ const CreateEventForm: React.FC = () => {
 						Cancel
 					</Button>
 					<Button type="submit" size={isMobile ? 'sm' : 'md'}>
-						Create Event
+						Create
 					</Button>
 				</Group>
 			</Stack>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Center, Container, Stack, Title } from '@mantine/core'
+import { Container, Stack, Title } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 
 import CreateCompanyForm from '@/components/company/forms/create-company-form'
@@ -9,10 +9,12 @@ import { MotionCard } from '@/components/general'
 
 const CompanyCreatePage: React.FC = () => {
 	const { t } = useTranslation()
+
 	return (
 		<Container size="xl" pt="md">
 			<Stack gap="xl" justify="space-between">
 				<MainHeader />
+				<Title order={2}>{t('createCompany.title')}</Title>
 				<MotionCard
 					withBorder
 					radius="xl"
@@ -23,9 +25,6 @@ const CompanyCreatePage: React.FC = () => {
 					transition={{ duration: 0.5, ease: 'easeOut' }}
 				>
 					<Stack gap="xl">
-						<Center>
-							<Title order={2}>{t('createCompany.title')}</Title>
-						</Center>
 						<CreateCompanyForm />
 					</Stack>
 				</MotionCard>

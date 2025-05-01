@@ -1,33 +1,26 @@
 import { z } from 'zod'
-
-const MAX_FILE_SIZE = 5 * 1024 * 1024
-const ACCEPTED_IMAGE_TYPES = [
-	'image/jpeg',
-	'image/jpg',
-	'image/png',
-	'image/webp',
-]
+import { image } from './image-schema'
 
 export const createEventSchema = z
 	.object({
-		title: z.string().nonempty(),
+		title: z.string().nonempty({ message: 'Title must not be empty' }),
 		description: z.string().nonempty(),
-		format: z.string().nonempty(),
-		theme: z.string().nonempty(),
-		location: z.string().nonempty(),
+		format: z.string().nonempty({ message: 'Select format' }),
+		theme: z.string().nonempty({ message: 'Select theme' }),
+		location: z.string().nonempty({ message: 'Location must be provided' }),
 		ticketPrice: z.number().min(0),
 		ticketsQuantity: z.number().int().min(0),
-		poster: z
-			.any()
-			.optional()
-			.refine((file) => !file || (file && file.size <= MAX_FILE_SIZE))
-			.refine((file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type)),
-		visitorVisibility: z.string().nonempty(),
-		startDate: z.date(),
-		endDate: z.date(),
-		publishDate: z.date(),
+		poster: image,
+		visitorsVisibility: z.string().nonempty(),
+		notifyOnAttendee: z.boolean(),
+		startDate: z.date({ message: 'Provide start date' }),
+		endDate: z.date({ message: 'Provide end date' }),
+		publishDate: z
+			.date({ message: 'Provide date of publication' })
+			.nullable()
+			.optional(),
 	})
-	.refine((data) => data.startDate > data.publishDate, {
+	.refine((data) => !data.publishDate || data.startDate > data.publishDate, {
 		path: ['startDate'],
 	})
 	.refine((data) => data.endDate > data.startDate, {

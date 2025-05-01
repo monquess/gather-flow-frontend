@@ -37,7 +37,7 @@ const UpdateUserModal: React.FC<updateUserModalProps> = ({
 	const handleSubmit = async (values: typeof form.values) => {
 		try {
 			setLoading(true)
-			const { data } = await apiClient.patch<User>(`/users/${user?.id}`, values)
+			const { data } = await apiClient.patch<User>(`/users`, values)
 			updateUser(data)
 			showNotification(
 				t('updateUser.title'),

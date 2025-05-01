@@ -1,17 +1,19 @@
-import { apiClient, ApiError } from '@/shared/api/axios'
-import { showNotification } from '@/shared/helpers/show-notification'
-import { PostItem } from '@/shared/types/posts'
-import { Card, Flex, Group, Image, Stack, Text } from '@mantine/core'
-import dayjs from 'dayjs'
-import { motion } from 'framer-motion'
 import React, { memo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Card, Flex, Group, Image, Stack, Text } from '@mantine/core'
 import { CiHeart } from 'react-icons/ci'
 import { FaHeart } from 'react-icons/fa6'
 import { MdCalendarToday } from 'react-icons/md'
-import { useNavigate } from 'react-router-dom'
+
+import dayjs from 'dayjs'
+import { motion } from 'framer-motion'
+
+import { apiClient, ApiError } from '@/shared/api/axios'
+import { showNotification } from '@/shared/helpers/show-notification'
+import { Post } from '@/shared/types'
 
 interface PostCardProps {
-	post: PostItem
+	post: Post
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {

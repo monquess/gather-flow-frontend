@@ -5,6 +5,7 @@ import { useForm, zodResolver } from '@mantine/form'
 import {
 	Autocomplete,
 	GoogleMap,
+	Libraries,
 	LoadScript,
 	Marker,
 } from '@react-google-maps/api'
@@ -23,6 +24,8 @@ const containerStyle = {
 	width: '100%',
 	height: '300px',
 }
+
+const mapLibraries: Libraries = ['places']
 
 const CreateCompanyForm: React.FC = () => {
 	const { t } = useTranslation()
@@ -143,7 +146,10 @@ const CreateCompanyForm: React.FC = () => {
 					}
 				/>
 
-				<LoadScript googleMapsApiKey={config.GOOGLE_API} libraries={['places']}>
+				<LoadScript
+					googleMapsApiKey={config.GOOGLE_API}
+					libraries={mapLibraries}
+				>
 					<Autocomplete
 						key={autoKey}
 						onLoad={onLoadAutocomplete}

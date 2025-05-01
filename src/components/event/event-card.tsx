@@ -21,7 +21,6 @@ const EventCard: React.FC<EventCardProps> = ({ event, delay }) => {
 	return (
 		<Card
 			withBorder
-			shadow="xl"
 			radius="md"
 			padding="md"
 			h={425}

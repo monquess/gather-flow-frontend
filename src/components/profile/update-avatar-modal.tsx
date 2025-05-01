@@ -23,7 +23,7 @@ const UploadAvatarModal: React.FC<UploadAvatarModalProps> = ({
 }) => {
 	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
-	const { user, updateUser } = useUserStore()
+	const { updateUser } = useUserStore()
 	const [loading, setLoading] = useState(false)
 
 	const form = useForm({
@@ -43,15 +43,11 @@ const UploadAvatarModal: React.FC<UploadAvatarModalProps> = ({
 				formData.append('avatar', values.avatar)
 			}
 
-			const { data } = await apiClient.patch<User>(
-				`/users/${user?.id}/avatar`,
-				formData,
-				{
-					headers: {
-						'Content-Type': 'multipart/form-data',
-					},
-				}
-			)
+			const { data } = await apiClient.patch<User>(`/users/avatar`, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			})
 
 			showNotification(
 				t('uploadAvatar.title'),

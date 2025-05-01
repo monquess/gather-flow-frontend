@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-
 import {
 	ActionIcon,
 	Avatar,
@@ -19,9 +18,13 @@ import {
 	Text,
 	Title,
 } from '@mantine/core'
+import { Carousel } from '@mantine/carousel'
+
 import { GoTrash } from 'react-icons/go'
 import { GrUpdate } from 'react-icons/gr'
 import { IoMdAdd } from 'react-icons/io'
+import { CiEdit } from 'react-icons/ci'
+import { FaMapLocationDot } from 'react-icons/fa6'
 
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { useQuery } from '@tanstack/react-query'
@@ -38,17 +41,16 @@ import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
 import { useUserStore } from '@/shared/store/user-store'
 import { Company, CompanyMember, EventsResponse } from '@/shared/types'
-import { FaMapLocationDot } from 'react-icons/fa6'
-import { Carousel } from '@mantine/carousel'
 import PostCard from '@/components/post/post-card'
-import { CiEdit } from 'react-icons/ci'
 import ReviewCard from '@/components/review/review-card'
 import PostCreateModal from '@/components/post/modal/post-create-modal'
 import ReviewCreateModal from '@/components/review/modal/review-create-modal'
 import UserListModal from '@/components/users/modal/user-list-modal'
-import { PostsResponse } from '@/shared/types/posts'
-import { ReviewsResponse } from '@/shared/types/reviews'
+import { PostsResponse } from '@/shared/types'
+import { ReviewsResponse } from '@/shared/types/review'
 import Autoplay from 'embla-carousel-autoplay'
+
+import classes from '@/shared/styles/slider.module.css'
 
 const CompanyPage: React.FC = () => {
 	const { t } = useTranslation()

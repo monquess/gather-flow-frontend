@@ -19,6 +19,7 @@ const EventCreatePage: React.FC = () => {
 		<Container size="xl" pt="md">
 			<Stack gap="xl" justify="space-between">
 				<MainHeader />
+				<Title order={2}>{t('createEvent.title')}</Title>
 				<MotionCard
 					withBorder
 					radius="xl"
@@ -29,7 +30,6 @@ const EventCreatePage: React.FC = () => {
 					transition={{ duration: 0.5, ease: 'easeOut' }}
 				>
 					<Stack gap="xl">
-						<Title order={2}>{t('createEvent.title')}</Title>
 						<CreateEventForm />
 					</Stack>
 				</MotionCard>

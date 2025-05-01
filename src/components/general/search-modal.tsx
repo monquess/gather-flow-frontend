@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
 	Card,
@@ -24,12 +24,12 @@ import {
 	CompaniesResponse,
 } from '@/shared/types'
 
-interface FindEventModalProps {
+interface SearchModalProps {
 	opened: boolean
 	onClose: () => void
 }
 
-const FindEventModal: React.FC<FindEventModalProps> = ({ opened, onClose }) => {
+const SearchModal: React.FC<SearchModalProps> = ({ opened, onClose }) => {
 	const { t } = useTranslation()
 	const navigate = useNavigate()
 	const { isMobile } = useResponsive()
@@ -84,7 +84,7 @@ const FindEventModal: React.FC<FindEventModalProps> = ({ opened, onClose }) => {
 			<Modal.Content>
 				<Modal.Header>
 					<TextInput
-						variant="unstyled"
+						placeholder="Search for events or companies"
 						w="100%"
 						leftSection={<CiSearch size={20} />}
 						onChange={(e) => setSearch(e.currentTarget.value)}
@@ -181,4 +181,4 @@ const FindEventModal: React.FC<FindEventModalProps> = ({ opened, onClose }) => {
 	)
 }
 
-export default memo(FindEventModal)
+export default React.memo(SearchModal)

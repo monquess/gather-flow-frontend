@@ -45,6 +45,8 @@ import { apiClient } from '@/shared/api/axios'
 import { cleanMarkdown } from '@/shared/helpers/markdown'
 import { Event, EventsResponse } from '@/shared/types'
 import CommentSection from '@/components/comment/comment-section'
+import SocialShareButtons from '@/components/general/social-share-buttons'
+import { EventMetaTags } from '@/components/event/event-meta-tags'
 
 marked.setOptions({
 	gfm: true,
@@ -52,6 +54,7 @@ marked.setOptions({
 })
 
 const EventPage: React.FC = () => {
+	const navigate = useNavigate()
 	const { isMobile } = useResponsive()
 	const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(
 		null
@@ -115,7 +118,6 @@ const EventPage: React.FC = () => {
 		const { data } = await apiClient(`/events/${id}/similar`)
 		return data
 	}
-	const navigate = useNavigate()
 
 	const {
 		data: similarEvents,
@@ -163,6 +165,7 @@ const EventPage: React.FC = () => {
 
 	return (
 		<Container size="xl" pt="md">
+			<EventMetaTags event={event} />
 			<MainHeader />
 
 			<Flex gap="md" mt="xl" direction={isMobile ? 'column' : 'row'}>
@@ -335,6 +338,13 @@ const EventPage: React.FC = () => {
 			</MotionCard>
 
 			<MotionCard mt="xl">
+				<SocialShareButtons
+					url={`http://localhost:4200/events/${event.id}`}
+					title={event.title}
+				/>
+			</MotionCard>
+
+			<MotionCard>
 				<CommentSection event={event} />
 			</MotionCard>
 

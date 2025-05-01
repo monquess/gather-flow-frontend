@@ -1,8 +1,4 @@
-import MarkdownEditor from '@/components/editor/markdown-editor'
-import { useResponsive } from '@/hooks/use-responsive'
-import { apiClient, ApiError } from '@/shared/api/axios'
-import { showNotification } from '@/shared/helpers/show-notification'
-import { CompanyItem } from '@/shared/types/companies'
+import { memo, useState } from 'react'
 import {
 	Button,
 	FileInput,
@@ -12,11 +8,16 @@ import {
 	Title,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { memo, useState } from 'react'
 import { IoImageOutline } from 'react-icons/io5'
 
+import MarkdownEditor from '@/components/editor/markdown-editor'
+import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient, ApiError } from '@/shared/api/axios'
+import { showNotification } from '@/shared/helpers/show-notification'
+import { Company } from '@/shared/types'
+
 interface PostCreateModalProps {
-	company: CompanyItem | undefined
+	company?: Company
 	opened: boolean
 	onClose: () => void
 }
