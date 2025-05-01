@@ -188,7 +188,7 @@ const PostPage: React.FC = () => {
 							<RichTextEditor.Content />
 						</RichTextEditor>
 
-						<Group mt="md" align="center" gap="xs" justify="center">
+						<Group mt="md" align="center" gap="xs" justify="end">
 							{liked ? (
 								<FaHeart size={28} color="red" onClick={handleLikeClick} />
 							) : (

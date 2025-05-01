@@ -86,7 +86,7 @@ const CompanyPage: React.FC = () => {
 	}
 
 	const fetchCompanyPosts = async (): Promise<PostsResponse> => {
-		const { data } = await apiClient(`/companies/${id}/posts`)
+		const { data } = await apiClient(`/companies/${id}/posts?limit=5`)
 		return data
 	}
 
@@ -101,11 +101,14 @@ const CompanyPage: React.FC = () => {
 	}
 
 	const fetchIsSubscribed = async (): Promise<CompanySubscriptions> => {
-		const { data } = await apiClient<CompanySubscriptions>(
+		const { data } = await apiClient(
 			`/company-subscriptions?userId=${user?.id}&companyId=${id}`
 		)
-		console.log(data)
-		//if (data.createdAt !== null) setSubscribed(true)
+
+		if (data.length > 0) {
+			setSubscribed(true)
+		}
+
 		return data
 	}
 
@@ -240,29 +243,33 @@ const CompanyPage: React.FC = () => {
 												</ActionIcon>
 											</Group>
 										)}
-										{subscribed ? (
-											<ActionIcon
-												variant="outline"
-												onClick={async () => {
-													setSubscribed(false)
-													await apiClient.delete(`/company-subscriptions/${id}`)
-												}}
-											>
-												<FaBell size={16} />
-											</ActionIcon>
-										) : (
-											<ActionIcon
-												variant="outline"
-												onClick={async () => {
-													setSubscribed(true)
-													await apiClient.post(`/company-subscriptions`, {
-														companyId: id,
-													})
-												}}
-											>
-												<FaRegBell size={14} />
-											</ActionIcon>
-										)}
+										{user ? (
+											subscribed ? (
+												<ActionIcon
+													variant="outline"
+													onClick={async () => {
+														setSubscribed(false)
+														await apiClient.delete(
+															`/company-subscriptions/${id}`
+														)
+													}}
+												>
+													<FaBell size={16} />
+												</ActionIcon>
+											) : (
+												<ActionIcon
+													variant="outline"
+													onClick={async () => {
+														setSubscribed(true)
+														await apiClient.post(`/company-subscriptions`, {
+															companyId: id,
+														})
+													}}
+												>
+													<FaRegBell size={14} />
+												</ActionIcon>
+											)
+										) : null}
 									</Flex>
 								</Group>
 								<Text size="sm" c="dimmed">

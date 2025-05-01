@@ -2,7 +2,7 @@ import MarkdownEditor from '@/components/editor/markdown-editor'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import { CompanyItem } from '@/shared/types/companies'
+import { Company } from '@/shared/types'
 import {
 	Button,
 	FileInput,
@@ -16,7 +16,7 @@ import { memo, useState } from 'react'
 import { IoImageOutline } from 'react-icons/io5'
 
 interface PostCreateModalProps {
-	company: CompanyItem | undefined
+	company: Company | undefined
 	opened: boolean
 	onClose: () => void
 }
@@ -40,7 +40,6 @@ const PostCreateModal: React.FC<PostCreateModalProps> = ({
 
 	const handleSubmit = async () => {
 		try {
-			console.log(form.getValues())
 			await apiClient.post(
 				`/companies/${company?.id}/posts`,
 				form.getValues(),

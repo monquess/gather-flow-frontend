@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { BsPencil } from 'react-icons/bs'
+import { BsBell, BsPencil } from 'react-icons/bs'
 import { CiLogout } from 'react-icons/ci'
 import { GoTrash } from 'react-icons/go'
 import { GrUpdate } from 'react-icons/gr'
+import { useNavigate } from 'react-router-dom'
 
 import {
 	ActionIcon,
@@ -18,10 +18,11 @@ import {
 	Text,
 	Title,
 } from '@mantine/core'
-import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 
 import MainHeader from '@/components/general/main-header'
+import NotificationsModal from '@/components/notifications/modal/notifications-modal'
 import DeleteUserModal from '@/components/profile/delete-user-modal'
 import UpdateAvatarModal from '@/components/profile/update-avatar-modal'
 import UpdateUserModal from '@/components/profile/update-user-modal'
@@ -34,6 +35,7 @@ const UserProfilePage: React.FC = () => {
 	const [updateModal, setUpdateModal] = useState(false)
 	const [deleteModal, setDeleteModal] = useState(false)
 	const [avatarModal, setAvatarModal] = useState(false)
+	const [notification, setNotification] = useState(false)
 
 	if (!user) {
 		return (
@@ -115,6 +117,9 @@ const UserProfilePage: React.FC = () => {
 						mt={{ base: 'md', sm: 0 }}
 						ml={{ base: 0, sm: 'auto' }}
 					>
+						<ActionIcon variant="outline" onClick={() => setNotification(true)}>
+							<BsBell size={14} />
+						</ActionIcon>
 						<ActionIcon variant="outline" onClick={() => setUpdateModal(true)}>
 							<GrUpdate size={14} />
 						</ActionIcon>
@@ -138,6 +143,10 @@ const UserProfilePage: React.FC = () => {
 			<UpdateAvatarModal
 				opened={avatarModal}
 				onClose={() => setAvatarModal(false)}
+			/>
+			<NotificationsModal
+				opened={notification}
+				onClose={() => setNotification(false)}
 			/>
 		</Container>
 	)
