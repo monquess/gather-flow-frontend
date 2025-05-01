@@ -17,10 +17,10 @@ export const EventMetaTags: React.FC<EventMetaTagsProps> = ({ event }) => {
 			<meta property="og:type" content="article" />
 
 			<meta name="twitter:card" content="summary_large_image" />
-			<meta name="twitter:image" content={url} />
+			<meta name="twitter:image" content={event.poster} />
 
 			<link rel="canonical" href={url} />
-			<title>{event.title}</title>
+			<title>{event.title} | GatherFlow</title>
 		</Helmet>
 	)
 }

@@ -57,6 +57,10 @@ const containerStyle = {
 
 const mapLibraries: Libraries = ['places']
 
+const getPosterUrl = (file?: File): string => {
+	return file ? URL.createObjectURL(file) : config.DEFAULT_POSTER_URL
+}
+
 const CreateEventForm: React.FC = () => {
 	const { id: companyId } = useParams()
 	const navigate = useNavigate()
@@ -90,6 +94,7 @@ const CreateEventForm: React.FC = () => {
 			publishDate: null as Date | null,
 			poster: undefined,
 			promocodes: [] as Promocode[],
+			notifyOnAttendee: false,
 		},
 	})
 	const [isPublishLater, setIsPublishLater] = useState(false)
@@ -146,8 +151,6 @@ const CreateEventForm: React.FC = () => {
 					publishDate: publishDate?.toISOString(),
 				}
 
-				console.log(body)
-
 				const { data } = await apiClient.post<Event>(
 					`/companies/${companyId}/events`,
 					body,
@@ -165,10 +168,6 @@ const CreateEventForm: React.FC = () => {
 				}
 			}
 		}
-	}
-
-	const getPosterUrl = (file?: File): string => {
-		return file ? URL.createObjectURL(file) : config.DEFAULT_POSTER_URL
 	}
 
 	return (
@@ -260,6 +259,7 @@ const CreateEventForm: React.FC = () => {
 						<Radio value="VISITOR" label="Participants" />
 					</Group>
 				</Radio.Group>
+
 				<Divider
 					mt="xs"
 					labelPosition="left"
@@ -451,6 +451,16 @@ const CreateEventForm: React.FC = () => {
 						))}
 					</Stack>
 				)}
+
+				<Checkbox
+					size="md"
+					mt="md"
+					radius="md"
+					label="Notify on new attendees"
+					description="You'll receive an email when a new attendee joins"
+					key={form.key('notifyOnAttendee')}
+					{...form.getInputProps('notifyOnAttendee')}
+				/>
 
 				<Group justify="flex-end" mt="md">
 					<Button
