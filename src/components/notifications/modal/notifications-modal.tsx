@@ -31,14 +31,6 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
 		enabled: opened,
 	})
 
-	const handleSubmit = async () => {
-		const ids = data?.data.map((e) => e.id).join(',')
-		await apiClient.patch(`/notifications/read?ids=${ids}`)
-		await client.invalidateQueries({
-			queryKey: ['notifications', user?.id],
-		})
-	}
-
 	return (
 		<Modal
 			opened={opened}
@@ -52,7 +44,17 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
 			<ScrollArea.Autosize mah={500}>
 				{data && data?.data.length > 0 ? (
 					<Flex justify="end">
-						<Text variant="outline" mb="xs" onClick={handleSubmit}>
+						<Text
+							variant="outline"
+							mb="xs"
+							onClick={async () => {
+								const ids = data?.data.map((e) => e.id).join(',')
+								await apiClient.patch(`/notifications/read?ids=${ids}`)
+								await client.invalidateQueries({
+									queryKey: ['notifications', user?.id],
+								})
+							}}
+						>
 							Read all
 						</Text>
 					</Flex>

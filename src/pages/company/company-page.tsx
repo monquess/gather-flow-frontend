@@ -462,15 +462,25 @@ const CompanyPage: React.FC = () => {
 								<Button
 									size={isMobile ? 'xs' : 'sm'}
 									rightSection={<IoMdAdd />}
-									onClick={() =>
-										navigate(`/companies/${data?.id}/event/create`)
-									}
+									onClick={() => navigate(`/companies/${id}/event/create`)}
 								>
 									{t('companyPage.createEvent')}
 								</Button>
 							)}
 						</Group>
 						<Box mt="md">
+							{eventData?.data.length ? (
+								<Text
+									c="dimmed"
+									ml={2}
+									size="xs"
+									onClick={() => {
+										navigate(`/companies/${id}/events`)
+									}}
+								>
+									({t('companyPage.seeMore')})
+								</Text>
+							) : null}
 							{isLoadingEvents ? (
 								<Center h="100%">
 									<Loader size="sm" />

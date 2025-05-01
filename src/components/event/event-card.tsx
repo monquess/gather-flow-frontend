@@ -1,8 +1,8 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Badge, Card, Group, Image, Stack, Text } from '@mantine/core'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { MdCalendarToday } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
@@ -32,7 +32,9 @@ const EventCard: React.FC<EventCardProps> = ({ event, delay }) => {
 				whileTap={{ scale: 0.98 }}
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
-				style={{ height: '100%' }}
+				style={{
+					height: '100%',
+				}}
 				transition={{
 					duration: 0.5,
 					ease: 'easeOut',
@@ -45,7 +47,10 @@ const EventCard: React.FC<EventCardProps> = ({ event, delay }) => {
 						height={200}
 						alt={event.title}
 						radius="sm"
-						style={{ objectFit: 'cover' }}
+						style={{
+							objectFit: 'cover',
+							filter: event.status === 'DRAFT' ? 'blur(2px)' : 'none',
+						}}
 					/>
 				</Card.Section>
 
@@ -72,7 +77,9 @@ const EventCard: React.FC<EventCardProps> = ({ event, delay }) => {
 						<Group mt="xs" align="center" gap="xs">
 							<MdCalendarToday size={16} />
 							<Text size="xs" lineClamp={1}>
-								{dayjs(event.startDate).format('DD MMM YYYY, HH:mm')}
+								{event.status === 'DRAFT'
+									? dayjs(event.publishDate).format('DD MMM YYYY, HH:mm')
+									: dayjs(event.startDate).format('DD MMM YYYY, HH:mm')}
 							</Text>
 						</Group>
 
@@ -80,9 +87,22 @@ const EventCard: React.FC<EventCardProps> = ({ event, delay }) => {
 							<Text size="sm" fw={500} lineClamp={1}>
 								{event?.location?.split(',').pop()?.trim()}
 							</Text>
-							<Badge variant="filled" color="blue">
-								${event.ticketPrice.toFixed(2)}
-							</Badge>
+							<Group gap="0">
+								{event.status === 'DRAFT' ? (
+									<Badge variant="outline" mr="xs">
+										{t('common.draft')}
+									</Badge>
+								) : null}
+								{event.ticketPrice === 0 ? (
+									<Badge variant="filled" color="green">
+										{t('common.free')}
+									</Badge>
+								) : (
+									<Badge variant="filled" color="blue">
+										${event.ticketPrice.toFixed(2)}
+									</Badge>
+								)}
+							</Group>
 						</Group>
 					</Stack>
 				</Stack>

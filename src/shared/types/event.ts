@@ -17,6 +17,7 @@ export type Event = {
 	startDate: string
 	endDate: string
 	publishDate: string
+	status: string
 } & Entity
 
 export type EventsResponse = Paginated<Event>

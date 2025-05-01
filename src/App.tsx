@@ -29,6 +29,7 @@ import {
 	VerifyPage,
 } from './pages'
 
+import CompanyEventsPage from './pages/company/company-events-page'
 import CompanyPostsPage from './pages/company/company-posts-page'
 import PostPage from './pages/post/post-page'
 import PostsPage from './pages/post/posts-page'
@@ -54,6 +55,7 @@ const routes = [
 	{ path: '/companies/:id/update', element: <CompanyUpdatePage /> },
 	{ path: '/companies/:id/event/create', element: <EventCreatePage /> },
 	{ path: '/companies/:id/posts', element: <CompanyPostsPage /> },
+	{ path: '/companies/:id/events', element: <CompanyEventsPage /> },
 
 	{ path: '/events', element: <EventsPage /> },
 	{ path: '/events/:id', element: <EventPage /> },
