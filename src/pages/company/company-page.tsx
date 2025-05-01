@@ -29,26 +29,29 @@ import { useTranslation } from 'react-i18next'
 
 import AddMemberModal from '@/components/company/modal/add-member-modal'
 import DeleteCompanyModal from '@/components/company/modal/delete-company-modal'
-import CarouselEvent from '@/components/general/carousel-event'
 import { MotionCard } from '@/components/general'
+import CarouselEvent from '@/components/general/carousel-event'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
-import { config } from '@/shared/config/config'
+import PostCreateModal from '@/components/post/modal/post-create-modal'
+import PostCard from '@/components/post/post-card'
+import ReviewCreateModal from '@/components/review/modal/review-create-modal'
+import ReviewCard from '@/components/review/review-card'
+import UserListModal from '@/components/users/modal/user-list-modal'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
+import { config } from '@/shared/config/config'
 import { useUserStore } from '@/shared/store/user-store'
+import classes from '@/shared/styles/slider.module.css'
 import { Company, CompanyMember, EventsResponse } from '@/shared/types'
-import { FaMapLocationDot } from 'react-icons/fa6'
-import { Carousel } from '@mantine/carousel'
-import PostCard from '@/components/post/post-card'
-import { CiEdit } from 'react-icons/ci'
-import ReviewCard from '@/components/review/review-card'
-import PostCreateModal from '@/components/post/modal/post-create-modal'
-import ReviewCreateModal from '@/components/review/modal/review-create-modal'
-import UserListModal from '@/components/users/modal/user-list-modal'
 import { PostsResponse } from '@/shared/types/posts'
 import { ReviewsResponse } from '@/shared/types/reviews'
+import { CompanySubscriptions } from '@/shared/types/subscriptions'
+import { Carousel } from '@mantine/carousel'
 import Autoplay from 'embla-carousel-autoplay'
+import { CiEdit } from 'react-icons/ci'
+import { FaRegBell } from 'react-icons/fa'
+import { FaBell, FaMapLocationDot } from 'react-icons/fa6'
 
 const CompanyPage: React.FC = () => {
 	const { t } = useTranslation()
@@ -69,6 +72,8 @@ const CompanyPage: React.FC = () => {
 	const [isCreateReviewOpened, setCreateReviewOpened] = useState(false)
 	const { id } = useParams()
 	const autoplay = useRef(Autoplay({ delay: 3000 }))
+
+	const [subscribed, setSubscribed] = useState(false)
 
 	const fetchCompany = async (): Promise<Company> => {
 		const { data } = await apiClient<Company>(`/companies/${id}`)
@@ -92,6 +97,15 @@ const CompanyPage: React.FC = () => {
 		const { data } = await apiClient(
 			`/companies/${id}/reviews?${params.toString}`
 		)
+		return data
+	}
+
+	const fetchIsSubscribed = async (): Promise<CompanySubscriptions> => {
+		const { data } = await apiClient<CompanySubscriptions>(
+			`/company-subscriptions?userId=${user?.id}&companyId=${id}`
+		)
+		console.log(data)
+		//if (data.createdAt !== null) setSubscribed(true)
 		return data
 	}
 
@@ -121,6 +135,11 @@ const CompanyPage: React.FC = () => {
 	const { data: reviewsData } = useQuery({
 		queryKey: ['reviews', id],
 		queryFn: fetchCompanyReviews,
+	})
+
+	useQuery({
+		queryKey: ['subscription'],
+		queryFn: fetchIsSubscribed,
 	})
 
 	const handleApiLoaded = () => {
@@ -198,28 +217,53 @@ const CompanyPage: React.FC = () => {
 							<Stack>
 								<Group justify="space-between" align="center">
 									<Title order={1}>{data?.name}</Title>
-									{admin && (
-										<Flex
-											gap="md"
-											mt={{ base: 'md', sm: 0 }}
-											ml={{ base: 0, sm: 'auto' }}
-										>
+									<Flex
+										gap="md"
+										mt={{ base: 'md', sm: 0 }}
+										ml={{ base: 0, sm: 'auto' }}
+									>
+										{admin && (
+											<Group>
+												<ActionIcon
+													variant="outline"
+													onClick={() =>
+														navigate(`/companies/${data?.id}/update`)
+													}
+												>
+													<GrUpdate size={14} />
+												</ActionIcon>
+												<ActionIcon
+													variant="outline"
+													onClick={() => setDeleteCompany(true)}
+												>
+													<GoTrash size={14} />
+												</ActionIcon>
+											</Group>
+										)}
+										{subscribed ? (
 											<ActionIcon
 												variant="outline"
-												onClick={() =>
-													navigate(`/companies/${data?.id}/update`)
-												}
+												onClick={async () => {
+													setSubscribed(false)
+													await apiClient.delete(`/company-subscriptions/${id}`)
+												}}
 											>
-												<GrUpdate size={14} />
+												<FaBell size={16} />
 											</ActionIcon>
+										) : (
 											<ActionIcon
 												variant="outline"
-												onClick={() => setDeleteCompany(true)}
+												onClick={async () => {
+													setSubscribed(true)
+													await apiClient.post(`/company-subscriptions`, {
+														companyId: id,
+													})
+												}}
 											>
-												<GoTrash size={14} />
+												<FaRegBell size={14} />
 											</ActionIcon>
-										</Flex>
-									)}
+										)}
+									</Flex>
 								</Group>
 								<Text size="sm" c="dimmed">
 									{data?.email}
