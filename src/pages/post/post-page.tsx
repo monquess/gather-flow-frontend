@@ -3,7 +3,7 @@ import MainHeader from '@/components/general/main-header'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { cleanMarkdown } from '@/shared/helpers/markdown'
 import { showNotification } from '@/shared/helpers/show-notification'
-import { PostItem } from '@/shared/types/post'
+import { Post } from '@/shared/types'
 import {
 	Badge,
 	Card,
@@ -52,7 +52,7 @@ const PostPage: React.FC = () => {
 	const { t } = useTranslation()
 	const { id } = useParams()
 
-	const fetchData = async (): Promise<PostItem> => {
+	const fetchData = async (): Promise<Post> => {
 		const { data } = await apiClient(`/posts/${id}`)
 		return data
 	}

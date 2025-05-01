@@ -274,21 +274,23 @@ const EventPage: React.FC = () => {
 			{admin ? (
 				<>
 					<Divider my="xl" label="Admin zone" labelPosition="center" />
-					<Group>
-						<Button onClick={() => navigate(`events/${id}/manage-promocode`)}>
+					<Flex
+						direction={{ sm: 'column', md: 'row' }}
+						justify={{ sm: 'center', md: 'start' }}
+						gap="xs"
+					>
+						<Button onClick={() => navigate(`manage-promocode`)}>
 							Manage code
 						</Button>
 						{event.status === 'DRAFT' ? (
 							<>
-								<Button onClick={() => navigate(`events/${id}/update`)}>
-									Update event info
-								</Button>
+								<Button onClick={() => navigate(`update`)}>Update event</Button>
 								<Button onClick={() => setDeleteEvent(true)}>
 									Delete event
 								</Button>
 							</>
 						) : null}
-					</Group>
+					</Flex>
 				</>
 			) : null}
 			<Divider

@@ -18,6 +18,7 @@ export type Event = {
 	endDate: string
 	publishDate: string
 	status: string
+	notifyOnAttendee: boolean
 } & Entity
 
 export type EventsResponse = Paginated<Event>

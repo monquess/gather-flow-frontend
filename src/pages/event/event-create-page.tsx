@@ -1,41 +1,32 @@
-import { Card, CardProps, Container, Stack, Title } from '@mantine/core'
-import { motion } from 'framer-motion'
-import React, { forwardRef } from 'react'
-
-import CreateEventForm from '@/components/event/forms/create-event-form'
-import Footer from '@/components/general/footer'
-import MainHeader from '@/components/general/main-header'
+import React from 'react'
+import { Stack, Title } from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 
-const MotionCard = motion(
-	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
-		<Card ref={ref} {...props} />
-	))
-)
+import CreateEventForm from '@/components/event/forms/create-event-form'
+
+import { MotionCard } from '@/components/general'
+import Layout from '@/components/general/layout'
 
 const EventCreatePage: React.FC = () => {
 	const { t } = useTranslation()
+
 	return (
-		<Container size="xl" pt="md">
-			<Stack gap="xl" justify="space-between">
-				<MainHeader />
-				<Title order={2}>{t('createEvent.title')}</Title>
-				<MotionCard
-					withBorder
-					radius="xl"
-					p="xl"
-					shadow="md"
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5, ease: 'easeOut' }}
-				>
-					<Stack gap="xl">
-						<CreateEventForm />
-					</Stack>
-				</MotionCard>
-				<Footer />
-			</Stack>
-		</Container>
+		<Layout>
+			<Title order={2}>{t('createEvent.title')}</Title>
+			<MotionCard
+				withBorder
+				radius="xl"
+				p="xl"
+				shadow="md"
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5, ease: 'easeOut' }}
+			>
+				<Stack gap="xl">
+					<CreateEventForm />
+				</Stack>
+			</MotionCard>
+		</Layout>
 	)
 }
 
