@@ -35,6 +35,7 @@ import CompanyPostsPage from './pages/company/company-posts-page'
 import PostPage from './pages/post/post-page'
 import PostsPage from './pages/post/posts-page'
 import { theme } from './theme'
+import EventUpdatePage from './pages/event/event-update-page'
 
 const queryClient = new QueryClient()
 
@@ -61,6 +62,7 @@ const routes = [
 
 	{ path: '/events', element: <EventsPage /> },
 	{ path: '/events/:id', element: <EventPage /> },
+	{ path: '/events/:id/update', element: <EventUpdatePage /> },
 	{ path: '/events/:id/checkout', element: <EventCheckoutPage /> },
 	{ path: '/checkout-success', element: <CheckoutSuccessPage /> },
 

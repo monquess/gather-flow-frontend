@@ -24,10 +24,12 @@ import { useTranslation } from 'react-i18next'
 import Footer from '@/components/general/footer'
 import MainHeader from '@/components/general/main-header'
 import NotificationsModal from '@/components/notifications/modal/notifications-modal'
-import DeleteUserModal from '@/components/profile/delete-user-modal'
-import UpdateAvatarModal from '@/components/profile/update-avatar-modal'
-import UpdateUserModal from '@/components/profile/update-user-modal'
+import DeleteUserModal from '@/components/profile/modal/delete-user-modal'
+import UpdateAvatarModal from '@/components/profile/modal/update-avatar-modal'
+import UpdateUserModal from '@/components/profile/modal/update-user-modal'
+import TicketSection from '@/components/profile/ticket/ticket-section'
 import { useUserStore } from '@/shared/store/user-store'
+import CompanySection from '@/components/profile/company/company-section'
 
 const UserProfilePage: React.FC = () => {
 	const { t } = useTranslation()
@@ -111,7 +113,7 @@ const UserProfilePage: React.FC = () => {
 									)}
 								</Group>
 
-								<Box>
+								<Group gap="xs">
 									<Text size="xs" c="dimmed">
 										{t('profile.joined')}:{' '}
 										{dayjs(user.createdAt).format('DD MMM YYYY')}
@@ -120,7 +122,7 @@ const UserProfilePage: React.FC = () => {
 										{t('profile.lastUpdated')}:{' '}
 										{dayjs(user.updatedAt).format('DD MMM YYYY')}
 									</Text>
-								</Box>
+								</Group>
 							</Stack>
 						</Flex>
 
@@ -152,23 +154,29 @@ const UserProfilePage: React.FC = () => {
 							</ActionIcon>
 						</Flex>
 					</Flex>
+					<UpdateUserModal
+						opened={updateModal}
+						onClose={() => setUpdateModal(false)}
+					/>
+					<DeleteUserModal
+						opened={deleteModal}
+						onClose={() => setDeleteModal(false)}
+					/>
+					<UpdateAvatarModal
+						opened={avatarModal}
+						onClose={() => setAvatarModal(false)}
+					/>
+					<NotificationsModal
+						opened={notification}
+						onClose={() => setNotification(false)}
+					/>
 				</Paper>
-				<UpdateUserModal
-					opened={updateModal}
-					onClose={() => setUpdateModal(false)}
-				/>
-				<DeleteUserModal
-					opened={deleteModal}
-					onClose={() => setDeleteModal(false)}
-				/>
-				<UpdateAvatarModal
-					opened={avatarModal}
-					onClose={() => setAvatarModal(false)}
-				/>
-				<NotificationsModal
-					opened={notification}
-					onClose={() => setNotification(false)}
-				/>
+
+				<Title order={3}>Companies</Title>
+				<CompanySection />
+
+				<Title order={3}>Tickets</Title>
+				<TicketSection />
 			</Stack>
 			<Footer />
 		</Container>

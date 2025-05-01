@@ -3,7 +3,7 @@ import MainHeader from '@/components/general/main-header'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { cleanMarkdown } from '@/shared/helpers/markdown'
 import { showNotification } from '@/shared/helpers/show-notification'
-import { Post } from '@/shared/types/post'
+import { Post } from '@/shared/types'
 import {
 	Badge,
 	Card,

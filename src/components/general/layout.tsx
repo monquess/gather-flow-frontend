@@ -19,11 +19,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 				minHeight: '100vh',
 			}}
 		>
-			<MainHeader />
-			<Stack gap="md" style={{ flex: 1 }} justify="center">
+			<Stack gap="xl" style={{ flex: 1 }} justify="center">
+				<MainHeader />
 				{children}
+				<Footer />
 			</Stack>
-			<Footer />
 		</Container>
 	)
 }
