@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import {
 	ActionIcon,
 	Avatar,
@@ -14,20 +13,22 @@ import {
 	Textarea,
 } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
-import { HiOutlineDotsHorizontal } from 'react-icons/hi'
-import { MdOutlineDelete, MdOutlineEdit } from 'react-icons/md'
-import { GoCommentDiscussion } from 'react-icons/go'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { GoCommentDiscussion } from 'react-icons/go'
+import { HiOutlineDotsHorizontal } from 'react-icons/hi'
+import { MdOutlineDelete, MdOutlineEdit } from 'react-icons/md'
 
-import { Comment } from '@/shared/types/comment'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
-import { createCommentSchema } from '@/shared/validations'
 import { useUserStore } from '@/shared/store/user-store'
-import DeleteCommentModal from './modals/delete-comment-modal'
-import CommentReplyForm from './forms/comment-reply-form'
 import { Event, Paginated } from '@/shared/types'
+import { Comment } from '@/shared/types/comment'
+import { createCommentSchema } from '@/shared/validations'
+import CommentReplyForm from './forms/comment-reply-form'
+import DeleteCommentModal from './modals/delete-comment-modal'
 
 interface CommentCardProps {
 	comment: Comment
@@ -40,6 +41,7 @@ const CommentCard: React.FC<CommentCardProps> = ({
 	event,
 	isReply,
 }) => {
+	const { t } = useTranslation()
 	const client = useQueryClient()
 	const { user } = useUserStore()
 
@@ -81,11 +83,11 @@ const CommentCard: React.FC<CommentCardProps> = ({
 			form.setInitialValues({ content: data.content })
 			form.reset()
 			await client.invalidateQueries({ queryKey: ['comments', event.id] })
-			showNotification('Success', 'Comment updated successfully', 'green')
+			showNotification(t('commentCard.updateSuccess'), '', 'green')
 			setIsEditing(false)
 		},
 		onError: (error) => {
-			showNotification('Comment updating error', error.message, 'red')
+			showNotification(t('commentCard.updateError'), error.message, 'red')
 		},
 	})
 
@@ -155,14 +157,14 @@ const CommentCard: React.FC<CommentCardProps> = ({
 											leftSection={<MdOutlineEdit size={14} />}
 											onClick={handleEditClick}
 										>
-											Edit
+											{t('commentCard.edit')}
 										</Menu.Item>
 										<Menu.Item
 											color="red"
 											leftSection={<MdOutlineDelete size={14} />}
 											onClick={() => setOpened(true)}
 										>
-											Delete
+											{t('commentCard.delete')}
 										</Menu.Item>
 									</Menu.Dropdown>
 								</Menu>
@@ -174,7 +176,7 @@ const CommentCard: React.FC<CommentCardProps> = ({
 						<form onSubmit={handleEditSubmit}>
 							<Stack gap="xs">
 								<Textarea
-									placeholder="Comment..."
+									placeholder={t('commentForm.placeholder')}
 									size="sm"
 									autosize
 									minRows={2}
@@ -186,14 +188,14 @@ const CommentCard: React.FC<CommentCardProps> = ({
 										variant="default"
 										onClick={() => setIsEditing(false)}
 									>
-										Cancel
+										{t('commentCard.cancel')}
 									</Button>
 									<Button
 										size="xs"
 										type="submit"
 										loading={updateMutation.isPending}
 									>
-										Save
+										{t('commentCard.save')}
 									</Button>
 								</Group>
 							</Stack>
@@ -213,7 +215,9 @@ const CommentCard: React.FC<CommentCardProps> = ({
 								onClick={toggleReplies}
 								rightSection={<GoCommentDiscussion />}
 							>
-								{showReplies ? 'Hide replies' : 'Show replies'}
+								{showReplies
+									? t('commentCard.hideReplies')
+									: t('commentCard.showReplies')}
 							</Button>
 						)}
 						<Box flex={1} />
@@ -223,7 +227,7 @@ const CommentCard: React.FC<CommentCardProps> = ({
 								size="xs"
 								onClick={() => setIsReplying(true)}
 							>
-								Reply
+								{t('commentCard.reply')}
 							</Button>
 						)}
 					</Group>

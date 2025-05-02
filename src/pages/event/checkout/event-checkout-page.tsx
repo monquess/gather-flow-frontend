@@ -1,5 +1,3 @@
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import {
 	Badge,
 	Box,
@@ -15,17 +13,19 @@ import {
 	Stepper,
 	Text,
 } from '@mantine/core'
-
 import { useQuery } from '@tanstack/react-query'
-import { MdCalendarToday } from 'react-icons/md'
-import { IoCardOutline, IoTicketOutline } from 'react-icons/io5'
 import dayjs from 'dayjs'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { IoCardOutline, IoTicketOutline } from 'react-icons/io5'
+import { MdCalendarToday } from 'react-icons/md'
+import { useParams } from 'react-router-dom'
 
 import Layout from '@/components/general/layout'
 import { MotionCard } from '@/components/general/motion-card'
-import { Event } from '@/shared/types'
-import { apiClient } from '@/shared/api/axios'
 import { useResponsive } from '@/hooks/use-responsive'
+import { apiClient } from '@/shared/api/axios'
+import { Event } from '@/shared/types'
 
 import EventCheckoutForm from './event-checkout-form'
 import PromocodeInput from './promocode-input'
@@ -37,6 +37,7 @@ interface Promocode {
 }
 
 const EventCheckoutPage: React.FC = () => {
+	const { t } = useTranslation()
 	const { id } = useParams()
 	const { isMobile } = useResponsive()
 	const [body, setBody] = useState<{ quantity: number; promocode?: Promocode }>(
@@ -57,7 +58,7 @@ const EventCheckoutPage: React.FC = () => {
 
 	const {
 		data: event,
-		isLoading: isLoading,
+		isLoading,
 		error,
 	} = useQuery({
 		queryKey: ['payment-event', id],
@@ -78,15 +79,13 @@ const EventCheckoutPage: React.FC = () => {
 	}
 
 	if (error || !event) {
-		return <div>Error</div>
+		return <div>{t('eventCheckoutPage.errors.loadError')}</div>
 	}
 
 	return (
 		<Layout>
 			<MotionCard
-				style={{
-					alignSelf: 'center',
-				}}
+				style={{ alignSelf: 'center' }}
 				withBorder
 				radius="xl"
 				p="xl"
@@ -99,8 +98,8 @@ const EventCheckoutPage: React.FC = () => {
 				<Stepper active={step} onStepClick={setStep}>
 					<Stepper.Step
 						icon={<IoTicketOutline size={18} />}
-						label="First step"
-						description="Choose number of tickets"
+						label={t('eventCheckoutPage.steps.tickets.label')}
+						description={t('eventCheckoutPage.steps.tickets.description')}
 					>
 						<Group gap="md" align="stretch">
 							<Card withBorder shadow="none" radius="md" padding="md" miw="40%">
@@ -150,13 +149,13 @@ const EventCheckoutPage: React.FC = () => {
 							<Stack gap="md" flex={1}>
 								<Group justify="space-between" h="100%" p={0}>
 									<Text size="sm" ta="justify" mt={0}>
-										Please select how many tickets you would like to buy for
-										this event. Make sure to double-check your ticket quantity
-										before moving forward!
+										{t('eventCheckoutPage.ticketSelection.description')}
 									</Text>
 									<Group gap="sm">
 										<IoTicketOutline />
-										<Text size="sm">Event ticket</Text>
+										<Text size="sm">
+											{t('eventCheckoutPage.ticketSelection.ticketLabel')}
+										</Text>
 									</Group>
 									<Group gap="xs">
 										<Text fw={500}>${event.ticketPrice}</Text>
@@ -196,7 +195,7 @@ const EventCheckoutPage: React.FC = () => {
 								<Divider />
 								<Group justify="space-between">
 									<Group>
-										<Text fw={700}>Total</Text>
+										<Text fw={700}>{t('eventCheckoutPage.total')}</Text>
 										{body.promocode && (
 											<Badge color="green">{`-${body.promocode.discount}%`}</Badge>
 										)}
@@ -221,8 +220,8 @@ const EventCheckoutPage: React.FC = () => {
 					</Stepper.Step>
 					<Stepper.Step
 						icon={<IoCardOutline size={18} />}
-						label="Payment"
-						description="Pay for tickets"
+						label={t('eventCheckoutPage.steps.payment.label')}
+						description={t('eventCheckoutPage.steps.payment.description')}
 					>
 						<EventCheckoutForm
 							event={event}
@@ -239,7 +238,7 @@ const EventCheckoutPage: React.FC = () => {
 								setStep((prev) => (prev > 0 ? prev - 1 : prev))
 							}}
 						>
-							Back
+							{t('eventCheckoutPage.buttons.back')}
 						</Button>
 					)}
 					<Box flex={1} />
@@ -250,7 +249,7 @@ const EventCheckoutPage: React.FC = () => {
 							}}
 							justify="flex-end"
 						>
-							Continue
+							{t('eventCheckoutPage.buttons.continue')}
 						</Button>
 					)}
 				</Group>

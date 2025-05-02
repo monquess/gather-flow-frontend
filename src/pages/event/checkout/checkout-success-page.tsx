@@ -1,12 +1,14 @@
+import { Button, Group, Stack, Text, ThemeIcon, Title } from '@mantine/core'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Title, Text, Button, Group, Stack, ThemeIcon } from '@mantine/core'
+import { useTranslation } from 'react-i18next'
 import { MdCheckCircle } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
-import Layout from '@/components/general/layout'
 import { MotionCard } from '@/components/general'
+import Layout from '@/components/general/layout'
 
 const CheckoutSuccessPage: React.FC = () => {
+	const { t } = useTranslation()
 	const navigate = useNavigate()
 
 	return (
@@ -24,21 +26,19 @@ const CheckoutSuccessPage: React.FC = () => {
 					<ThemeIcon color="green" size={80} radius="xl">
 						<MdCheckCircle size={48} />
 					</ThemeIcon>
-					<Title order={2}>Payment Successful!</Title>
+					<Title order={2}>{t('checkoutSuccessPage.title')}</Title>
 					<Text c="dimmed" ta="center">
-						Thank you for your purchase. You can view your tickets in your email
-						or in your profile.
+						{t('checkoutSuccessPage.description')}
 					</Text>
 					<Group>
 						<Button variant="light" onClick={() => navigate('/home')}>
-							Home page
+							{t('checkoutSuccessPage.buttons.home')}
 						</Button>
 						<Button
-							component="a"
 							variant="filled"
 							onClick={() => navigate('/profile#tickets')}
 						>
-							Go to Profile
+							{t('checkoutSuccessPage.buttons.profile')}
 						</Button>
 					</Group>
 				</Stack>

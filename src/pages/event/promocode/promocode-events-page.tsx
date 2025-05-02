@@ -20,10 +20,12 @@ import { apiClient } from '@/shared/api/axios'
 import { Event, Promocode, PromocodeResponse } from '@/shared/types'
 import { useForm } from '@mantine/form'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import CreatePromocodeInput from '../../../components/event/create-promocode-input'
 
 const PromocodesEventPage: React.FC = () => {
+	const { t } = useTranslation()
 	const { id } = useParams()
 
 	const fetchPromocode = async (): Promise<PromocodeResponse[]> => {
@@ -64,7 +66,7 @@ const PromocodesEventPage: React.FC = () => {
 
 	return (
 		<Layout>
-			<Title>Manage "{event.title}" promocodes</Title>
+			<Title>{t('common.promocode', { event: event.title })}</Title>
 			<MotionCard
 				shadow="md"
 				radius="xl"

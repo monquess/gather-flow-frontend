@@ -5,6 +5,7 @@ import { ActionIcon, Badge, Flex, Group, Stack, Text } from '@mantine/core'
 import { useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import React, { memo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GoTrash } from 'react-icons/go'
 import { MotionCard } from '../general'
 
@@ -15,6 +16,7 @@ interface NotificationCardProps {
 const NotificationCard: React.FC<NotificationCardProps> = ({
 	notification,
 }) => {
+	const { t } = useTranslation()
 	const { user } = useUserStore()
 	const client = useQueryClient()
 	const [isRead, setIsRead] = useState(notification.isRead)
@@ -30,28 +32,33 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
 		>
 			<Stack gap="xs">
 				<Flex justify="space-between">
-					<Text>{notification.type}</Text>
+					<Text>{t(`notificationTypes.${notification.type}`)}</Text>
 					<Group>
 						{isRead ? (
 							<Badge color="green" w={125}>
-								Read
+								{t('notificationCard.status.read')}
 							</Badge>
 						) : (
 							<Badge
 								color="red"
 								w={125}
+								style={{ cursor: 'pointer' }}
 								onClick={async () => {
 									setIsRead(true)
 									await apiClient.patch(
 										`/notifications/${notification.id}/read`
 									)
+									client.invalidateQueries({
+										queryKey: ['notifications', user?.id],
+									})
 								}}
 							>
-								Unread
+								{t('notificationCard.status.unread')}
 							</Badge>
 						)}
 						<ActionIcon
 							variant="outline"
+							title={t('notificationCard.actions.delete')}
 							onClick={async () => {
 								await apiClient.delete(`/notifications/${notification.id}`)
 								await client.invalidateQueries({

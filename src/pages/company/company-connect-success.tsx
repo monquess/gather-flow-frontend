@@ -1,5 +1,6 @@
 import { Button, Group, Stack, Text, ThemeIcon, Title } from '@mantine/core'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { MdCheckCircle } from 'react-icons/md'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -7,6 +8,7 @@ import { MotionCard } from '@/components/general'
 import Layout from '@/components/general/layout'
 
 const ConnectSuccessPage: React.FC = () => {
+	const { t } = useTranslation()
 	const navigate = useNavigate()
 	const { id } = useParams()
 
@@ -25,21 +27,19 @@ const ConnectSuccessPage: React.FC = () => {
 					<ThemeIcon color="green" size={80} radius="xl">
 						<MdCheckCircle size={48} />
 					</ThemeIcon>
-					<Title order={2}>Connect Successful!</Title>
+					<Title order={2}>{t('connectSuccessPage.title')}</Title>
 					<Text c="dimmed" ta="center">
-						Thank you for connecting your Stripe account. You now have full
-						access to all company features.
+						{t('connectSuccessPage.description')}
 					</Text>
 					<Group>
 						<Button variant="light" onClick={() => navigate('/home')}>
-							Home page
+							{t('connectSuccessPage.buttons.home')}
 						</Button>
 						<Button
-							component="a"
 							variant="filled"
 							onClick={() => navigate(`/companies/${id}`)}
 						>
-							Go to company
+							{t('connectSuccessPage.buttons.company')}
 						</Button>
 					</Group>
 				</Stack>

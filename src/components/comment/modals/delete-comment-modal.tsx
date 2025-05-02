@@ -1,11 +1,12 @@
-import React from 'react'
 import { Button, Group, Modal, Stack, Text } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { useResponsive } from '@/hooks/use-responsive'
 import { ApiError, apiClient } from '@/shared/api/axios'
-import { Comment } from '@/shared/types'
 import { showNotification } from '@/shared/helpers/show-notification'
+import { Comment } from '@/shared/types'
 
 interface DeleteCommentModalProps {
 	opened: boolean
@@ -20,6 +21,7 @@ const DeleteCommentModal: React.FC<DeleteCommentModalProps> = ({
 	onDelete,
 	comment,
 }) => {
+	const { t } = useTranslation()
 	const { isMobile } = useResponsive()
 
 	const { mutate, isPending } = useMutation<void, ApiError>({
@@ -28,10 +30,10 @@ const DeleteCommentModal: React.FC<DeleteCommentModalProps> = ({
 		onSuccess: () => {
 			onDelete()
 			onClose()
-			showNotification('Success', 'Comment deleted successfully', 'green')
+			showNotification(t('deleteComment.success'), '', 'green')
 		},
 		onError: (error) => {
-			showNotification('Comment deletion error', error.message, 'red')
+			showNotification(t('deleteComment.error'), error.message, 'red')
 		},
 	})
 
@@ -44,7 +46,7 @@ const DeleteCommentModal: React.FC<DeleteCommentModalProps> = ({
 		<Modal
 			opened={opened}
 			onClose={onClose}
-			title="Delete comment"
+			title={t('deleteComment.title')}
 			size={isMobile ? 'sm' : 'md'}
 			centered
 			closeOnClickOutside={false}
@@ -53,12 +55,11 @@ const DeleteCommentModal: React.FC<DeleteCommentModalProps> = ({
 			<form onSubmit={handleSubmit}>
 				<Stack pos="relative" gap="xs">
 					<Text ta="justify" size={isMobile ? 'xs' : 'sm'} c="dimmed">
-						Are you sure you want to delete this comment? This action cannot be
-						undone.
+						{t('deleteComment.description')}
 					</Text>
 					<Group justify="flex-end">
 						<Button size="sm" variant="default" onClick={onClose}>
-							Cancel
+							{t('deleteComment.cancel')}
 						</Button>
 						<Button
 							type="submit"
@@ -66,7 +67,7 @@ const DeleteCommentModal: React.FC<DeleteCommentModalProps> = ({
 							color="red"
 							loading={isPending}
 						>
-							Delete
+							{t('deleteComment.submit')}
 						</Button>
 					</Group>
 				</Stack>

@@ -226,7 +226,7 @@ const CompanyPage: React.FC = () => {
 			<MainHeader />
 			{connectedStripe ? null : admin ? (
 				<Button color="red" my="md" onClick={handleStripeRedirect}>
-					Please, connect stripe account to unlock all features
+					{t('companyPage.stripeAccount')}
 				</Button>
 			) : null}
 			<Stack gap="md" style={{ flex: 1 }}>

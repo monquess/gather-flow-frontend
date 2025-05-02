@@ -7,16 +7,17 @@ import {
 	Title,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
+import { useQueryClient } from '@tanstack/react-query'
 import { memo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { IoImageOutline } from 'react-icons/io5'
+import { useParams } from 'react-router-dom'
 
 import MarkdownEditor from '@/components/editor/markdown-editor'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { Company } from '@/shared/types'
-import { useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
 
 interface PostCreateModalProps {
 	company?: Company
@@ -29,6 +30,7 @@ const PostCreateModal: React.FC<PostCreateModalProps> = ({
 	onClose,
 	company,
 }) => {
+	const { t } = useTranslation()
 	const { id } = useParams()
 	const client = useQueryClient()
 	const [loading, setLoading] = useState(false)
@@ -44,6 +46,7 @@ const PostCreateModal: React.FC<PostCreateModalProps> = ({
 	})
 
 	const handleSubmit = async () => {
+		setLoading(true)
 		try {
 			await apiClient.post(
 				`/companies/${company?.id}/posts`,
@@ -57,9 +60,18 @@ const PostCreateModal: React.FC<PostCreateModalProps> = ({
 			client.invalidateQueries({
 				queryKey: ['posts', id],
 			})
+			showNotification(
+				t('postCreateModal.notifications.success.title'),
+				t('postCreateModal.notifications.success.message'),
+				'green'
+			)
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
-				showNotification('Create news error', error.message, 'red')
+				showNotification(
+					t('postCreateModal.notifications.error.title'),
+					error.message,
+					'red'
+				)
 			}
 		} finally {
 			form.reset()
@@ -72,7 +84,7 @@ const PostCreateModal: React.FC<PostCreateModalProps> = ({
 		<Modal
 			opened={opened}
 			onClose={onClose}
-			title={<Title order={5}>Create news</Title>}
+			title={<Title order={5}>{t('postCreateModal.title')}</Title>}
 			size={isMobile ? 'sm' : 'xl'}
 			centered
 			closeOnClickOutside={false}
@@ -81,20 +93,20 @@ const PostCreateModal: React.FC<PostCreateModalProps> = ({
 			<form onSubmit={form.onSubmit(handleSubmit)}>
 				<Stack gap="xs">
 					<TextInput
-						label="Title"
-						placeholder="Enter news title"
+						label={t('postCreateModal.fields.title.label')}
+						placeholder={t('postCreateModal.fields.title.placeholder')}
 						size={isMobile ? 'sm' : 'md'}
 						key={form.key('title')}
 						{...form.getInputProps('title')}
 					/>
 					<MarkdownEditor
 						value={form.values.content}
-						placeholder="News content"
+						placeholder={t('postCreateModal.fields.content.placeholder')}
 						onChange={(value) => form.setFieldValue('content', value)}
 					/>
 					<FileInput
-						label="Upload poster"
-						placeholder="Choose file"
+						label={t('postCreateModal.fields.poster.label')}
+						placeholder={t('postCreateModal.fields.poster.placeholder')}
 						leftSection={<IoImageOutline />}
 						accept="image/png,image/jpeg,image/jpg,image/webp"
 						clearable
@@ -102,7 +114,7 @@ const PostCreateModal: React.FC<PostCreateModalProps> = ({
 						{...form.getInputProps('poster')}
 					/>
 					<Button type="submit" variant="outline" loading={loading}>
-						Create news
+						{t('postCreateModal.actions.submit')}
 					</Button>
 				</Stack>
 			</form>

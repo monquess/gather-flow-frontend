@@ -1,5 +1,3 @@
-import React, { useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
 import {
 	ActionIcon,
 	Badge,
@@ -28,15 +26,18 @@ import {
 	LoadScript,
 	Marker,
 } from '@react-google-maps/api'
-import { HiOutlineTicket } from 'react-icons/hi2'
-import { MdCalendarToday, MdDelete, MdDiscount } from 'react-icons/md'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FaMapLocationDot } from 'react-icons/fa6'
+import { HiOutlineTicket } from 'react-icons/hi2'
 import { IoIosSearch, IoMdImages } from 'react-icons/io'
+import { MdCalendarToday, MdDelete, MdDiscount } from 'react-icons/md'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import MarkdownEditor from '@/components/editor/markdown-editor'
-import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
+import { config } from '@/shared/config/config'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { Event, Promocode } from '@/shared/types'
 import { createEventSchema } from '@/shared/validations'
@@ -62,6 +63,7 @@ const getPosterUrl = (file?: File): string => {
 }
 
 const CreateEventForm: React.FC = () => {
+	const { t } = useTranslation()
 	const { id: companyId } = useParams()
 	const navigate = useNavigate()
 	const { isMobile } = useResponsive()
@@ -177,7 +179,7 @@ const CreateEventForm: React.FC = () => {
 					<Box pos="relative" w="100%" h="100%" mb="md">
 						<Image
 							src={getPosterUrl(form.values.poster)}
-							alt="Poster preview"
+							alt={t('eventForm.poster.label')}
 							width="100%"
 							height="100%"
 							style={{ objectFit: 'cover', borderRadius: '8px' }}
@@ -189,7 +191,7 @@ const CreateEventForm: React.FC = () => {
 							accept="image/png,image/jpeg,image/jpg,image/webp"
 						>
 							{(props) => (
-								<Tooltip label="Upload poster" withArrow>
+								<Tooltip label={t('eventForm.poster.tooltip')} withArrow>
 									<ActionIcon
 										{...props}
 										variant="outline"
@@ -211,8 +213,8 @@ const CreateEventForm: React.FC = () => {
 
 				<TextInput
 					mt="lg"
-					label="Title"
-					placeholder="Enter event title"
+					label={t('eventForm.fields.title')}
+					placeholder={t('eventForm.fields.titlePlaceholder')}
 					size={isMobile ? 'sm' : 'md'}
 					key={form.key('title')}
 					{...form.getInputProps('title')}
@@ -220,8 +222,8 @@ const CreateEventForm: React.FC = () => {
 
 				<Flex gap="xs" direction={isMobile ? 'column' : 'row'}>
 					<Select
-						label="Format"
-						placeholder="Choose event format"
+						label={t('eventForm.fields.format')}
+						placeholder={t('eventForm.fields.formatPlaceholder')}
 						data={['CONFERENCE', 'LECTURE', 'WORKSHOP', 'FEST', 'OTHER']}
 						key={form.key('format')}
 						{...form.getInputProps('format')}
@@ -229,8 +231,8 @@ const CreateEventForm: React.FC = () => {
 						flex={1}
 					/>
 					<Select
-						label="Theme"
-						placeholder="Select a theme"
+						label={t('eventForm.fields.theme')}
+						placeholder={t('eventForm.fields.themePlaceholder')}
 						data={['BUSINESS', 'POLITICS', 'PSYCHOLOGY', 'OTHER']}
 						key={form.key('theme')}
 						{...form.getInputProps('theme')}
@@ -241,13 +243,13 @@ const CreateEventForm: React.FC = () => {
 
 				<MarkdownEditor
 					value={form.values.description}
-					placeholder="Describe the event"
+					placeholder={t('eventForm.fields.descriptionPlaceholder')}
 					onChange={(value) => form.setFieldValue('description', value)}
 				/>
 
 				<Radio.Group
-					label="Visitors visibility"
-					description="Choose who can see the participants of the future event"
+					label={t('eventForm.fields.visitorsVisibility.label')}
+					description={t('eventForm.fields.visitorsVisibility.description')}
 					value={form.values.visitorsVisibility}
 					error={form.errors.visitorsVisibility}
 					onChange={(value) => {
@@ -255,8 +257,14 @@ const CreateEventForm: React.FC = () => {
 					}}
 				>
 					<Group mt="xs">
-						<Radio value="EVERYONE" label="Everyone" />
-						<Radio value="VISITOR" label="Participants" />
+						<Radio
+							value="EVERYONE"
+							label={t('eventForm.fields.visitorsVisibility.options.EVERYONE')}
+						/>
+						<Radio
+							value="VISITOR"
+							label={t('eventForm.fields.visitorsVisibility.options.VISITOR')}
+						/>
 					</Group>
 				</Radio.Group>
 
@@ -266,7 +274,7 @@ const CreateEventForm: React.FC = () => {
 					label={
 						<>
 							<FaMapLocationDot size={16} />
-							<Text ml={5}>Location</Text>
+							<Text ml={5}>{t('eventForm.fields.location.label')}</Text>
 						</>
 					}
 				/>
@@ -280,7 +288,7 @@ const CreateEventForm: React.FC = () => {
 						onPlaceChanged={onPlaceChanged}
 					>
 						<TextInput
-							placeholder="Search for a venue"
+							placeholder={t('eventForm.fields.location.searchPlaceholder')}
 							size={isMobile ? 'sm' : 'md'}
 							leftSection={<IoIosSearch />}
 							value={form.values.location}
@@ -307,14 +315,14 @@ const CreateEventForm: React.FC = () => {
 					label={
 						<>
 							<HiOutlineTicket size={20} />
-							<Text ml={5}>Tickets</Text>
+							<Text ml={5}>{t('eventForm.fields.tickets.label')}</Text>
 						</>
 					}
 				/>
 				<Flex direction={isMobile ? 'column' : 'row'} gap="sm">
 					<NumberInput
-						label="Price"
-						placeholder="Set ticket price"
+						label={t('eventForm.fields.tickets.price')}
+						placeholder={t('eventForm.fields.tickets.pricePlaceholder')}
 						size={isMobile ? 'sm' : 'md'}
 						key={form.key('ticketPrice')}
 						min={0}
@@ -323,8 +331,8 @@ const CreateEventForm: React.FC = () => {
 						flex={1}
 					/>
 					<NumberInput
-						label="Quantity"
-						placeholder="How many tickets?"
+						label={t('eventForm.fields.tickets.quantity')}
+						placeholder={t('eventForm.fields.tickets.quantityPlaceholder')}
 						size={isMobile ? 'sm' : 'md'}
 						key={form.key('ticketsQuantity')}
 						min={0}
@@ -340,14 +348,14 @@ const CreateEventForm: React.FC = () => {
 					label={
 						<>
 							<MdCalendarToday size={16} />
-							<Text ml={5}>Date</Text>
+							<Text ml={5}>{t('eventForm.fields.date.label')}</Text>
 						</>
 					}
 				/>
 				<Flex direction={isMobile ? 'column' : 'row'} gap="sm">
 					<DateTimePicker
-						label="Start"
-						placeholder="Select event start date and time"
+						label={t('eventForm.fields.date.start')}
+						placeholder={t('eventForm.fields.date.startPlaceholder')}
 						minDate={dayjs()
 							.add(dayjs.duration({ days: 1 }))
 							.toDate()}
@@ -357,8 +365,8 @@ const CreateEventForm: React.FC = () => {
 						flex={1}
 					/>
 					<DateTimePicker
-						label="End"
-						placeholder="Select event end date and time"
+						label={t('eventForm.fields.date.end')}
+						placeholder={t('eventForm.fields.date.endPlaceholder')}
 						minDate={dayjs(new Date(form.values.startDate))
 							.add(dayjs.duration({ hours: 1 }))
 							.toDate()}
@@ -377,12 +385,12 @@ const CreateEventForm: React.FC = () => {
 						}
 						setIsPublishLater((prev) => !prev)
 					}}
-					label="Publish later"
+					label={t('eventForm.fields.publish.later')}
 				/>
 				{isPublishLater && (
 					<DateTimePicker
-						label="Publish date"
-						placeholder="Choose when to publish"
+						label={t('eventForm.fields.publish.date')}
+						placeholder={t('eventForm.fields.publish.datePlaceholder')}
 						minDate={new Date()}
 						maxDate={dayjs(new Date(form.values.startDate))
 							.subtract(dayjs.duration({ days: 1 }))
@@ -399,13 +407,12 @@ const CreateEventForm: React.FC = () => {
 					label={
 						<>
 							<MdDiscount size={18} />
-							<Text ml={5}>Promocodes</Text>
+							<Text ml={5}>{t('eventForm.fields.promocodes.label')}</Text>
 						</>
 					}
 				/>
 				<Text size="sm" c="dimmed">
-					You can optionally add promo codes to offer discounts on tickets for
-					your attendees.
+					{t('eventForm.fields.promocodes.description')}
 				</Text>
 				<CreatePromocodeInput
 					promocodes={form.getValues().promocodes}
@@ -456,8 +463,8 @@ const CreateEventForm: React.FC = () => {
 					size="md"
 					mt="md"
 					radius="md"
-					label="Notify on new attendees"
-					description="You'll receive an email when a new attendee joins"
+					label={t('eventForm.fields.notifications.notifyOnAttendee')}
+					description={t('eventForm.fields.notifications.notifyDescription')}
 					key={form.key('notifyOnAttendee')}
 					{...form.getInputProps('notifyOnAttendee')}
 				/>
@@ -468,10 +475,10 @@ const CreateEventForm: React.FC = () => {
 						size={isMobile ? 'sm' : 'md'}
 						onClick={() => navigate(-1)}
 					>
-						Cancel
+						{t('eventForm.actions.cancel')}
 					</Button>
 					<Button type="submit" size={isMobile ? 'sm' : 'md'}>
-						Create
+						{t('eventForm.actions.submit')}
 					</Button>
 				</Group>
 			</Stack>

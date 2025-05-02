@@ -1,5 +1,3 @@
-import React from 'react'
-import { useForm, zodResolver } from '@mantine/form'
 import {
 	Avatar,
 	Button,
@@ -9,13 +7,16 @@ import {
 	Textarea,
 	Title,
 } from '@mantine/core'
+import { useForm, zodResolver } from '@mantine/form'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
+import { apiClient, ApiError } from '@/shared/api/axios'
+import { showNotification } from '@/shared/helpers/show-notification'
 import { useUserStore } from '@/shared/store/user-store'
 import { Event } from '@/shared/types/event'
 import { CreateCommentBody, createCommentSchema } from '@/shared/validations'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apiClient, ApiError } from '@/shared/api/axios'
-import { showNotification } from '@/shared/helpers/show-notification'
 
 const postEventComment = async (id: number, body: CreateCommentBody) => {
 	const { data } = await apiClient.post<Comment>(`events/${id}/comments`, body)
@@ -27,6 +28,7 @@ interface CreateCommentFormProps {
 }
 
 const CreateCommentForm: React.FC<CreateCommentFormProps> = ({ event }) => {
+	const { t } = useTranslation()
 	const { user } = useUserStore()
 	const client = useQueryClient()
 
@@ -44,13 +46,14 @@ const CreateCommentForm: React.FC<CreateCommentFormProps> = ({ event }) => {
 			return postEventComment(event.id, form.getValues())
 		},
 		onError: (error) => {
-			showNotification('Comment post error', error.message, 'red')
+			showNotification(t('commentForm.error'), error.message, 'red')
 		},
 		onSuccess: () => {
 			form.reset()
 			client.invalidateQueries({
 				queryKey: ['comments', event.id],
 			})
+			showNotification(t('commentForm.success'), '', 'green')
 		},
 	})
 
@@ -69,13 +72,13 @@ const CreateCommentForm: React.FC<CreateCommentFormProps> = ({ event }) => {
 					<Stack gap="sm">
 						<Textarea
 							autosize
-							label={<Title order={4}>✏️ Leave a comment</Title>}
+							label={<Title order={4}>{t('commentForm.title')}</Title>}
 							description={
 								<Text fz="sm" ta="justify" lh={1} my={5}>
-									Give a feedback or ask organizer a question about event
+									{t('commentForm.description')}
 								</Text>
 							}
-							placeholder="Comment..."
+							placeholder={t('commentForm.placeholder')}
 							size="md"
 							minRows={2}
 							{...form.getInputProps('content')}
@@ -85,7 +88,7 @@ const CreateCommentForm: React.FC<CreateCommentFormProps> = ({ event }) => {
 							style={{ justifySelf: 'flex-end' }}
 							loading={isPending}
 						>
-							Post comment
+							{t('commentForm.submit')}
 						</Button>
 					</Stack>
 				</Stack>

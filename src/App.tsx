@@ -59,7 +59,7 @@ const routes = [
 	{ path: '/companies/:id/event/create', element: <EventCreatePage /> },
 	{ path: '/companies/:id/posts', element: <CompanyPostsPage /> },
 	{ path: '/companies/:id/events', element: <CompanyEventsPage /> },
-	{ path: '/company/:id/success-connect', element: <ConnectSuccessPage /> },
+	{ path: '/companies/:id/success-connect', element: <ConnectSuccessPage /> },
 	{ path: '/events/:id/manage-promocode', element: <PromocodeEventsPage /> },
 
 	{ path: '/events', element: <EventsPage /> },

@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
 import { Alert, Badge, Button, Group, TextInput } from '@mantine/core'
-import { MdErrorOutline } from 'react-icons/md'
 import { useMutation } from '@tanstack/react-query'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { MdErrorOutline } from 'react-icons/md'
 
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { Event } from '@/shared/types'
@@ -18,6 +19,7 @@ interface Promocode {
 }
 
 const PromocodeInput: React.FC<PromocodeInputProps> = ({ event, onSubmit }) => {
+	const { t } = useTranslation()
 	const [code, setCode] = useState('')
 	const [message, setMessage] = useState('')
 	const [success, setSuccess] = useState(false)
@@ -32,7 +34,7 @@ const PromocodeInput: React.FC<PromocodeInputProps> = ({ event, onSubmit }) => {
 		onSuccess: (data) => {
 			if (new Date(data.expirationDate) < new Date()) {
 				setSuccess(false)
-				setMessage('Promocode expired')
+				setMessage(t('promocodeInput.errors.expired'))
 				onSubmit()
 			} else {
 				setSuccess(true)
@@ -43,9 +45,9 @@ const PromocodeInput: React.FC<PromocodeInputProps> = ({ event, onSubmit }) => {
 		onError: (error) => {
 			setSuccess(false)
 			if (error.status === 404) {
-				setMessage('Promocode not found')
+				setMessage(t('promocodeInput.errors.notFound'))
 			} else {
-				setMessage('Something went wrong')
+				setMessage(t('promocodeInput.errors.generic'))
 			}
 			onSubmit()
 		},
@@ -61,8 +63,8 @@ const PromocodeInput: React.FC<PromocodeInputProps> = ({ event, onSubmit }) => {
 			<Group gap="sm" align="flex-end">
 				<TextInput
 					flex={1}
-					label="Have a promocode? Use it!"
-					placeholder="Enter code here..."
+					label={t('promocodeInput.label')}
+					placeholder={t('promocodeInput.placeholder')}
 					value={code}
 					disabled={mutation.isPending}
 					onChange={({ currentTarget: { value } }) => {
@@ -74,7 +76,7 @@ const PromocodeInput: React.FC<PromocodeInputProps> = ({ event, onSubmit }) => {
 					disabled={code.trim().length === 0 || mutation.isPending}
 					loading={mutation.isPending}
 				>
-					{'>'}
+					{t('promocodeInput.submitButton')}
 				</Button>
 			</Group>
 			{message ? (
@@ -85,10 +87,12 @@ const PromocodeInput: React.FC<PromocodeInputProps> = ({ event, onSubmit }) => {
 					mt="xs"
 					icon={<MdErrorOutline />}
 				>
-					Please, try another one.
+					{t('promocodeInput.errorSuggestion')}
 				</Alert>
 			) : null}
-			{success ? <Badge mt="sm">{mutation.data?.code}</Badge> : null}
+			{success && mutation.data ? (
+				<Badge mt="sm">{mutation.data.code}</Badge>
+			) : null}
 		</form>
 	)
 }

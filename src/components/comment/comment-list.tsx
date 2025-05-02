@@ -1,11 +1,19 @@
-import React, { useState } from 'react'
-import { Alert, Center, Loader, Pagination, Stack, Title } from '@mantine/core'
-import { MdErrorOutline } from 'react-icons/md'
+import {
+	Alert,
+	Center,
+	Loader,
+	Pagination,
+	Stack,
+	Text,
+	Title,
+} from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { MdErrorOutline } from 'react-icons/md'
 
-import { Comment, Event, Paginated } from '@/shared/types'
 import { ApiError, apiClient } from '@/shared/api/axios'
-
+import { Comment, Event, Paginated } from '@/shared/types'
 import CommentCard from './comment-card'
 
 const fetchEventComment = async (
@@ -23,7 +31,6 @@ const fetchEventComment = async (
 		`events/${id}/comments`,
 		options
 	)
-
 	return data
 }
 
@@ -32,6 +39,7 @@ interface CommentListProps {
 }
 
 const CommentList: React.FC<CommentListProps> = ({ event }) => {
+	const { t } = useTranslation()
 	const [page, setPage] = useState(1)
 
 	const {
@@ -49,6 +57,7 @@ const CommentList: React.FC<CommentListProps> = ({ event }) => {
 		return (
 			<Center py="xl">
 				<Loader size="xl" />
+				<Text ml="md">{t('commentList.loading')}</Text>
 			</Center>
 		)
 	}
@@ -57,7 +66,7 @@ const CommentList: React.FC<CommentListProps> = ({ event }) => {
 		return (
 			<Alert
 				variant="light"
-				title="Something went wrong when loading comments"
+				title={t('commentList.errorTitle')}
 				color="red"
 				mt="xs"
 				icon={<MdErrorOutline />}
@@ -69,7 +78,9 @@ const CommentList: React.FC<CommentListProps> = ({ event }) => {
 
 	return (
 		<Stack pl="lg">
-			<Title order={4}>{comments.meta.count} comments</Title>
+			<Title order={4}>
+				{t('commentList.title', { count: comments.meta.count })}
+			</Title>
 			{comments.data.map((comment) => (
 				<CommentCard
 					key={comment.id}

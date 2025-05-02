@@ -1,9 +1,3 @@
-import React, { useState } from 'react'
-import { BsBell } from 'react-icons/bs'
-import { CiLogout } from 'react-icons/ci'
-import { GoTrash } from 'react-icons/go'
-import { useNavigate } from 'react-router-dom'
-
 import {
 	ActionIcon,
 	Avatar,
@@ -19,7 +13,12 @@ import {
 	Title,
 } from '@mantine/core'
 import dayjs from 'dayjs'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { BsBell } from 'react-icons/bs'
+import { CiLogout } from 'react-icons/ci'
+import { GoTrash } from 'react-icons/go'
+import { useNavigate } from 'react-router-dom'
 
 import Footer from '@/components/general/footer'
 import Layout from '@/components/general/layout'
@@ -48,11 +47,15 @@ const UserProfilePage: React.FC = () => {
 			<Layout>
 				<Paper shadow="md" radius="md" p="lg" withBorder>
 					<Stack align="center">
-						<Title order={3}>You are not logged in</Title>
-						<Text c="dimmed">Please log in to view your profile.</Text>
+						<Title order={3}>{t('profile.notLoggedIn.title')}</Title>
+						<Text c="dimmed">{t('profile.notLoggedIn.message')}</Text>
 						<Group grow>
-							<Button onClick={() => navigate(-1)}>Go back</Button>
-							<Button onClick={() => navigate('/login')}>Go login</Button>
+							<Button onClick={() => navigate(-1)}>
+								{t('profile.buttons.goBack')}
+							</Button>
+							<Button onClick={() => navigate('/')}>
+								{t('profile.buttons.login')}
+							</Button>
 						</Group>
 					</Stack>
 				</Paper>
@@ -98,7 +101,7 @@ const UserProfilePage: React.FC = () => {
 									bottom={0}
 									right={-2}
 									radius="xl"
-									aria-label="Edit avatar"
+									aria-label={t('profile.actions.editAvatar')}
 									onClick={() => setAvatarModal(true)}
 								>
 									<IoMdImages size={14} />
@@ -114,15 +117,15 @@ const UserProfilePage: React.FC = () => {
 									{user.verified && (
 										<Badge color="green" variant="light">
 											{user.showAsAttendee
-												? t('profile.public')
-												: t('profile.private')}
+												? t('profile.visibility.public')
+												: t('profile.visibility.private')}
 										</Badge>
 									)}
 								</Group>
 
 								<Group gap="xs">
 									<Text size="xs" c="dimmed">
-										{t('profile.joined')}:{' '}
+										{t('profile.joinedDate')}:{' '}
 										{dayjs(user.createdAt).format('DD MMM YYYY')}
 									</Text>
 									<Text size="xs" c="dimmed">
@@ -141,22 +144,29 @@ const UserProfilePage: React.FC = () => {
 							<ActionIcon
 								variant="outline"
 								onClick={() => setNotification(true)}
+								title={t('profile.actions.notifications')}
 							>
 								<BsBell size={14} />
 							</ActionIcon>
 							<ActionIcon
 								variant="outline"
 								onClick={() => setUpdateModal(true)}
+								title={t('profile.actions.editProfile')}
 							>
 								<MdModeEdit size={14} />
 							</ActionIcon>
 							<ActionIcon
 								variant="outline"
 								onClick={() => setDeleteModal(true)}
+								title={t('profile.actions.deleteAccount')}
 							>
 								<GoTrash size={14} />
 							</ActionIcon>
-							<ActionIcon variant="outline" onClick={handleLogout}>
+							<ActionIcon
+								variant="outline"
+								onClick={handleLogout}
+								title={t('profile.actions.logout')}
+							>
 								<CiLogout size={14} />
 							</ActionIcon>
 						</Flex>
@@ -179,10 +189,10 @@ const UserProfilePage: React.FC = () => {
 					/>
 				</Paper>
 
-				<Title order={3}>Companies</Title>
+				<Title order={3}>{t('profile.sections.companies')}</Title>
 				<CompanySection />
 
-				<Title order={3}>Tickets</Title>
+				<Title order={3}>{t('profile.sections.tickets')}</Title>
 				<TicketSection />
 			</Stack>
 			<Footer />
