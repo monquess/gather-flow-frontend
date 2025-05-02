@@ -1,5 +1,3 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
 	ActionIcon,
 	Box,
@@ -27,15 +25,17 @@ import {
 	LoadScript,
 	Marker,
 } from '@react-google-maps/api'
-import { HiOutlineTicket } from 'react-icons/hi2'
-import { MdCalendarToday } from 'react-icons/md'
+import React, { useEffect, useState } from 'react'
 import { FaMapLocationDot } from 'react-icons/fa6'
-import { IoIosSearch, IoMdImages } from 'react-icons/io'
+import { HiOutlineTicket } from 'react-icons/hi2'
+import { IoMdImages } from 'react-icons/io'
+import { MdCalendarToday } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
 import MarkdownEditor from '@/components/editor/markdown-editor'
-import { config } from '@/shared/config/config'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
+import { config } from '@/shared/config/config'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { Event } from '@/shared/types'
 import { createEventSchema } from '@/shared/validations'
@@ -73,6 +73,8 @@ const UpdateEventForm: React.FC<UpdateEventFormProps> = ({ event }) => {
 	const [autocomplete, setAutocomplete] =
 		useState<google.maps.places.Autocomplete | null>(null)
 
+	const [isMapLoaded, setIsMapLoaded] = useState(false)
+
 	const form = useForm({
 		mode: 'controlled',
 		validate: zodResolver(createEventSchema),
@@ -95,6 +97,19 @@ const UpdateEventForm: React.FC<UpdateEventFormProps> = ({ event }) => {
 	const [isPublishLater, setIsPublishLater] = useState(
 		event.publishDate !== null
 	)
+
+	useEffect(() => {
+		if (isMapLoaded && event?.location && window.google?.maps) {
+			const geocoder = new window.google.maps.Geocoder()
+			geocoder.geocode({ address: event.location }, (results, status) => {
+				if (status === 'OK' && results && results[0].geometry.location) {
+					const lat = results[0].geometry.location.lat()
+					const lng = results[0].geometry.location.lng()
+					setMarker({ lat, lng })
+				}
+			})
+		}
+	}, [isMapLoaded, event?.location])
 
 	const handleMapClick = (e: google.maps.MapMouseEvent) => {
 		const lat = e.latLng?.lat()
@@ -270,6 +285,7 @@ const UpdateEventForm: React.FC<UpdateEventFormProps> = ({ event }) => {
 				<LoadScript
 					googleMapsApiKey={config.GOOGLE_API}
 					libraries={mapLibraries}
+					onLoad={() => setIsMapLoaded(true)}
 				>
 					<Autocomplete
 						key={autoKey}
@@ -278,15 +294,21 @@ const UpdateEventForm: React.FC<UpdateEventFormProps> = ({ event }) => {
 					>
 						<TextInput
 							placeholder="Search for a venue"
+							mt="md"
 							size={isMobile ? 'sm' : 'md'}
-							leftSection={<IoIosSearch />}
 							value={form.values.location}
 							onChange={(e) => handleLocationChange(e.currentTarget.value)}
 							error={form.errors.location}
 						/>
 					</Autocomplete>
 
-					<div style={{ marginTop: '16px' }}>
+					<div
+						style={{
+							marginTop: '16px',
+							overflow: 'hidden',
+							borderRadius: '10px',
+						}}
+					>
 						<GoogleMap
 							mapContainerStyle={containerStyle}
 							center={marker || { lat: -33.860664, lng: 151.208138 }}

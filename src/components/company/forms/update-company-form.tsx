@@ -40,6 +40,7 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 
 	const navigate = useNavigate()
 	const { isMobile } = useResponsive()
+	const [isMapLoaded, setIsMapLoaded] = useState(false)
 
 	const form = useForm({
 		mode: 'controlled',
@@ -53,7 +54,7 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 	})
 
 	useEffect(() => {
-		if (company?.location) {
+		if (isMapLoaded && company?.location && window.google?.maps) {
 			const geocoder = new window.google.maps.Geocoder()
 			geocoder.geocode({ address: company.location }, (results, status) => {
 				if (status === 'OK' && results && results[0].geometry.location) {
@@ -63,7 +64,7 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 				}
 			})
 		}
-	}, [company?.location])
+	}, [isMapLoaded, company?.location])
 
 	const handleMapClick = (e: google.maps.MapMouseEvent) => {
 		const lat = e.latLng?.lat()
@@ -156,6 +157,7 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 				<LoadScript
 					googleMapsApiKey={config.GOOGLE_API}
 					libraries={mapLibraries}
+					onLoad={() => setIsMapLoaded(true)}
 				>
 					<Autocomplete
 						key={autoKey}
@@ -190,10 +192,7 @@ const UpdateCompanyForm: React.FC<UpdateCompanyFormProps> = ({ company }) => {
 					</div>
 				</LoadScript>
 				<Group justify="flex-end" mt="md">
-					<Button
-						variant="outline"
-						onClick={() => navigate(`/companies/${company?.id}`)}
-					>
+					<Button variant="outline" onClick={() => navigate(-1)}>
 						{t('updateCompany.cancel')}
 					</Button>
 					<Button type="submit">{t('updateCompany.update')}</Button>
