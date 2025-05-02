@@ -10,12 +10,13 @@ import {
 import { useForm } from '@mantine/form'
 import { useQueryClient } from '@tanstack/react-query'
 import React, { memo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { Company } from '@/shared/types'
-import { useParams } from 'react-router-dom'
 
 interface ReviewCreateModalProps {
 	company?: Company
@@ -28,11 +29,13 @@ const ReviewCreateModal: React.FC<ReviewCreateModalProps> = ({
 	onClose,
 	company,
 }) => {
+	const { t } = useTranslation()
 	const { id } = useParams()
 	const client = useQueryClient()
 	const [value, setValue] = useState(0)
 	const [loading, setLoading] = useState(false)
 	const { isMobile } = useResponsive()
+
 	const form = useForm({
 		mode: 'uncontrolled',
 		initialValues: {
@@ -41,12 +44,17 @@ const ReviewCreateModal: React.FC<ReviewCreateModalProps> = ({
 	})
 
 	const handleSubmit = async () => {
+		setLoading(true)
 		try {
 			await apiClient.post(`/companies/${company?.id}/reviews`, {
 				...form.getValues(),
 				stars: value,
 			})
-			showNotification('Create review', 'Create review succesfully', 'green')
+			showNotification(
+				t('reviewCreateModal.notifications.success.title'),
+				t('reviewCreateModal.notifications.success.message'),
+				'green'
+			)
 			client.invalidateQueries({
 				queryKey: ['companies', id],
 			})
@@ -55,7 +63,11 @@ const ReviewCreateModal: React.FC<ReviewCreateModalProps> = ({
 			})
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
-				showNotification('Create review error', error.message, 'red')
+				showNotification(
+					t('reviewCreateModal.notifications.error.title'),
+					error.message,
+					'red'
+				)
 			}
 		} finally {
 			form.reset()
@@ -68,7 +80,7 @@ const ReviewCreateModal: React.FC<ReviewCreateModalProps> = ({
 		<Modal
 			opened={opened}
 			onClose={onClose}
-			title="Create review"
+			title={t('reviewCreateModal.title')}
 			size={isMobile ? 'sm' : 'md'}
 			centered
 			closeOnClickOutside={false}
@@ -77,19 +89,19 @@ const ReviewCreateModal: React.FC<ReviewCreateModalProps> = ({
 			<form onSubmit={form.onSubmit(handleSubmit)}>
 				<Stack gap="xs">
 					<TextInput
-						label="Comment"
-						placeholder="Enter comment text"
+						label={t('reviewCreateModal.fields.comment.label')}
+						placeholder={t('reviewCreateModal.fields.comment.placeholder')}
 						size={isMobile ? 'sm' : 'md'}
 						key={form.key('comment')}
 						{...form.getInputProps('comment')}
 					/>
 					<Group grow>
-						<Text>Tap to rate:</Text>
+						<Text>{t('reviewCreateModal.fields.rating.label')}</Text>
 						<Rating fractions={1} value={value} onChange={setValue} size="lg" />
 					</Group>
 
 					<Button type="submit" variant="outline" loading={loading}>
-						Create review
+						{t('reviewCreateModal.actions.submit')}
 					</Button>
 				</Stack>
 			</form>

@@ -1,17 +1,17 @@
-import React from 'react'
 import {
 	ActionIcon,
+	Button,
+	Divider,
 	Group,
+	Stack,
 	Text,
 	Tooltip,
-	Stack,
-	Divider,
-	Button,
 } from '@mantine/core'
-import { FaDownload, FaLongArrowAltRight } from 'react-icons/fa'
-
-import dayjs from 'dayjs'
 import { useMutation } from '@tanstack/react-query'
+import dayjs from 'dayjs'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { FaDownload, FaLongArrowAltRight } from 'react-icons/fa'
 
 import { MotionCard } from '@/components/general'
 import { apiClient, ApiError } from '@/shared/api/axios'
@@ -28,6 +28,7 @@ interface TicketCardProps {
 }
 
 const TicketCard: React.FC<TicketCardProps> = ({ ticket }) => {
+	const { t } = useTranslation()
 	const { mutate, isPending } = useMutation<PdfResponse, ApiError>({
 		mutationKey: ['ticket-pdf', ticket.id],
 		mutationFn: async () => {
@@ -37,11 +38,14 @@ const TicketCard: React.FC<TicketCardProps> = ({ ticket }) => {
 			return data
 		},
 		onError: (error) => {
-			showNotification('Error downloading file', error.message, 'red')
+			showNotification(
+				t('ticketCard.notifications.error.title'),
+				error.message,
+				'red'
+			)
 		},
 		onSuccess: ({ content, filename }) => {
 			const link = document.createElement('a')
-
 			link.href = `data:application/pdf;base64,${content}`
 			link.download = filename
 			document.body.appendChild(link)
@@ -69,7 +73,7 @@ const TicketCard: React.FC<TicketCardProps> = ({ ticket }) => {
 						{ticket.ticketCode}
 					</Text>
 
-					<Tooltip label="Download ticket" withArrow>
+					<Tooltip label={t('ticketCard.actions.download')} withArrow>
 						<ActionIcon
 							variant="default"
 							size="lg"
@@ -88,7 +92,7 @@ const TicketCard: React.FC<TicketCardProps> = ({ ticket }) => {
 					<Group>
 						<Stack gap={0}>
 							<Text size="xs" c="dimmed">
-								Purchase date
+								{t('ticketCard.fields.purchaseDate')}
 							</Text>
 							<Text size="sm">
 								{dayjs(ticket.purchaseDate).format('DD MMM YYYY, HH:mm')}
@@ -97,7 +101,7 @@ const TicketCard: React.FC<TicketCardProps> = ({ ticket }) => {
 
 						<Stack gap={0} align="start" style={{ justifySelf: 'flex-end' }}>
 							<Text size="xs" c="dimmed">
-								Final price
+								{t('ticketCard.fields.finalPrice')}
 							</Text>
 							<Text size="sm">${Number(ticket.finalPrice).toFixed(2)}</Text>
 						</Stack>
@@ -109,7 +113,7 @@ const TicketCard: React.FC<TicketCardProps> = ({ ticket }) => {
 						href={`http://localhost:4200/events/${ticket.eventId}`}
 						rightSection={<FaLongArrowAltRight />}
 					>
-						Event
+						{t('ticketCard.actions.viewEvent')}
 					</Button>
 				</Group>
 			</Stack>

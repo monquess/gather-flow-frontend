@@ -235,9 +235,17 @@ const EventPage: React.FC = () => {
 							<Image src={event?.poster} height={300} alt={event?.title} />
 						</Card.Section>
 						<Stack mt="md" gap="xs">
-							<Title order={2} lineClamp={2}>
-								{event?.title}
-							</Title>
+							<Flex justify="space-between">
+								<Title order={2} lineClamp={2}>
+									{event?.title}
+								</Title>
+								<Badge
+									size="md"
+									onClick={() => navigate(`/companies/${event.company.id}`)}
+								>
+									{event?.company.name}
+								</Badge>
+							</Flex>
 
 							<Group gap="sm" justify="space-between">
 								<Group gap="xs" align="center">
@@ -271,7 +279,7 @@ const EventPage: React.FC = () => {
 							transition={{ duration: 0.5, ease: 'easeOut' }}
 						>
 							<Stack>
-								<Title order={3}>Visitors</Title>
+								<Title order={3}>{t('eventPage.visitors')}</Title>
 								<Stack gap="sm" mt="xs" mb="md">
 									<Avatar.Group
 										spacing="xs"
@@ -313,11 +321,11 @@ const EventPage: React.FC = () => {
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
 						<Stack>
-							<Title order={3}>Buy Ticket</Title>
+							<Title order={3}>{t('eventPage.buyTicket')}</Title>
 							{event.ticketPrice > 0 ? (
 								<Text fw={500}>{event.ticketPrice.toFixed(2)} USD</Text>
 							) : (
-								<Text fw={500}>FREE</Text>
+								<Text fw={500}>{t('eventPage.free')}</Text>
 							)}
 							<Button
 								fullWidth
@@ -330,9 +338,9 @@ const EventPage: React.FC = () => {
 								disabled={event.ticketsQuantity - event.ticketsSold === 0}
 							>
 								{event.ticketsQuantity - event.ticketsSold > 0 ? (
-									<Text fw={500}>Buy now</Text>
+									<Text fw={500}>{t('eventPage.buyNow')}</Text>
 								) : (
-									<Text fw={500}>SOLD OUT</Text>
+									<Text fw={500}>{t('eventPage.soldOut')}</Text>
 								)}
 							</Button>
 						</Stack>
@@ -341,20 +349,26 @@ const EventPage: React.FC = () => {
 			</Flex>
 			{admin ? (
 				<>
-					<Divider my="xl" label="Admin zone" labelPosition="center" />
+					<Divider
+						my="xl"
+						label={t('eventPage.adminZone')}
+						labelPosition="center"
+					/>
 					<Flex
 						direction={{ sm: 'column', md: 'row' }}
 						justify={{ sm: 'center', md: 'start' }}
 						gap="xs"
 					>
 						<Button onClick={() => navigate(`manage-promocode`)}>
-							Manage code
+							{t('eventPage.manageCode')}
 						</Button>
 						{event.status === 'DRAFT' ? (
 							<>
-								<Button onClick={() => navigate(`update`)}>Update event</Button>
+								<Button onClick={() => navigate(`update`)}>
+									{t('eventPage.updateEvent')}
+								</Button>
 								<Button onClick={() => setDeleteEvent(true)}>
-									Delete event
+									{t('eventPage.deleteEvent')}
 								</Button>
 							</>
 						) : null}

@@ -1,7 +1,7 @@
 import { Select } from '@mantine/core'
-import React, { useState } from 'react'
-
 import { capitalize } from 'lodash'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { MemberRole } from '@/shared/enum/member-role-enum'
@@ -15,6 +15,7 @@ interface EditRolePopoverProps {
 }
 
 const EditRoleSelect: React.FC<EditRolePopoverProps> = ({ member }) => {
+	const { t } = useTranslation()
 	const client = useQueryClient()
 	const [role, setRole] = useState<MemberRole>(member.role)
 	const { id } = useParams()
@@ -30,8 +31,10 @@ const EditRoleSelect: React.FC<EditRolePopoverProps> = ({ member }) => {
 
 			setRole(data.role)
 			showNotification(
-				'Change role',
-				`Role for ${member.user.username} changed successfully`,
+				t('editRoleSelect.notifications.success.title'),
+				t('editRoleSelect.notifications.success.message', {
+					username: member.user.username,
+				}),
 				'green'
 			)
 			client.invalidateQueries({
@@ -39,7 +42,11 @@ const EditRoleSelect: React.FC<EditRolePopoverProps> = ({ member }) => {
 			})
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
-				showNotification('Change role error', error.message, 'red')
+				showNotification(
+					t('editRoleSelect.notifications.error.title'),
+					error.message,
+					'red'
+				)
 			}
 		}
 	}

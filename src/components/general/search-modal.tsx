@@ -1,5 +1,3 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
 	Card,
 	Divider,
@@ -9,8 +7,10 @@ import {
 	Text,
 	TextInput,
 } from '@mantine/core'
-import { CiSearch } from 'react-icons/ci'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CiSearch } from 'react-icons/ci'
+import { useNavigate } from 'react-router-dom'
 
 import { motion } from 'framer-motion'
 import { debounce } from 'lodash'
@@ -18,10 +18,10 @@ import { debounce } from 'lodash'
 import { useResponsive } from '@/hooks/use-responsive'
 import { apiClient } from '@/shared/api/axios'
 import {
-	Event,
-	Company,
-	EventsResponse,
 	CompaniesResponse,
+	Company,
+	Event,
+	EventsResponse,
 } from '@/shared/types'
 
 interface SearchModalProps {
@@ -84,7 +84,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ opened, onClose }) => {
 			<Modal.Content>
 				<Modal.Header>
 					<TextInput
-						placeholder="Search for events or companies"
+						placeholder={t('findModal.placeholder')}
 						w="100%"
 						leftSection={<CiSearch size={20} />}
 						onChange={(e) => setSearch(e.currentTarget.value)}

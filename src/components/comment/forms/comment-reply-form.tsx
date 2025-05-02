@@ -1,14 +1,13 @@
-import React from 'react'
+import { ApiError, apiClient } from '@/shared/api/axios'
+import { showNotification } from '@/shared/helpers/show-notification'
+import { Comment } from '@/shared/types'
+import { createCommentSchema } from '@/shared/validations'
 import { Button, Group, Stack, Text, Textarea } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
-
-import { TiArrowForward } from 'react-icons/ti'
 import { useMutation } from '@tanstack/react-query'
-
-import { Comment } from '@/shared/types'
-import { ApiError, apiClient } from '@/shared/api/axios'
-import { createCommentSchema } from '@/shared/validations'
-import { showNotification } from '@/shared/helpers/show-notification'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { TiArrowForward } from 'react-icons/ti'
 
 interface CommentReplyFormProps {
 	comment: Comment
@@ -21,6 +20,7 @@ const CommentReplyForm: React.FC<CommentReplyFormProps> = ({
 	onClose,
 	onCreate,
 }) => {
+	const { t } = useTranslation()
 	const form = useForm({
 		mode: 'controlled',
 		validate: zodResolver(createCommentSchema),
@@ -42,9 +42,10 @@ const CommentReplyForm: React.FC<CommentReplyFormProps> = ({
 			form.reset()
 			onCreate(data)
 			onClose()
+			showNotification(t('commentReply.success'), '', 'green')
 		},
 		onError: (error) => {
-			showNotification('Comment replying error', error.message, 'red')
+			showNotification(t('commentReply.error'), error.message, 'red')
 		},
 	})
 
@@ -64,10 +65,14 @@ const CommentReplyForm: React.FC<CommentReplyFormProps> = ({
 						label={
 							<Group gap="xs" align="center">
 								<TiArrowForward size={16} />
-								<Text fz="sm">{comment.author.username}</Text>
+								<Text fz="sm">
+									{t('commentReply.title', {
+										username: comment.author.username,
+									})}
+								</Text>
 							</Group>
 						}
-						placeholder="Comment..."
+						placeholder={t('commentReply.placeholder')}
 						size="md"
 						{...form.getInputProps('content')}
 					/>
@@ -78,7 +83,7 @@ const CommentReplyForm: React.FC<CommentReplyFormProps> = ({
 							disabled={isPending}
 							onClick={onClose}
 						>
-							Cancel
+							{t('commentReply.cancel')}
 						</Button>
 						<Button
 							size="xs"
@@ -86,7 +91,7 @@ const CommentReplyForm: React.FC<CommentReplyFormProps> = ({
 							loading={isPending}
 							disabled={isPending}
 						>
-							Reply
+							{t('commentReply.submit')}
 						</Button>
 					</Group>
 				</Stack>

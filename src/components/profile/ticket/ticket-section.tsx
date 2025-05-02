@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
 import { Center, Loader, Pagination, Paper, Stack, Text } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { Paginated } from '@/shared/types'
@@ -9,6 +10,7 @@ import { Ticket } from '@/shared/types/ticket'
 import TicketCard from './ticket-card'
 
 const TicketSection: React.FC = () => {
+	const { t } = useTranslation()
 	const [page, setPage] = useState(1)
 
 	const {
@@ -28,10 +30,6 @@ const TicketSection: React.FC = () => {
 		},
 	})
 
-	useEffect(() => {
-		console.log(tickets)
-	}, [tickets])
-
 	if (isLoading) {
 		return (
 			<Center>
@@ -43,7 +41,9 @@ const TicketSection: React.FC = () => {
 	if (error || !tickets) {
 		return (
 			<Center h="100vh">
-				<Text c="red">{error?.message}</Text>
+				<Text c="red">
+					{error?.message || t('ticketSection.errors.loadError')}
+				</Text>
 			</Center>
 		)
 	}
@@ -60,9 +60,7 @@ const TicketSection: React.FC = () => {
 							<Pagination
 								total={tickets.meta.pageCount}
 								value={page}
-								onChange={(newPage) => {
-									setPage(newPage)
-								}}
+								onChange={setPage}
 								size="md"
 								radius="xl"
 							/>
@@ -71,7 +69,7 @@ const TicketSection: React.FC = () => {
 				) : (
 					<Center>
 						<Text c="gray" size="md">
-							You haven’t purchased any event tickets yet.
+							{t('ticketSection.emptyState')}
 						</Text>
 					</Center>
 				)}

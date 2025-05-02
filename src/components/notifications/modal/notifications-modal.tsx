@@ -5,6 +5,7 @@ import { NotificationsResponse } from '@/shared/types/notification'
 import { Flex, Modal, ScrollArea, Stack, Text } from '@mantine/core'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 import NotificationCard from '../notification-card'
 
 interface NotificationModalProps {
@@ -16,6 +17,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
 	opened,
 	onClose,
 }) => {
+	const { t } = useTranslation()
 	const client = useQueryClient()
 	const { user } = useUserStore()
 	const { isMobile } = useResponsive()
@@ -34,7 +36,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
 		<Modal
 			opened={opened}
 			onClose={onClose}
-			title="Notifications"
+			title={t('notificationModal.title')}
 			size={isMobile ? 'sm' : 'md'}
 			centered
 			closeOnClickOutside={false}
@@ -53,8 +55,9 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
 									queryKey: ['notifications', user?.id],
 								})
 							}}
+							style={{ cursor: 'pointer' }}
 						>
-							Read all
+							{t('notificationModal.actions.readAll')}
 						</Text>
 					</Flex>
 				) : null}

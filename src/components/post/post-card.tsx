@@ -1,9 +1,9 @@
-import React, { memo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Card, Flex, Group, Image, Stack, Text } from '@mantine/core'
+import React, { memo, useState } from 'react'
 import { CiHeart } from 'react-icons/ci'
 import { FaHeart } from 'react-icons/fa6'
 import { MdCalendarToday } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
 import dayjs from 'dayjs'
 import { motion } from 'framer-motion'
@@ -11,12 +11,14 @@ import { motion } from 'framer-motion'
 import { apiClient, ApiError } from '@/shared/api/axios'
 import { showNotification } from '@/shared/helpers/show-notification'
 import { Post } from '@/shared/types'
+import { useTranslation } from 'react-i18next'
 
 interface PostCardProps {
 	post: Post
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
+	const { t } = useTranslation()
 	const navigate = useNavigate()
 	const [likes, setLikes] = useState(post.likes)
 	const [liked, setLiked] = useState(post.liked)
@@ -34,7 +36,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 			}
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
-				showNotification('Create like error', error.message, 'red')
+				showNotification(t('common.error'), error.message, 'red')
 			}
 		}
 	}

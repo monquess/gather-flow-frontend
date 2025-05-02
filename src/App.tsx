@@ -32,10 +32,11 @@ import {
 import ConnectSuccessPage from './pages/company/company-connect-success'
 import CompanyEventsPage from './pages/company/company-events-page'
 import CompanyPostsPage from './pages/company/company-posts-page'
+import EventUpdatePage from './pages/event/event-update-page'
+import PromocodeEventsPage from './pages/event/promocode/promocode-events-page'
 import PostPage from './pages/post/post-page'
 import PostsPage from './pages/post/posts-page'
 import { theme } from './theme'
-import EventUpdatePage from './pages/event/event-update-page'
 
 const queryClient = new QueryClient()
 
@@ -58,7 +59,8 @@ const routes = [
 	{ path: '/companies/:id/event/create', element: <EventCreatePage /> },
 	{ path: '/companies/:id/posts', element: <CompanyPostsPage /> },
 	{ path: '/companies/:id/events', element: <CompanyEventsPage /> },
-	{ path: '/company/:id/success-connect', element: <ConnectSuccessPage /> },
+	{ path: '/companies/:id/success-connect', element: <ConnectSuccessPage /> },
+	{ path: '/events/:id/manage-promocode', element: <PromocodeEventsPage /> },
 
 	{ path: '/events', element: <EventsPage /> },
 	{ path: '/events/:id', element: <EventPage /> },

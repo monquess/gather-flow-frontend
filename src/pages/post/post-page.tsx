@@ -37,7 +37,7 @@ import { FaHeart } from 'react-icons/fa'
 import { MdCalendarToday } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
 
-const MotionCard = motion(
+const MotionCard = motion.create(
 	forwardRef<HTMLDivElement, CardProps>((props, ref) => (
 		<Card ref={ref} withBorder radius="md" shadow="md" p="md" {...props} />
 	))
@@ -105,7 +105,11 @@ const PostPage: React.FC = () => {
 			}
 		} catch (error) {
 			if (error instanceof ApiError && error.response) {
-				showNotification('Create like error', error.message, 'red')
+				showNotification(
+					t('postPage.notifications.likeError.title'),
+					error.message,
+					'red'
+				)
 			}
 		}
 	}
@@ -121,7 +125,7 @@ const PostPage: React.FC = () => {
 	if (error || !post) {
 		return (
 			<Center h="100vh">
-				<Text>{t('companiesPage.errorLoadingCompanies')}</Text>
+				<Text>{t('postPage.errors.loadError')}</Text>
 			</Center>
 		)
 	}
@@ -189,9 +193,18 @@ const PostPage: React.FC = () => {
 
 						<Group mt="md" align="center" gap="xs" justify="end">
 							{liked ? (
-								<FaHeart size={28} color="red" onClick={handleLikeClick} />
+								<FaHeart
+									size={28}
+									color="red"
+									onClick={handleLikeClick}
+									title={t('postPage.actions.unlike')}
+								/>
 							) : (
-								<CiHeart size={28} onClick={handleLikeClick} />
+								<CiHeart
+									size={28}
+									onClick={handleLikeClick}
+									title={t('postPage.actions.like')}
+								/>
 							)}
 							<Text size="xl">{likes}</Text>
 						</Group>

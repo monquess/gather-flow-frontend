@@ -55,7 +55,7 @@ const UserListModal: React.FC<UserListModalProps> = ({
 									<Avatar radius="xl" src={member.user.avatar} />
 									<Stack gap={0} justify="center">
 										<Text fw={600}>{member.user.username}</Text>
-										{admin && member.user.id !== user.id ? (
+										{admin && member.user.id !== user?.id ? (
 											<EditRoleSelect member={member} />
 										) : (
 											<Text size="xs" c="dimmed">

@@ -1,7 +1,8 @@
-import React from 'react'
 import { ActionIcon, Flex, NumberInput, Stack, TextInput } from '@mantine/core'
 import { DateTimePicker } from '@mantine/dates'
 import { useForm, zodResolver } from '@mantine/form'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { MdAdd } from 'react-icons/md'
 
 import { Promocode } from '@/shared/types'
@@ -18,6 +19,7 @@ const CreatePromocodeInput: React.FC<CreatePromocodeInputProps> = ({
 	onAdd,
 	minDate,
 }) => {
+	const { t } = useTranslation()
 	const form = useForm({
 		mode: 'controlled',
 		validate: zodResolver(createPromocodeSchema),
@@ -33,7 +35,10 @@ const CreatePromocodeInput: React.FC<CreatePromocodeInputProps> = ({
 			const { code, expirationDate } = form.getValues()
 
 			if (promocodes.some((promo) => promo.code === code)) {
-				form.setFieldError('code', `Promocode ${code} already exists`)
+				form.setFieldError(
+					'code',
+					t('promocodeInput.errors.codeExists', { code })
+				)
 			} else {
 				onAdd({
 					...form.getValues(),
@@ -47,7 +52,7 @@ const CreatePromocodeInput: React.FC<CreatePromocodeInputProps> = ({
 		<Stack>
 			<Flex gap="xs" align="flex-end">
 				<TextInput
-					label="Code"
+					label={t('promocodeInput.fields.code')}
 					flex={1}
 					maxLength={20}
 					key={form.key('code')}
@@ -57,7 +62,7 @@ const CreatePromocodeInput: React.FC<CreatePromocodeInputProps> = ({
 					}}
 				/>
 				<NumberInput
-					label="Discount"
+					label={t('promocodeInput.fields.discount')}
 					suffix="%"
 					min={1}
 					max={99}
@@ -66,13 +71,17 @@ const CreatePromocodeInput: React.FC<CreatePromocodeInputProps> = ({
 					{...form.getInputProps('discount')}
 				/>
 				<DateTimePicker
-					label="Expriration"
-					placeholder="Choose when promocode expires"
+					label={t('promocodeInput.fields.expiration')}
+					placeholder={t('promocodeInput.fields.expirationPlaceholder')}
 					minDate={minDate}
 					flex={1}
 					{...form.getInputProps('expirationDate')}
 				/>
-				<ActionIcon size="lg" onClick={handleAddClick}>
+				<ActionIcon
+					size="lg"
+					onClick={handleAddClick}
+					title={t('promocodeInput.actions.add')}
+				>
 					<MdAdd />
 				</ActionIcon>
 			</Flex>
@@ -80,4 +89,4 @@ const CreatePromocodeInput: React.FC<CreatePromocodeInputProps> = ({
 	)
 }
 
-export default CreatePromocodeInput
+export default React.memo(CreatePromocodeInput)

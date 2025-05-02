@@ -1,16 +1,18 @@
+import { Center, Loader, Stack, Text, Title } from '@mantine/core'
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { Center, Loader, Stack, Text, Title } from '@mantine/core'
 
-import { MotionCard } from '@/components/general'
 import UpdateEventForm from '@/components/event/forms/update-event-form'
+import { MotionCard } from '@/components/general'
 import Layout from '@/components/general/layout'
-import { Event } from '@/shared/types'
 import { apiClient, ApiError } from '@/shared/api/axios'
+import { Event } from '@/shared/types'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 const EventUpdatePage: React.FC = () => {
 	const { id } = useParams()
+	const { t } = useTranslation()
 
 	const {
 		data: event,
@@ -44,7 +46,7 @@ const EventUpdatePage: React.FC = () => {
 
 	return (
 		<Layout>
-			<Title order={2}>Update event</Title>
+			<Title order={2}>{t('common.updateEvent')}</Title>
 			<MotionCard
 				withBorder
 				radius="xl"

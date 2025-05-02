@@ -1,13 +1,14 @@
-import React from 'react'
-import { useForm, zodResolver } from '@mantine/form'
 import { Avatar, Button, Group, Stack, Textarea, Title } from '@mantine/core'
+import { useForm, zodResolver } from '@mantine/form'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
+import { apiClient, ApiError } from '@/shared/api/axios'
+import { showNotification } from '@/shared/helpers/show-notification'
 import { useUserStore } from '@/shared/store/user-store'
 import { Event } from '@/shared/types/event'
 import { CreateCommentBody, createCommentSchema } from '@/shared/validations'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { apiClient, ApiError } from '@/shared/api/axios'
-import { showNotification } from '@/shared/helpers/show-notification'
 
 interface UpdateCommentFormProps {
 	event: Event
@@ -19,6 +20,7 @@ const postEventComment = async (id: number, body: CreateCommentBody) => {
 }
 
 const UpdateCommentForm: React.FC<UpdateCommentFormProps> = ({ event }) => {
+	const { t } = useTranslation()
 	const { user } = useUserStore()
 	const client = useQueryClient()
 
@@ -36,13 +38,14 @@ const UpdateCommentForm: React.FC<UpdateCommentFormProps> = ({ event }) => {
 			return postEventComment(event.id, form.getValues())
 		},
 		onError: (error) => {
-			showNotification('Comment post error', error.message, 'red')
+			showNotification(t('commentForm.error'), error.message, 'red')
 		},
 		onSuccess: () => {
 			form.reset()
 			client.invalidateQueries({
 				queryKey: ['comments', event.id],
 			})
+			showNotification(t('commentForm.success'), '', 'green')
 		},
 	})
 
@@ -61,9 +64,9 @@ const UpdateCommentForm: React.FC<UpdateCommentFormProps> = ({ event }) => {
 					<Stack gap="sm">
 						<Textarea
 							autosize
-							label={<Title order={4}>✏️ Leave a comment</Title>}
-							description="Give a feedback or ask organizer a question about event"
-							placeholder="Comment..."
+							label={<Title order={4}>{t('commentForm.title')}</Title>}
+							description={t('commentForm.description')}
+							placeholder={t('commentForm.placeholder')}
 							size="md"
 							{...form.getInputProps('content')}
 						/>
@@ -72,7 +75,7 @@ const UpdateCommentForm: React.FC<UpdateCommentFormProps> = ({ event }) => {
 							style={{ justifySelf: 'flex-end' }}
 							loading={isPending}
 						>
-							Post comment
+							{t('commentForm.submit')}
 						</Button>
 					</Stack>
 				</Stack>

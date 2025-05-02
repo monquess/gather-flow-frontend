@@ -25,7 +25,6 @@ import { CiEdit } from 'react-icons/ci'
 import { FaRegBell } from 'react-icons/fa'
 import { FaBell, FaMapLocationDot } from 'react-icons/fa6'
 import { GoTrash } from 'react-icons/go'
-import { GrUpdate } from 'react-icons/gr'
 import { IoMdAdd } from 'react-icons/io'
 
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
@@ -59,6 +58,7 @@ import Autoplay from 'embla-carousel-autoplay'
 
 import { showNotification } from '@/shared/helpers/show-notification'
 import classes from '@/shared/styles/slider.module.css'
+import { MdModeEdit } from 'react-icons/md'
 
 const CompanyPage: React.FC = () => {
 	const { t } = useTranslation()
@@ -226,7 +226,7 @@ const CompanyPage: React.FC = () => {
 			<MainHeader />
 			{connectedStripe ? null : admin ? (
 				<Button color="red" my="md" onClick={handleStripeRedirect}>
-					Please, connect stripe account to unlock all features
+					{t('companyPage.stripeAccount')}
 				</Button>
 			) : null}
 			<Stack gap="md" style={{ flex: 1 }}>
@@ -257,7 +257,7 @@ const CompanyPage: React.FC = () => {
 														navigate(`/companies/${data?.id}/update`)
 													}
 												>
-													<GrUpdate size={14} />
+													<MdModeEdit size={14} />
 												</ActionIcon>
 												<ActionIcon
 													variant="outline"

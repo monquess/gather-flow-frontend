@@ -1,201 +1,142 @@
 import {
 	Box,
+	BoxProps,
 	Button,
 	Container,
-	Grid,
 	Group,
-	Image,
-	Stack,
+	Overlay,
 	Text,
 	Title,
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import { motion, useAnimation, useInView } from 'framer-motion'
-import { useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
+import { ElementType } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Reveal = ({
-	children,
-	delay = 0,
-}: {
-	children: React.ReactNode
-	delay?: number
-}) => {
-	const ref = useRef(null)
-	const isInView = useInView(ref, { once: true })
-	const controls = useAnimation()
+const MotionBox = motion.create<BoxProps>(Box as ElementType)
 
-	useEffect(() => {
-		if (isInView) {
-			controls.start('visible')
-		}
-	}, [isInView, controls])
-
-	return (
-		<motion.div
-			ref={ref}
-			initial="hidden"
-			animate={controls}
-			variants={{
-				hidden: { opacity: 0, y: 60 },
-				visible: {
-					opacity: 1,
-					y: 0,
-					transition: { duration: 0.8, delay, ease: 'easeOut' },
-				},
-			}}
-		>
-			{children}
-		</motion.div>
-	)
-}
-
-const LandingPage: React.FC = () => {
+const GatherFlowLanding: React.FC = () => {
 	const navigate = useNavigate()
 	const isMobile = useMediaQuery('(max-width: 768px)')
 
-	const backgroundBlobs = [
-		{
-			top: '-150px',
-			left: '-100px',
-			bg: 'radial-gradient(circle, #c7d2fe, transparent)',
-		},
-		{
-			bottom: '-150px',
-			right: '-100px',
-			bg: 'radial-gradient(circle, #fcd34d, transparent)',
-		},
-	]
-
 	return (
-		<Box bg="white" pos="relative">
-			{backgroundBlobs.map((blob, idx) => (
-				<Box
+		<Box
+			pos="relative"
+			w="100%"
+			h="100vh"
+			bg="black"
+			style={{ overflow: 'hidden' }}
+		>
+			{[
+				{ top: '-100px', left: '-100px', color: '#6366f1' },
+				{ bottom: '-100px', right: '-100px', color: '#ec4899' },
+				{ top: '20%', right: '30%', color: '#14b8a6' },
+			].map((blob, idx) => (
+				<MotionBox
 					key={idx}
 					style={{
-						position: 'fixed',
-						width: '400px',
-						height: '400px',
+						position: 'absolute',
+						width: '600px',
+						height: '600px',
+						background: blob.color,
 						borderRadius: '50%',
-						background: blob.bg,
-						filter: 'blur(120px)',
-						zIndex: -1,
+						filter: 'blur(180px)',
+						opacity: 0.4,
 						...blob,
+					}}
+					initial={{ scale: 0.8, opacity: 0, rotate: 0 }}
+					animate={{
+						scale: [0.9, 1.1, 0.9],
+						rotate: [0, 10, -10, 0],
+						opacity: [0, 0.4, 0],
+					}}
+					transition={{
+						duration: 8,
+						repeat: Infinity,
+						ease: 'easeInOut',
 					}}
 				/>
 			))}
 
-			<Box mih="100vh" style={{ display: 'flex', alignItems: 'center' }}>
-				<Container size="lg">
-					<Stack align="center" ta="center">
-						<Reveal>
-							<Title order={1} size={isMobile ? 36 : 56}>
-								Discover{' '}
-								<Text span c="blue">
-									Events
-								</Text>{' '}
-								and{' '}
-								<Text span c="blue">
-									People
-								</Text>
-							</Title>
-						</Reveal>
-						<Reveal delay={0.2}>
-							<Text size="lg" c="dimmed" maw={600}>
-								A new way to connect with like-minded people at events you care
-								about.
-							</Text>
-						</Reveal>
-						<Reveal delay={0.4}>
-							<Group>
-								<Button size="md" radius="xl" onClick={() => navigate('/home')}>
-									Get Started
-								</Button>
-								<Button variant="outline" size="md" radius="xl">
-									Learn More
-								</Button>
-							</Group>
-						</Reveal>
-					</Stack>
-				</Container>
-			</Box>
+			<Overlay blur={8} center style={{ zIndex: 1, pointerEvents: 'none' }} />
 
-			{[
-				{
-					title: 'Create or Join Exciting Events',
-					description:
-						'From local meetups to international conferences — stay engaged and connected.',
-					image:
-						'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1000&q=80',
-					reverse: false,
-				},
-				{
-					title: 'Build Your Network',
-					description:
-						'Message, collaborate, and plan together before events even begin.',
-					image:
-						'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=1000&q=80',
-					reverse: true,
-				},
-				{
-					title: 'Smart Event Tracking',
-					description:
-						'Get calendar sync, reminders, and real-time updates for every event.',
-					image:
-						'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80',
-					reverse: false,
-				},
-			].map((section, index) => (
-				<Box
-					key={index}
-					py={80}
-					style={{ background: index % 2 ? '#f9fafb' : '#fff' }}
+			<Container size="lg" h="100%" style={{ position: 'relative', zIndex: 2 }}>
+				<Group
+					justify="center"
+					h="100%"
+					align="center"
+					style={{ textAlign: 'center' }}
+					dir="column"
+					gap={isMobile ? 'lg' : 'xl'}
 				>
-					<Container size="lg">
-						<Grid
-							gutter="xl"
-							align="center"
-							justify="center"
-							style={{ flexDirection: section.reverse ? 'row-reverse' : 'row' }}
-						>
-							<Grid.Col span={12}>
-								<Reveal delay={0.1}>
-									<Title order={2} mb="sm">
-										{section.title}
-									</Title>
-									<Text size="lg" c="dimmed">
-										{section.description}
-									</Text>
-								</Reveal>
-							</Grid.Col>
-							<Grid.Col span={12}>
-								<Reveal delay={0.3}>
-									<Image
-										src={section.image}
-										alt={section.title}
-										radius="lg"
-										style={{ boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
-									/>
-								</Reveal>
-							</Grid.Col>
-						</Grid>
-					</Container>
-				</Box>
-			))}
+					<motion.div
+						initial={{ opacity: 0, y: 40 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 1 }}
+					>
+						<Title order={1} size={isMobile ? 36 : 64} c="brand.5">
+							<Text
+								inherit
+								variant="gradient"
+								gradient={{ from: 'brand.4', to: 'brand.6', deg: 45 }}
+							>
+								Gather Flow
+							</Text>
+						</Title>
+					</motion.div>
 
-			<Box py={100} ta="center">
-				<Reveal>
-					<Title order={3}>Ready to Join the Movement?</Title>
-					<Text c="dimmed" mb="md">
-						Sign up now and explore what’s happening around you.
-					</Text>
-					<Button size="md" radius="xl" onClick={() => navigate('/login')}>
-						Join Now
-					</Button>
-				</Reveal>
-			</Box>
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ delay: 0.4, duration: 1 }}
+					>
+						<Text size="lg" c="neutral.6" maw={620}>
+							Your portal to unforgettable experiences. Discover events, meet
+							people, and never miss a moment.
+						</Text>
+					</motion.div>
+
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ delay: 0.8, duration: 1 }}
+					>
+						<Text size="sm" c="neutral.5" maw={500} mt="sm">
+							Whether you're planning, exploring, or connecting — Gather Flow
+							brings everything together in one smooth, vibrant platform.
+						</Text>
+					</motion.div>
+
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ delay: 1.2, duration: 1 }}
+					>
+						<Group mt="xl">
+							<Button
+								size="lg"
+								radius="xl"
+								gradient={{ from: 'brand.4', to: 'brand.6' }}
+								variant="gradient"
+								onClick={() => navigate('/home')}
+							>
+								Explore Events
+							</Button>
+							<Button
+								size="lg"
+								radius="xl"
+								variant="outline"
+								color="neutral.7"
+								onClick={() => navigate('/login')}
+							>
+								Log In
+							</Button>
+						</Group>
+					</motion.div>
+				</Group>
+			</Container>
 		</Box>
 	)
 }
 
-export default LandingPage
+export default GatherFlowLanding

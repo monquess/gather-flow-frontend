@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import {
 	Center,
 	Loader,
@@ -9,14 +8,16 @@ import {
 	Text,
 } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
+import CompanyCard from '@/components/company/company-card'
 import { apiClient, ApiError } from '@/shared/api/axios'
+import { useUserStore } from '@/shared/store/user-store'
 import { Company, Paginated } from '@/shared/types'
 
-import { useUserStore } from '@/shared/store/user-store'
-import CompanyCard from '@/components/company/company-card'
-
 const CompanySection: React.FC = () => {
+	const { t } = useTranslation()
 	const { user } = useUserStore()
 	const [page, setPage] = useState(1)
 
@@ -50,7 +51,9 @@ const CompanySection: React.FC = () => {
 	if (error || !companies) {
 		return (
 			<Center h="100vh">
-				<Text c="red">{error?.message}</Text>
+				<Text c="red">
+					{error?.message || t('companySection.errors.loadError')}
+				</Text>
 			</Center>
 		)
 	}
@@ -73,9 +76,7 @@ const CompanySection: React.FC = () => {
 							<Pagination
 								total={companies.meta.pageCount}
 								value={page}
-								onChange={(newPage) => {
-									setPage(newPage)
-								}}
+								onChange={setPage}
 								size="md"
 								radius="xl"
 							/>
@@ -84,7 +85,7 @@ const CompanySection: React.FC = () => {
 				) : (
 					<Center>
 						<Text c="gray" size="md">
-							You haven’t been created or membered in company yet.
+							{t('companySection.emptyState')}
 						</Text>
 					</Center>
 				)}

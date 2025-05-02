@@ -1,5 +1,6 @@
 import { ActionIcon, Group, Stack, Title, Tooltip } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
+import { useTranslation } from 'react-i18next'
 import { FaLink } from 'react-icons/fa'
 import {
 	FaFacebookF,
@@ -25,12 +26,13 @@ const SocialShareButtons: React.FC<SocialShareButtonsProps> = ({
 	title,
 }) => {
 	const iconSize = 20
+	const { t } = useTranslation()
 
 	return (
 		<Stack gap="xs">
 			<Group gap="0.5rem">
 				<FaShare />
-				<Title order={6}>Share this event</Title>
+				<Title order={6}>{t('common.shareTitle')}</Title>
 			</Group>
 			<Group gap="xs">
 				<Tooltip label="X (Twitter)" withArrow>
@@ -65,7 +67,7 @@ const SocialShareButtons: React.FC<SocialShareButtonsProps> = ({
 					</ActionIcon>
 				</Tooltip>
 
-				<Tooltip label="Copy link" withArrow>
+				<Tooltip label={t('common.copyLink')} withArrow>
 					<ActionIcon
 						variant="light"
 						radius="xl"
@@ -74,7 +76,7 @@ const SocialShareButtons: React.FC<SocialShareButtonsProps> = ({
 							navigator.clipboard.writeText(url)
 							notifications.show({
 								color: 'white',
-								message: 'Link copied to clipboard.',
+								message: t('common.linkToCB'),
 								autoClose: 2000,
 								position: 'bottom-center',
 							})
