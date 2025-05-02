@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { BsBell, BsPencil } from 'react-icons/bs'
+import { BsBell } from 'react-icons/bs'
 import { CiLogout } from 'react-icons/ci'
 import { GoTrash } from 'react-icons/go'
-import { GrUpdate } from 'react-icons/gr'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -10,6 +9,7 @@ import {
 	Avatar,
 	Badge,
 	Box,
+	Button,
 	Container,
 	Flex,
 	Group,
@@ -22,14 +22,17 @@ import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
 
 import Footer from '@/components/general/footer'
+import Layout from '@/components/general/layout'
 import MainHeader from '@/components/general/main-header'
 import NotificationsModal from '@/components/notifications/modal/notifications-modal'
+import CompanySection from '@/components/profile/company/company-section'
 import DeleteUserModal from '@/components/profile/modal/delete-user-modal'
 import UpdateAvatarModal from '@/components/profile/modal/update-avatar-modal'
 import UpdateUserModal from '@/components/profile/modal/update-user-modal'
 import TicketSection from '@/components/profile/ticket/ticket-section'
 import { useUserStore } from '@/shared/store/user-store'
-import CompanySection from '@/components/profile/company/company-section'
+import { IoMdImages } from 'react-icons/io'
+import { MdModeEdit } from 'react-icons/md'
 
 const UserProfilePage: React.FC = () => {
 	const { t } = useTranslation()
@@ -42,14 +45,18 @@ const UserProfilePage: React.FC = () => {
 
 	if (!user) {
 		return (
-			<Container size="sm" py="md">
+			<Layout>
 				<Paper shadow="md" radius="md" p="lg" withBorder>
 					<Stack align="center">
 						<Title order={3}>You are not logged in</Title>
 						<Text c="dimmed">Please log in to view your profile.</Text>
+						<Group grow>
+							<Button onClick={() => navigate(-1)}>Go back</Button>
+							<Button onClick={() => navigate('/login')}>Go login</Button>
+						</Group>
 					</Stack>
 				</Paper>
-			</Container>
+			</Layout>
 		)
 	}
 
@@ -94,7 +101,7 @@ const UserProfilePage: React.FC = () => {
 									aria-label="Edit avatar"
 									onClick={() => setAvatarModal(true)}
 								>
-									<BsPencil size={14} />
+									<IoMdImages size={14} />
 								</ActionIcon>
 							</Box>
 							<Stack>
@@ -141,7 +148,7 @@ const UserProfilePage: React.FC = () => {
 								variant="outline"
 								onClick={() => setUpdateModal(true)}
 							>
-								<GrUpdate size={14} />
+								<MdModeEdit size={14} />
 							</ActionIcon>
 							<ActionIcon
 								variant="outline"

@@ -82,7 +82,7 @@
 			"text": "Enter your email address to reset your password"
 		},
 		"verifyAccount": {
-			"title": "Reset password",
+			"title": "Verify account",
 			"text": "Enter your email address to verify your account"
 		}
 	},

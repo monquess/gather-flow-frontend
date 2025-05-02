@@ -17,7 +17,7 @@ import { motion } from 'framer-motion'
 
 import { Company } from '@/shared/types/company'
 import { GoTrash } from 'react-icons/go'
-import { GrUpdate } from 'react-icons/gr'
+import { MdModeEdit } from 'react-icons/md'
 import DeleteCompanyModal from './modal/delete-company-modal'
 
 interface CompanyCardProps {
@@ -67,7 +67,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company, delay }) => {
 										navigate(`/companies/${company?.id}/update`)
 									}}
 								>
-									<GrUpdate size={14} />
+									<MdModeEdit size={14} />
 								</ActionIcon>
 								<ActionIcon
 									variant="outline"

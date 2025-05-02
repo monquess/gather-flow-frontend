@@ -1,8 +1,8 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Box, Paper, Text, Title } from '@mantine/core'
-import { FaArrowLeft } from 'react-icons/fa'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { FaArrowLeft } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 import VerifyAccountForm from '@/components/auth/verify-account-form'
 import Footer from '@/components/general/footer'
@@ -48,10 +48,10 @@ const VerifyPage: React.FC = () => {
 						onClick={() => navigate('/login')}
 					/>
 					<Title order={1} ta="center" size={isMobile ? 'h2' : 'h1'}>
-						{t('authPage.verifyAccount.title')}
+						{t('authPages.verifyAccount.title')}
 					</Title>
 					<Text size={isMobile ? 'xs' : 'sm'} mt="xs" c="dimmed">
-						{t('authPage.verifyAccount.text')}
+						{t('authPages.verifyAccount.text')}
 					</Text>
 					<VerifyAccountForm />
 				</Paper>
