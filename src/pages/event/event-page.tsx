@@ -251,7 +251,8 @@ const EventPage: React.FC = () => {
 								<Group gap="xs" align="center">
 									<MdCalendarToday size={18} />
 									<Text size="sm">
-										{dayjs(event?.startDate).format('DD MMM YYYY, HH:mm')}
+										{dayjs(event?.startDate).format('DD MMM YYYY, HH:mm')} -{' '}
+										{dayjs(event?.endDate).format('DD MMM YYYY, HH:mm')}
 									</Text>
 								</Group>
 								<Group gap="xs" align="center">
@@ -302,8 +303,8 @@ const EventPage: React.FC = () => {
 												) : null
 											)}
 										{attendeesData?.meta.count > 5 && (
-											<Avatar size="md" radius="xl">
-												{attendeesData.meta.count - 5}
+											<Avatar size="lg" radius="xl">
+												+{attendeesData.meta.count - 5}
 											</Avatar>
 										)}
 									</Avatar.Group>
@@ -335,7 +336,9 @@ const EventPage: React.FC = () => {
 								leftSection={<span />}
 								rightSection={<FaArrowRightLong size={20} />}
 								onClick={() => navigate(`checkout`)}
-								disabled={event.ticketsQuantity - event.ticketsSold === 0}
+								disabled={
+									user ? event.ticketsQuantity - event.ticketsSold === 0 : true
+								}
 							>
 								{event.ticketsQuantity - event.ticketsSold > 0 ? (
 									<Text fw={500}>{t('eventPage.buyNow')}</Text>

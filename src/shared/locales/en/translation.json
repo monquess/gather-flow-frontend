@@ -431,7 +431,8 @@
 		},
 		"actions": {
 			"cancel": "Cancel",
-			"submit": "Create"
+			"submit": "Create",
+			"update": "Update"
 		}
 	},
 	"promocodeInput": {

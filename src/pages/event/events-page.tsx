@@ -122,7 +122,7 @@ const EventsPage: React.FC = () => {
 		queryFn: fetchEvents,
 	})
 
-	if (isLoading) {
+	if (isLoading || !data) {
 		return (
 			<Layout>
 				<Center>
@@ -326,7 +326,7 @@ const EventsPage: React.FC = () => {
 					))}
 				</SimpleGrid>
 
-				{data?.meta?.pageCount && data.meta.pageCount > 1 && (
+				{data.meta.pageCount > 1 && (
 					<Center mt="xl">
 						<Pagination
 							total={data.meta.pageCount || 1}

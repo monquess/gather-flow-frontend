@@ -162,7 +162,8 @@ const UpdateEventForm: React.FC<UpdateEventFormProps> = ({ event }) => {
 					...values,
 					startDate: startDate?.toISOString(),
 					endDate: endDate?.toISOString(),
-					publishDate: publishDate?.toISOString(),
+					publishDate: publishDate ? publishDate.toISOString() : null,
+					status: publishDate ? event.status : 'PUBLISHED',
 				}
 
 				await apiClient.patch(
@@ -404,6 +405,7 @@ const UpdateEventForm: React.FC<UpdateEventFormProps> = ({ event }) => {
 					checked={isPublishLater}
 					onChange={() => {
 						if (isPublishLater) {
+							console.log('22')
 							form.setFieldValue('publishDate', null)
 						}
 						setIsPublishLater((prev) => !prev)

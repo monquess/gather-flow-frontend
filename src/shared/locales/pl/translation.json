@@ -429,7 +429,8 @@
 		},
 		"actions": {
 			"cancel": "Anuluj",
-			"submit": "Utwórz"
+			"submit": "Utwórz",
+			"update": "Edytuj"
 		}
 	},
 	"promocodeInput": {
