@@ -1,0 +1,55 @@
+import React from 'react'
+import { Box, Container, Paper, Title } from '@mantine/core'
+import { useTranslation } from 'react-i18next'
+
+import RegisterForm from '@/components/auth/register-form'
+import Footer from '@/components/general/footer'
+import Header from '@/components/general/header'
+
+import { useResponsive } from '@/hooks/use-responsive'
+
+const RegisterPage: React.FC = () => {
+	const { isMobile } = useResponsive()
+	const { t } = useTranslation()
+
+	return (
+		<Paper
+			style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
+		>
+			<Header isLandingPage={false} />
+			<Box
+				style={{
+					flex: 1,
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}
+				display="flex"
+				p={isMobile ? 'xs' : 'md'}
+				m={isMobile ? 'lg' : '0'}
+			>
+				<Container
+					p={isMobile ? 'md' : 'xl'}
+					m={isMobile ? 'lg' : '0'}
+					w="100%"
+					maw={{
+						base: '100%',
+						xs: '400px',
+					}}
+					style={(theme) => ({
+						borderRadius: isMobile ? 15 : 25,
+						border: '1px solid #ccc',
+						boxShadow: theme.shadows.sm,
+					})}
+				>
+					<Title order={1} mb="md" ta="center" size={isMobile ? 'h2' : 'h1'}>
+						{t('authPages.register')}
+					</Title>
+					<RegisterForm />
+				</Container>
+			</Box>
+			<Footer />
+		</Paper>
+	)
+}
+
+export default React.memo(RegisterPage)

@@ -1,0 +1,645 @@
+{
+	"notFound": {
+		"title": "404",
+		"message": "Ups! Strona, której szukasz, nie istnieje.",
+		"goHome": "Strona główna"
+	},
+	"login": {
+		"email": "Email",
+		"password": "Hasło",
+		"or": "lub kontynuuj przez",
+		"google": "Google",
+		"forgot": "Zapomniałeś hasła?",
+		"submit": "Zaloguj się",
+		"noAccount": "Nie masz konta?",
+		"register": "Zarejestruj się",
+		"captcha": "Proszę wypełnić Captcha",
+		"success": "Witaj, {{username}}!",
+		"error": "Błąd logowania"
+	},
+	"register": {
+		"title": "Rejestracja",
+		"username": "Nazwa użytkownika",
+		"email": "Email",
+		"password": "Hasło",
+		"confirmPassword": "Potwierdź hasło",
+		"or": "lub kontynuuj przez",
+		"google": "Google",
+		"submit": "Zarejestruj się",
+		"alreadyHaveAccount": "Masz już konto?",
+		"login": "Zaloguj się",
+		"captcha": "Proszę wypełnić Captcha",
+		"success": "Zarejestrowałeś się pomyślnie. Proszę zweryfikować konto.",
+		"error": "Błąd rejestracji"
+	},
+	"verification": {
+		"title": "Weryfikacja",
+		"success": "Konto zweryfikowane pomyślnie",
+		"error": "Błąd weryfikacji"
+	},
+	"passwordReset": {
+		"emailLabel": "Email",
+		"submitButton": "Wyślij email resetujący",
+		"emailSent": "Email do resetowania hasła został wysłany na adres {{email}}.",
+		"resetSuccess": "Hasło zostało zresetowane, możesz się teraz zalogować",
+		"resetError": "Błąd resetowania hasła",
+		"notificationTitle": "Email resetujący wysłany"
+	},
+	"verifyAccount": {
+		"emailLabel": "Email",
+		"submitButton": "Wyślij email weryfikacyjny",
+		"verificationSent": "Email weryfikacyjny wysłany pomyślnie",
+		"verificationError": "Błąd weryfikacji",
+		"verificationSuccess": "Pomyślnie zweryfikowałeś konto. Możesz się teraz zalogować."
+	},
+	"resetPasswordModal": {
+		"title": "Zresetuj swoje hasło",
+		"message": "Wysłaliśmy kod weryfikacyjny na adres {{email}}. Wprowadź kod poniżej, aby zresetować hasło.",
+		"passwordLabel": "Hasło",
+		"confirmPasswordLabel": "Potwierdź hasło",
+		"resendCode": "Wyślij kod ponownie",
+		"changePassword": "Zmień hasło",
+		"resendSuccess": "Email z kodem weryfikacyjnym został wysłany, sprawdź swoją skrzynkę",
+		"resendError": "Błąd wysyłania kodu weryfikacyjnego"
+	},
+	"verificationCodeModal": {
+		"title": "Zweryfikuj swój email",
+		"message": "Wysłaliśmy kod weryfikacyjny na adres {{email}}. Wprowadź kod poniżej, aby zweryfikować konto.",
+		"resendCode": "Wyślij kod ponownie",
+		"verify": "Zweryfikuj",
+		"resendSuccess": "Email z kodem weryfikacyjnym został wysłany, sprawdź swoją skrzynkę",
+		"resendError": "Błąd wysyłania kodu weryfikacyjnego",
+		"invalidCode": "Nieprawidłowy kod weryfikacyjny"
+	},
+	"header": {
+		"verify": "Zweryfikuj"
+	},
+	"authPages": {
+		"login": "Zaloguj się",
+		"register": "Zarejestruj się",
+		"resetPassword": {
+			"title": "Resetowanie hasła",
+			"text": "Wprowadź swój adres email, aby zresetować hasło"
+		},
+		"verifyAccount": {
+			"title": "Weryfikacja konta",
+			"text": "Wprowadź swój adres email, aby zweryfikować konto"
+		}
+	},
+	"createCompany": {
+		"title": "Utwórz nową firmę",
+		"name": "Nazwa",
+		"namePlaceholder": "Wprowadź nazwę firmy",
+		"description": "Opis",
+		"descriptionPlaceholder": "Wprowadź opis firmy",
+		"email": "Email",
+		"emailPlaceholder": "Wprowadź email firmy",
+		"location": "Lokalizacja",
+		"searchLocationPlaceholder": "Wyszukaj miejsce",
+		"createButton": "Utwórz",
+		"createTitle": "Firma utworzona",
+		"createMessage": "Firma została pomyślnie utworzona"
+	},
+	"updateCompany": {
+		"name": "Nazwa",
+		"description": "Opis",
+		"email": "Email",
+		"location": "Lokalizacja",
+		"cancel": "Anuluj",
+		"update": "Aktualizuj",
+		"successTitle": "Firma zaktualizowana",
+		"successMessage": "Firma została pomyślnie zaktualizowana",
+		"errorLoad": "Błąd ładowania firmy",
+		"title": "Aktualizacja",
+		"info": "Informacje"
+	},
+	"deleteCompany": {
+		"modalTitle": "Usuń firmę",
+		"successTitle": "Usunięcie firmy",
+		"successMessage": "Firma została pomyślnie usunięta.",
+		"errorTitle": "Błąd usuwania firmy",
+		"confirmationMessage": "Czy na pewno chcesz usunąć \"{{company}}\"? Tej akcji nie można cofnąć."
+	},
+	"addMember": {
+		"modalTitle": "Zaproś członków do firmy",
+		"selectLabel": "Wybierz użytkowników",
+		"selectPlaceholder": "Zacznij wpisywać nazwę użytkownika lub email...",
+		"inviteButton": "Zaproś użytkowników",
+		"successTitle": "Zaproszenie członków",
+		"successMessage": "Członkowie zostali pomyślnie zaproszeni do firmy.",
+		"errorTitle": "Błąd zapraszania członków"
+	},
+	"companyCard": {
+		"createdAt": "Utworzono: {{date}}"
+	},
+	"carousel": {
+		"noEvent": "Brak dostępnych wydarzeń."
+	},
+	"findModal": {
+		"company": "Firmy",
+		"event": "Wydarzenia",
+		"placeholder": "Wyszukaj wydarzenia lub firmy"
+	},
+	"mainHeader": {
+		"home": "Strona główna",
+		"events": "Wydarzenia",
+		"companies": "Firmy",
+		"allCompanies": "Wszystkie firmy",
+		"createCompany": "Utwórz firmę",
+		"searchMobile": "Kliknij, aby wyszukać",
+		"searchDesktop": "Kliknij lub użyj Ctrl+K",
+		"news": "Aktualności"
+	},
+	"companiesPage": {
+		"searchPlaceholder": "Wyszukaj po nazwie...",
+		"selectLimit": "Wybierz limit",
+		"errorLoadingCompanies": "Błąd ładowania firm"
+	},
+	"companyPage": {
+		"stripeAccount": "Proszę połączyć konto Stripe, aby odblokować wszystkie funkcje",
+		"errorLoadingCompany": "Błąd ładowania firmy",
+		"companyLocation": "Lokalizacja",
+		"companyMembers": "Członkowie",
+		"addMember": "Dodaj",
+		"companyEvents": "Wydarzenia",
+		"createEvent": "Utwórz",
+		"noEventsAvailable": "Brak dostępnych wydarzeń.",
+		"loadingEvents": "Ładowanie wydarzeń...",
+		"joined": "Dołączono",
+		"seeMore": "Zobacz więcej",
+		"newsTitle": "Aktualności",
+		"reviews": "Recenzje i oceny",
+		"createReview": "Napisz recenzję"
+	},
+	"createEvent": {
+		"title": "Utwórz nowe wydarzenie"
+	},
+	"eventPage": {
+		"loading": "Ładowanie wydarzenia...",
+		"errorLoadingEvent": "Błąd podczas ładowania wydarzenia",
+		"aboutEvent": "O wydarzeniu",
+		"buyTicket": "Kup bilet",
+		"visitors": "Uczestnicy",
+		"free": "DARMOWE",
+		"buyNow": "Kup teraz",
+		"soldOut": "WYPRZEDANE",
+		"location": "Lokalizacja",
+		"moreFromCompany": "Więcej od tej firmy",
+		"seeMore": "Zobacz więcej",
+		"eventNotFound": "Wydarzenie nie znalezione",
+		"adminZone": "Strefa administratora",
+		"manageCode": "Zarządzaj kodem",
+		"updateEvent": "Aktualizuj wydarzenie"
+	},
+	"eventsPage": {
+		"loading": "Ładowanie wydarzeń...",
+		"errorLoadingEvents": "Błąd ładowania wydarzeń",
+		"searchFilters": "Wyszukiwanie i filtry",
+		"eventTitle": "Tytuł wydarzenia",
+		"placeholderTitle": "Wyszukaj...",
+		"format": "Format",
+		"selectFormat": "Wybierz format",
+		"theme": "Temat",
+		"selectTheme": "Wybierz temat",
+		"startDate": "Data rozpoczęcia",
+		"endDate": "Data zakończenia",
+		"minPrice": "Minimalna cena",
+		"maxPrice": "Maksymalna cena",
+		"filterButton": "Filtruj",
+		"clearAllFilters": "Wyczyść wszystkie filtry",
+		"sortBy": "Sortuj według",
+		"order": "Kolejność",
+		"limit": "Limit",
+		"error": "Błąd",
+		"pagination": "Strona",
+		"formats": {
+			"CONFERENCE": "Konferencja",
+			"LECTURE": "Wykład",
+			"WORKSHOP": "Warsztat",
+			"FEST": "Festiwal",
+			"OTHER": "Inne"
+		},
+		"themes": {
+			"BUSINESS": "Biznes",
+			"POLITICS": "Polityka",
+			"PSYCHOLOGY": "Psychologia",
+			"OTHER": "Inne"
+		},
+		"sorts": {
+			"title": "Tytuł",
+			"startDate": "Data rozpoczęcia",
+			"endDate": "Data zakończenia",
+			"publishDate": "Data publikacji",
+			"ticketPrice": "Cena biletu",
+			"createdAt": "Data utworzenia",
+			"likes": "Polubienia"
+		},
+		"orders": {
+			"ASC": "Rosnąco",
+			"DESC": "Malejąco"
+		}
+	},
+	"homepage": {
+		"welcomeMessage": "Witaj na naszej platformie! Znajdziesz tu najbardziej aktualne i ekscytujące wydarzenia, a także poznasz popularne firmy, które napędzają innowacje. Dołącz do nas i nie przegap szansy bycia w centrum najważniejszych wydarzeń!",
+		"popularCompanies": "Popularne firmy",
+		"comingSoon": "Wkrótce",
+		"noUpcomingEvents": "Brak nadchodzących wydarzeń.",
+		"conferences": "Konferencje",
+		"noConferenceEvents": "Brak dostępnych konferencji.",
+		"lectures": "Wykłady",
+		"noLectureEvents": "Brak dostępnych wykładów.",
+		"otherEvents": "Inne wydarzenia",
+		"noOtherEvents": "Brak innych wydarzeń."
+	},
+	"profile": {
+		"public": "Publiczny",
+		"private": "Prywatny",
+		"joined": "Dołączono",
+		"notLoggedIn": {
+			"title": "Nie jesteś zalogowany",
+			"message": "Zaloguj się, aby zobaczyć swój profil."
+		},
+		"buttons": {
+			"goBack": "Wróć",
+			"login": "Zaloguj się"
+		},
+		"visibility": {
+			"public": "Publiczny",
+			"private": "Prywatny"
+		},
+		"joinedDate": "Dołączono",
+		"lastUpdated": "Ostatnia aktualizacja",
+		"actions": {
+			"editAvatar": "Edytuj avatar",
+			"notifications": "Powiadomienia",
+			"editProfile": "Edytuj profil",
+			"deleteAccount": "Usuń konto",
+			"logout": "Wyloguj się"
+		},
+		"sections": {
+			"companies": "Firmy",
+			"tickets": "Bilety"
+		}
+	},
+	"deleteAccount": {
+		"cancel": "Anuluj",
+		"error": "Błąd",
+		"delete": "Usuń",
+		"title": "Usuń konto",
+		"confirmationText": "Usunięcie konta jest trwałe i nieodwracalne. Utracisz dostęp do wszystkich swoich danych.",
+		"reasonPrompt": "Powiedz nam, dlaczego usuwasz konto?",
+		"accountDeletion": "Usuwanie konta",
+		"accountDeletionSuccess": "Twoje konto zostało pomyślnie usunięte.",
+		"accountDeletionError": "Błąd usuwania konta"
+	},
+	"uploadAvatar": {
+		"title": "Prześlij avatar",
+		"confirmationText": "Nowy dzień, nowe zdjęcie profilowe! Wybierz obraz, który najlepiej Cię reprezentuje.",
+		"fileInputLabel": "Wybierz nowe zdjęcie profilowe",
+		"fileInputPlaceholder": "Prześlij obraz",
+		"avatarUploadSuccess": "Avatar przesłany pomyślnie.",
+		"avatarUploadError": "Błąd przesyłania avatara",
+		"uploadAvatarButton": "Prześlij avatar"
+	},
+	"updateUser": {
+		"title": "Aktualizuj informacje",
+		"confirmationText": "Możesz zaktualizować swój email lub nazwę użytkownika poniżej. Pamiętaj, aby zapisać zmiany",
+		"usernameLabel": "Nazwa użytkownika",
+		"emailLabel": "Email",
+		"saveChangesButton": "Zapisz zmiany",
+		"accountUpdateSuccess": "Twoje dane konta zostały pomyślnie zaktualizowane.",
+		"accountUpdateError": "Błąd aktualizacji konta"
+	},
+	"common": {
+		"cancel": "Anuluj",
+		"error": "Błąd",
+		"delete": "Usuń",
+		"free": "Darmowe",
+		"draft": "Szkic",
+		"shareTitle": "Udostępnij to wydarzenie",
+		"copyLink": "Kopiuj link",
+		"linkToCB": "Link skopiowany do schowka.",
+		"promocode": "Zarządzaj kodami promocyjnymi {{event}}",
+		"updateEvent": "Aktualizuj wydarzenie"
+	},
+	"commentReply": {
+		"title": "Odpowiedz {{username}}",
+		"placeholder": "Napisz swoją odpowiedź...",
+		"cancel": "Anuluj",
+		"submit": "Odpowiedz",
+		"success": "Odpowiedź opublikowana pomyślnie!",
+		"error": "Nie udało się opublikować odpowiedzi"
+	},
+	"commentForm": {
+		"title": "✏️ Dodaj komentarz",
+		"description": "Zostaw opinię lub zadaj organizatorowi pytanie o wydarzenie",
+		"placeholder": "Napisz swój komentarz...",
+		"submit": "Opublikuj komentarz",
+		"success": "Komentarz opublikowany pomyślnie!",
+		"error": "Nie udało się opublikować komentarza"
+	},
+	"deleteComment": {
+		"title": "Usuń komentarz",
+		"description": "Czy na pewno chcesz usunąć ten komentarz? Tej akcji nie można cofnąć.",
+		"cancel": "Anuluj",
+		"submit": "Usuń",
+		"success": "Komentarz usunięty pomyślnie",
+		"error": "Błąd usuwania komentarza"
+	},
+	"commentCard": {
+		"edit": "Edytuj",
+		"delete": "Usuń",
+		"cancel": "Anuluj",
+		"save": "Zapisz",
+		"reply": "Odpowiedz",
+		"showReplies": "Pokaż odpowiedzi",
+		"hideReplies": "Ukryj odpowiedzi",
+		"updateSuccess": "Komentarz zaktualizowany pomyślnie",
+		"updateError": "Błąd aktualizacji komentarza"
+	},
+	"commentList": {
+		"title": "{{count}} komentarzy",
+		"errorTitle": "Nie udało się załadować komentarzy",
+		"loading": "Ładowanie komentarzy..."
+	},
+	"commentSection": {
+		"title": "Komentarze",
+		"loginPrompt": "Zaloguj się, aby dodać komentarz"
+	},
+	"attendeesList": {
+		"title": "Lista uczestników",
+		"joined": "Dołączono",
+		"noAttendees": "Brak uczestników",
+		"loading": "Ładowanie uczestników..."
+	},
+	"eventForm": {
+		"title": "Utwórz wydarzenie",
+		"poster": {
+			"label": "Plakat",
+			"tooltip": "Prześlij plakat"
+		},
+		"fields": {
+			"title": "Tytuł",
+			"titlePlaceholder": "Wprowadź tytuł wydarzenia",
+			"format": "Format",
+			"formatPlaceholder": "Wybierz format wydarzenia",
+			"theme": "Temat",
+			"themePlaceholder": "Wybierz temat",
+			"description": "Opis",
+			"descriptionPlaceholder": "Opisz wydarzenie",
+			"visitorsVisibility": {
+				"label": "Widoczność uczestników",
+				"description": "Wybierz, kto może widzieć uczestników przyszłego wydarzenia",
+				"options": {
+					"EVERYONE": "Wszyscy",
+					"VISITOR": "Uczestnicy"
+				}
+			},
+			"location": {
+				"label": "Lokalizacja",
+				"searchPlaceholder": "Wyszukaj miejsce"
+			},
+			"tickets": {
+				"label": "Bilety",
+				"price": "Cena",
+				"pricePlaceholder": "Ustaw cenę biletu",
+				"quantity": "Ilość",
+				"quantityPlaceholder": "Ile biletów?"
+			},
+			"date": {
+				"label": "Data",
+				"start": "Początek",
+				"startPlaceholder": "Wybierz datę i godzinę rozpoczęcia",
+				"end": "Koniec",
+				"endPlaceholder": "Wybierz datę i godzinę zakończenia"
+			},
+			"publish": {
+				"later": "Opublikuj później",
+				"date": "Data publikacji",
+				"datePlaceholder": "Wybierz kiedy opublikować"
+			},
+			"promocodes": {
+				"label": "Kody promocyjne",
+				"description": "Możesz opcjonalnie dodać kody promocyjne, aby zaoferować zniżki na bilety dla uczestników."
+			},
+			"notifications": {
+				"notifyOnAttendee": "Powiadom o nowych uczestnikach",
+				"notifyDescription": "Otrzymasz email, gdy nowy uczestnik dołączy"
+			}
+		},
+		"actions": {
+			"cancel": "Anuluj",
+			"submit": "Utwórz",
+			"update": "Edytuj"
+		}
+	},
+	"promocodeInput": {
+		"label": "Masz kod promocyjny? Użyj go!",
+		"placeholder": "Wprowadź kod tutaj...",
+		"submitButton": ">",
+		"errorSuggestion": "Proszę spróbować inny kod.",
+		"errors": {
+			"expired": "Kod promocyjny wygasł",
+			"notFound": "Kod promocyjny nie znaleziony",
+			"generic": "Coś poszło nie tak",
+			"codeExists": "Kod promocyjny {{code}} już istnieje"
+		},
+		"fields": {
+			"code": "Kod",
+			"discount": "Zniżka",
+			"expiration": "Ważność",
+			"expirationPlaceholder": "Wybierz datę wygaśnięcia"
+		},
+		"actions": {
+			"add": "Dodaj kod promocyjny"
+		}
+	},
+	"notificationModal": {
+		"title": "Powiadomienia",
+		"actions": {
+			"readAll": "Przeczytaj wszystkie"
+		}
+	},
+	"notificationCard": {
+		"status": {
+			"read": "Przeczytane",
+			"unread": "Nieprzeczytane"
+		},
+		"actions": {
+			"delete": "Usuń powiadomienie"
+		}
+	},
+	"notificationTypes": {
+		"EVENT_REMINDER": "Przypomnienie o wydarzeniu",
+		"NEW_EVENT": "Nowe wydarzenie",
+		"NEW_POST": "Nowa wiesc",
+		"NEW_PROMOCODE": "Nowy promocod",
+		"NEW_ATTENDEE": "Nowy uczestnik"
+	},
+	"postCreateModal": {
+		"title": "Utwórz aktualność",
+		"fields": {
+			"title": {
+				"label": "Tytuł",
+				"placeholder": "Wprowadź tytuł aktualności"
+			},
+			"content": {
+				"placeholder": "Treść aktualności"
+			},
+			"poster": {
+				"label": "Prześlij plakat",
+				"placeholder": "Wybierz plik"
+			}
+		},
+		"actions": {
+			"submit": "Utwórz aktualność"
+		},
+		"notifications": {
+			"success": {
+				"title": "Aktualność utworzona",
+				"message": "Aktualność została pomyślnie utworzona"
+			},
+			"error": {
+				"title": "Błąd tworzenia aktualności"
+			}
+		}
+	},
+	"companySection": {
+		"errors": {
+			"loadError": "Nie udało się załadować firm"
+		},
+		"emptyState": "Nie utworzyłeś jeszcze żadnej firmy ani do żadnej nie dołączyłeś."
+	},
+	"ticketCard": {
+		"fields": {
+			"purchaseDate": "Data zakupu",
+			"finalPrice": "Cena końcowa"
+		},
+		"actions": {
+			"download": "Pobierz bilet",
+			"viewEvent": "Wydarzenie"
+		},
+		"notifications": {
+			"error": {
+				"title": "Błąd pobierania pliku"
+			}
+		}
+	},
+	"ticketSection": {
+		"errors": {
+			"loadError": "Nie udało się załadować biletów"
+		},
+		"emptyState": "Nie kupiłeś jeszcze żadnych biletów na wydarzenia."
+	},
+	"reviewCreateModal": {
+		"title": "Utwórz recenzję",
+		"fields": {
+			"comment": {
+				"label": "Komentarz",
+				"placeholder": "Wprowadź tekst komentarza"
+			},
+			"rating": {
+				"label": "Kliknij, aby ocenić:"
+			}
+		},
+		"actions": {
+			"submit": "Utwórz recenzję"
+		},
+		"notifications": {
+			"success": {
+				"title": "Recenzja utworzona",
+				"message": "Recenzja została pomyślnie utworzona"
+			},
+			"error": {
+				"title": "Błąd tworzenia recenzji"
+			}
+		}
+	},
+	"reviewCard": {
+		"actions": {
+			"delete": "Usuń recenzję",
+			"confirmDelete": "Usuń"
+		},
+		"modal": {
+			"title": "Usuń recenzję",
+			"confirmation": "Czy na pewno chcesz usunąć swoją recenzję?"
+		},
+		"notifications": {
+			"deleteSuccess": {
+				"title": "Recenzja usunięta",
+				"message": "Recenzja została pomyślnie usunięta"
+			},
+			"deleteError": {
+				"title": "Błąd usuwania recenzji"
+			}
+		}
+	},
+	"editRoleSelect": {
+		"notifications": {
+			"success": {
+				"title": "Zmiana roli",
+				"message": "Rola dla {{username}} została pomyślnie zmieniona"
+			},
+			"error": {
+				"title": "Błąd zmiany roli"
+			}
+		}
+	},
+	"connectSuccessPage": {
+		"title": "Połączenie udane!",
+		"description": "Dziękujemy za połączenie konta Stripe. Masz teraz pełny dostęp do wszystkich funkcji firmy.",
+		"buttons": {
+			"home": "Strona główna",
+			"company": "Przejdź do firmy"
+		}
+	},
+	"checkoutElement": {
+		"payButton": "Zapłać ${{amount}}"
+	},
+	"checkoutSuccessPage": {
+		"title": "Płatność udana!",
+		"description": "Dziękujemy za zakup. Możesz zobaczyć swoje bilety w emailu lub w swoim profilu.",
+		"buttons": {
+			"home": "Strona główna",
+			"profile": "Przejdź do profilu"
+		}
+	},
+	"eventCheckoutPage": {
+		"errors": {
+			"loadError": "Błąd ładowania wydarzenia"
+		},
+		"steps": {
+			"tickets": {
+				"label": "Pierwszy krok",
+				"description": "Wybierz liczbę biletów"
+			},
+			"payment": {
+				"label": "Płatność",
+				"description": "Zapłać za bilety"
+			}
+		},
+		"ticketSelection": {
+			"description": "Wybierz, ile biletów chcesz kupić na to wydarzenie. Upewnij się, że sprawdziłeś ich liczbę przed kontynuowaniem!",
+			"ticketLabel": "Bilet na wydarzenie"
+		},
+		"total": "Razem",
+		"buttons": {
+			"back": "Wróć",
+			"continue": "Kontynuuj"
+		}
+	},
+	"postPage": {
+		"errors": {
+			"loadError": "Błąd ładowania posta"
+		},
+		"notifications": {
+			"likeError": {
+				"title": "Błąd aktualizacji polubienia"
+			}
+		},
+		"actions": {
+			"like": "Polub ten post",
+			"unlike": "Usuń polubienie"
+		}
+	}
+}

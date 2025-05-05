@@ -1,0 +1,21 @@
+export { default as LoginPage } from './auth/login-page'
+export { default as RegisterPage } from './auth/register-page'
+export { default as ResetPasswordPage } from './auth/reset-password-page'
+export { default as VerifyPage } from './auth/verify-account-page'
+export { default as GoogleSuccessPage } from './auth/google-success-page'
+
+export { default as CompaniesPage } from './company/companies-page'
+export { default as CompanyPage } from './company/company-page'
+export { default as CompanyCreatePage } from './company/company-create-page'
+export { default as CompanyUpdatePage } from './company/company-update-page'
+
+export { default as EventsPage } from './event/events-page'
+export { default as EventPage } from './event/event-page'
+export { default as EventCreatePage } from './event/event-create-page'
+export { default as EventCheckoutPage } from './event/checkout/event-checkout-page'
+export { default as CheckoutSuccessPage } from './event/checkout/checkout-success-page'
+
+export { default as LandingPage } from './landing-page'
+export { default as Homepage } from './homepage'
+export { default as UserProfilePage } from './profile-page'
+export { default as NotFound } from './not-found-page'

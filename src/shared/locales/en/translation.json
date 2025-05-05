@@ -1,0 +1,647 @@
+{
+	"notFound": {
+		"title": "404",
+		"message": "Oops! The page you are looking for does not exist.",
+		"goHome": "Go Home"
+	},
+	"login": {
+		"email": "Email",
+		"password": "Password",
+		"or": "or continue with",
+		"google": "Google",
+		"forgot": "Forgot password?",
+		"submit": "Login",
+		"noAccount": "Don't have an account?",
+		"register": "Register",
+		"captcha": "Please submit Captcha",
+		"success": "Welcome, {{username}}!",
+		"error": "Login error"
+	},
+	"register": {
+		"title": "Registration",
+		"username": "Username",
+		"email": "Email",
+		"password": "Password",
+		"confirmPassword": "Confirm password",
+		"or": "or continue with",
+		"google": "Google",
+		"submit": "Register",
+		"alreadyHaveAccount": "Already have an account?",
+		"login": "Login",
+		"captcha": "Please submit Captcha",
+		"success": "You have registered successfully. Please verify your account.",
+		"error": "Registration error"
+	},
+	"verification": {
+		"title": "Verification",
+		"success": "Account verified successfully",
+		"error": "Verification error"
+	},
+	"passwordReset": {
+		"emailLabel": "Email",
+		"submitButton": "Send reset email",
+		"emailSent": "A password reset email has been successfully sent to {{email}}.",
+		"resetSuccess": "Password reset successfully, you can now login to your account",
+		"resetError": "Password reset error",
+		"notificationTitle": "Password Reset Email Sent"
+	},
+	"verifyAccount": {
+		"emailLabel": "Email",
+		"submitButton": "Send verify email",
+		"verificationSent": "Verification email sent successfully",
+		"verificationError": "Verification error",
+		"verificationSuccess": "You have successfully verified your account. You can now log in."
+	},
+	"resetPasswordModal": {
+		"title": "Reset your password",
+		"message": "We've sent a verification code to {{email}}. Please enter the code below to reset your password.",
+		"passwordLabel": "Password",
+		"confirmPasswordLabel": "Confirm password",
+		"resendCode": "Resend code",
+		"changePassword": "Change password",
+		"resendSuccess": "Email with verify code sent successfully, please check your email",
+		"resendError": "Error sending verification code"
+	},
+	"verificationCodeModal": {
+		"title": "Verify your email",
+		"message": "We've sent a verification code to {{email}}. Please enter the code below to verify your account.",
+		"resendCode": "Resend code",
+		"verify": "Verify",
+		"resendSuccess": "Email with verify code sent successfully, please check your email",
+		"resendError": "Error sending verification code",
+		"invalidCode": "Invalid verification code"
+	},
+	"header": {
+		"verify": "Verify"
+	},
+	"authPages": {
+		"login": "Sign in",
+		"register": "Sign up",
+		"resetPassword": {
+			"title": "Reset password",
+			"text": "Enter your email address to reset your password"
+		},
+		"verifyAccount": {
+			"title": "Verify account",
+			"text": "Enter your email address to verify your account"
+		}
+	},
+	"createCompany": {
+		"title": "Create new company",
+		"name": "Name",
+		"namePlaceholder": "Enter company name",
+		"description": "Description",
+		"descriptionPlaceholder": "Enter company description",
+		"email": "Email",
+		"emailPlaceholder": "Enter company email",
+		"location": "Location",
+		"searchLocationPlaceholder": "Search for a venue",
+		"createButton": "Create",
+		"createTitle": "Company create",
+		"createMessage": "Company create successfully"
+	},
+	"updateCompany": {
+		"name": "Name",
+		"description": "Description",
+		"email": "Email",
+		"location": "Location",
+		"cancel": "Cancel",
+		"update": "Update",
+		"successTitle": "Company update",
+		"successMessage": "Company updated successfully",
+		"errorLoad": "Error loading company",
+		"title": "Update",
+		"info": "Info"
+	},
+	"deleteCompany": {
+		"modalTitle": "Delete company",
+		"successTitle": "Company deletion",
+		"successMessage": "The company has been successfully deleted.",
+		"errorTitle": "Company deletion error",
+		"confirmationMessage": "Do you really want to delete \"{{company}}\"? This action is irreversible."
+	},
+	"addMember": {
+		"modalTitle": "Invite members to company",
+		"selectLabel": "Select users",
+		"selectPlaceholder": "Start writing username or email...",
+		"inviteButton": "Invite users",
+		"successTitle": "Member invitation",
+		"successMessage": "Members have been successfully invited to the company.",
+		"errorTitle": "Member invitation error"
+	},
+	"companyCard": {
+		"createdAt": "Created on: {{date}}"
+	},
+	"carousel": {
+		"noEvent": "No events available."
+	},
+	"findModal": {
+		"company": "Companies",
+		"event": "Events",
+		"placeholder": "Search for events or companies"
+	},
+	"mainHeader": {
+		"home": "Home",
+		"events": "Events",
+		"companies": "Companies",
+		"allCompanies": "All companies",
+		"createCompany": "Create company",
+		"searchMobile": "Click to search",
+		"searchDesktop": "Click or use Ctrl+K",
+		"news": "News"
+	},
+	"companiesPage": {
+		"searchPlaceholder": "Search by name...",
+		"selectLimit": "Select Limit",
+		"errorLoadingCompanies": "Error loading companies"
+	},
+	"companyPage": {
+		"stripeAccount": "Please, connect stripe account to unlock all features",
+		"errorLoadingCompany": "Error loading company",
+		"companyLocation": "Location",
+		"companyMembers": "Members",
+		"addMember": "Add",
+		"companyEvents": "Events",
+		"createEvent": "Create",
+		"noEventsAvailable": "No events available.",
+		"loadingEvents": "Loading events...",
+		"joined": "Joined",
+		"seeMore": "See more",
+		"newsTitle": "News",
+		"reviews": "Reviews & Rating",
+		"createReview": "Write a Review"
+	},
+	"createEvent": {
+		"title": "Create new event"
+	},
+	"eventPage": {
+		"loading": "Loading event...",
+		"errorLoadingEvent": "Error loading event",
+		"aboutEvent": "About Event",
+		"buyTicket": "Buy Ticket",
+		"visitors": "Visitors",
+		"free": "FREE",
+		"buyNow": "Buy Now",
+		"soldOut": "SOLD OUT",
+		"location": "Location",
+		"moreFromCompany": "More from this company",
+		"seeMore": "See more",
+		"eventNotFound": "Event not found",
+		"adminZone": "Admin zone",
+		"manageCode": "Manage code",
+		"updateEvent": "Update event",
+		"deleteEvent": "Delete event"
+	},
+	"eventsPage": {
+		"loading": "Loading events...",
+		"errorLoadingEvents": "Error loading events",
+		"searchFilters": "Search & Filters",
+		"eventTitle": "Event Title",
+		"placeholderTitle": "Search...",
+		"format": "Format",
+		"selectFormat": "Select format",
+		"theme": "Theme",
+		"selectTheme": "Select theme",
+		"startDate": "Start Date",
+		"endDate": "End Date",
+		"minPrice": "Min Price",
+		"maxPrice": "Max Price",
+		"filterButton": "Filter",
+		"clearAllFilters": "Clear All Filters",
+		"sortBy": "Sort By",
+		"order": "Order",
+		"limit": "Limit",
+		"error": "Error",
+		"pagination": "Page",
+		"formats": {
+			"CONFERENCE": "Conference",
+			"LECTURE": "Lecture",
+			"WORKSHOP": "Workshop",
+			"FEST": "Festival",
+			"OTHER": "Other"
+		},
+		"themes": {
+			"BUSINESS": "Business",
+			"POLITICS": "Politics",
+			"PSYCHOLOGY": "Psychology",
+			"OTHER": "Other"
+		},
+		"sorts": {
+			"title": "Title",
+			"startDate": "Start date",
+			"endDate": "End date",
+			"publishDate": "Publish date",
+			"ticketPrice": "Ticket price",
+			"createdAt": "Created at",
+			"likes": "Likes"
+		},
+		"orders": {
+			"ASC": "ASC",
+			"DESC": "DESC"
+		}
+	},
+	"homepage": {
+		"welcomeMessage": "Welcome to our platform! Here you'll find the most relevant and exciting events, as well as get to know popular companies that are driving innovation. Join us and don't miss the chance to be at the heart of the most important happenings!",
+		"popularCompanies": "Popular Companies",
+		"comingSoon": "Coming Soon",
+		"noUpcomingEvents": "No upcoming events at the moment.",
+		"conferences": "Conferences",
+		"noConferenceEvents": "No conference events available.",
+		"lectures": "Lectures",
+		"noLectureEvents": "No lecture events available.",
+		"otherEvents": "Other Events",
+		"noOtherEvents": "No other events available."
+	},
+	"profile": {
+		"public": "Public",
+		"private": "Private",
+		"joined": "Joined",
+		"notLoggedIn": {
+			"title": "You are not logged in",
+			"message": "Please log in to view your profile."
+		},
+		"buttons": {
+			"goBack": "Go back",
+			"login": "Go login"
+		},
+		"visibility": {
+			"public": "Public",
+			"private": "Private"
+		},
+		"joinedDate": "Joined",
+		"lastUpdated": "Last updated",
+		"actions": {
+			"editAvatar": "Edit avatar",
+			"notifications": "Notifications",
+			"editProfile": "Edit profile",
+			"deleteAccount": "Delete account",
+			"logout": "Logout"
+		},
+		"sections": {
+			"companies": "Companies",
+			"tickets": "Tickets"
+		}
+	},
+	"deleteAccount": {
+		"cancel": "Cancel",
+		"error": "Error",
+		"delete": "Delete",
+		"title": "Delete account",
+		"confirmationText": "Deleting your account is permanent and cannot be undone. You will lose access to all your data.",
+		"reasonPrompt": "Tell us why are you deleting your account?",
+		"accountDeletion": "Account deletion",
+		"accountDeletionSuccess": "Your account has been successfully deleted.",
+		"accountDeletionError": "Account deletion error"
+	},
+	"uploadAvatar": {
+		"title": "Upload avatar",
+		"confirmationText": "New day, new profile pic! Choose an image that represents you best.",
+		"fileInputLabel": "Select new profile picture",
+		"fileInputPlaceholder": "Upload image",
+		"avatarUploadSuccess": "Avatar uploaded successfully.",
+		"avatarUploadError": "Avatar upload error",
+		"uploadAvatarButton": "Upload avatar"
+	},
+	"updateUser": {
+		"title": "Update user info",
+		"confirmationText": "You can update your email or username below. Make sure to save the changes",
+		"usernameLabel": "Username",
+		"emailLabel": "Email",
+		"saveChangesButton": "Save changes",
+		"accountUpdateSuccess": "Your account information has been successfully updated.",
+		"accountUpdateError": "Account update error"
+	},
+
+	"common": {
+		"cancel": "Cancel",
+		"error": "Error",
+		"delete": "Delete",
+		"free": "Free",
+		"draft": "Draft",
+		"shareTitle": "Share this event",
+		"copyLink": "Copy link",
+		"linkToCB": "Link copied to clipboard.",
+		"promocode": "Manage {{event}} promocodes",
+		"updateEvent": "Update event"
+	},
+	"commentReply": {
+		"title": "Reply to {{username}}",
+		"placeholder": "Write your reply...",
+		"cancel": "Cancel",
+		"submit": "Reply",
+		"success": "Reply posted successfully!",
+		"error": "Failed to post reply"
+	},
+	"commentForm": {
+		"title": "✏️ Leave a comment",
+		"description": "Give feedback or ask the organizer a question about the event",
+		"placeholder": "Write your comment...",
+		"submit": "Post comment",
+		"success": "Comment posted successfully!",
+		"error": "Failed to post comment"
+	},
+	"deleteComment": {
+		"title": "Delete comment",
+		"description": "Are you sure you want to delete this comment? This action cannot be undone.",
+		"cancel": "Cancel",
+		"submit": "Delete",
+		"success": "Comment deleted successfully",
+		"error": "Comment deletion error"
+	},
+	"commentCard": {
+		"edit": "Edit",
+		"delete": "Delete",
+		"cancel": "Cancel",
+		"save": "Save",
+		"reply": "Reply",
+		"showReplies": "Show replies",
+		"hideReplies": "Hide replies",
+		"updateSuccess": "Comment updated successfully",
+		"updateError": "Comment updating error"
+	},
+	"commentList": {
+		"title": "{{count}} comments",
+		"errorTitle": "Failed to load comments",
+		"loading": "Loading comments..."
+	},
+	"commentSection": {
+		"title": "Comments",
+		"loginPrompt": "Sign in to leave a comment"
+	},
+	"attendeesList": {
+		"title": "Attendees List",
+		"joined": "Joined on",
+		"noAttendees": "No attendees yet",
+		"loading": "Loading attendees..."
+	},
+	"eventForm": {
+		"title": "Create Event",
+		"poster": {
+			"label": "Poster",
+			"tooltip": "Upload poster"
+		},
+		"fields": {
+			"title": "Title",
+			"titlePlaceholder": "Enter event title",
+			"format": "Format",
+			"formatPlaceholder": "Choose event format",
+			"theme": "Theme",
+			"themePlaceholder": "Select a theme",
+			"description": "Description",
+			"descriptionPlaceholder": "Describe the event",
+			"visitorsVisibility": {
+				"label": "Visitors visibility",
+				"description": "Choose who can see the participants of the future event",
+				"options": {
+					"EVERYONE": "Everyone",
+					"VISITOR": "Participants"
+				}
+			},
+			"location": {
+				"label": "Location",
+				"searchPlaceholder": "Search for a venue"
+			},
+			"tickets": {
+				"label": "Tickets",
+				"price": "Price",
+				"pricePlaceholder": "Set ticket price",
+				"quantity": "Quantity",
+				"quantityPlaceholder": "How many tickets?"
+			},
+			"date": {
+				"label": "Date",
+				"start": "Start",
+				"startPlaceholder": "Select event start date and time",
+				"end": "End",
+				"endPlaceholder": "Select event end date and time"
+			},
+			"publish": {
+				"later": "Publish later",
+				"date": "Publish date",
+				"datePlaceholder": "Choose when to publish"
+			},
+			"promocodes": {
+				"label": "Promocodes",
+				"description": "You can optionally add promo codes to offer discounts on tickets for your attendees."
+			},
+			"notifications": {
+				"notifyOnAttendee": "Notify on new attendees",
+				"notifyDescription": "You'll receive an email when a new attendee joins"
+			}
+		},
+		"actions": {
+			"cancel": "Cancel",
+			"submit": "Create",
+			"update": "Update"
+		}
+	},
+	"promocodeInput": {
+		"label": "Have a promocode? Use it!",
+		"placeholder": "Enter code here...",
+		"submitButton": ">",
+		"errorSuggestion": "Please, try another one.",
+		"errors": {
+			"expired": "Promocode expired",
+			"notFound": "Promocode not found",
+			"generic": "Something went wrong",
+			"codeExists": "Promocode {{code}} already exists"
+		},
+		"fields": {
+			"code": "Code",
+			"discount": "Discount",
+			"expiration": "Expiration",
+			"expirationPlaceholder": "Choose when promocode expires"
+		},
+		"actions": {
+			"add": "Add promocode"
+		}
+	},
+	"notificationModal": {
+		"title": "Notifications",
+		"actions": {
+			"readAll": "Read all"
+		}
+	},
+	"notificationCard": {
+		"status": {
+			"read": "Read",
+			"unread": "Unread"
+		},
+		"actions": {
+			"delete": "Delete notification"
+		}
+	},
+	"notificationTypes": {
+		"EVENT_REMINDER": "Event Reminder",
+		"NEW_EVENT": "New Event",
+		"NEW_POST": "New post",
+		"NEW_PROMOCODE": "New promocode",
+		"NEW_ATTENDEE": "New attendee"
+	},
+	"postCreateModal": {
+		"title": "Create news",
+		"fields": {
+			"title": {
+				"label": "Title",
+				"placeholder": "Enter news title"
+			},
+			"content": {
+				"placeholder": "News content"
+			},
+			"poster": {
+				"label": "Upload poster",
+				"placeholder": "Choose file"
+			}
+		},
+		"actions": {
+			"submit": "Create news"
+		},
+		"notifications": {
+			"success": {
+				"title": "Create news",
+				"message": "Create news successfully"
+			},
+			"error": {
+				"title": "Create news error"
+			}
+		}
+	},
+	"companySection": {
+		"errors": {
+			"loadError": "Failed to load companies"
+		},
+		"emptyState": "You haven't created or joined any companies yet."
+	},
+	"ticketCard": {
+		"fields": {
+			"purchaseDate": "Purchase date",
+			"finalPrice": "Final price"
+		},
+		"actions": {
+			"download": "Download ticket",
+			"viewEvent": "Event"
+		},
+		"notifications": {
+			"error": {
+				"title": "Error downloading file"
+			}
+		}
+	},
+	"ticketSection": {
+		"errors": {
+			"loadError": "Failed to load tickets"
+		},
+		"emptyState": "You haven't purchased any event tickets yet."
+	},
+	"reviewCreateModal": {
+		"title": "Create review",
+		"fields": {
+			"comment": {
+				"label": "Comment",
+				"placeholder": "Enter comment text"
+			},
+			"rating": {
+				"label": "Tap to rate:"
+			}
+		},
+		"actions": {
+			"submit": "Create review"
+		},
+		"notifications": {
+			"success": {
+				"title": "Create review",
+				"message": "Review created successfully"
+			},
+			"error": {
+				"title": "Create review error"
+			}
+		}
+	},
+	"reviewCard": {
+		"actions": {
+			"delete": "Delete review",
+			"confirmDelete": "Delete"
+		},
+		"modal": {
+			"title": "Delete review",
+			"confirmation": "Are you sure you want to delete your review?"
+		},
+		"notifications": {
+			"deleteSuccess": {
+				"title": "Delete review",
+				"message": "Review deleted successfully"
+			},
+			"deleteError": {
+				"title": "Delete review error"
+			}
+		}
+	},
+	"editRoleSelect": {
+		"notifications": {
+			"success": {
+				"title": "Change role",
+				"message": "Role for {{username}} changed successfully"
+			},
+			"error": {
+				"title": "Change role error"
+			}
+		}
+	},
+	"connectSuccessPage": {
+		"title": "Connect Successful!",
+		"description": "Thank you for connecting your Stripe account. You now have full access to all company features.",
+		"buttons": {
+			"home": "Home page",
+			"company": "Go to company"
+		}
+	},
+	"checkoutElement": {
+		"payButton": "Pay ${{amount}}"
+	},
+	"checkoutSuccessPage": {
+		"title": "Payment Successful!",
+		"description": "Thank you for your purchase. You can view your tickets in your email or in your profile.",
+		"buttons": {
+			"home": "Home page",
+			"profile": "Go to Profile"
+		}
+	},
+	"eventCheckoutPage": {
+		"errors": {
+			"loadError": "Error loading event"
+		},
+		"steps": {
+			"tickets": {
+				"label": "First step",
+				"description": "Choose number of tickets"
+			},
+			"payment": {
+				"label": "Payment",
+				"description": "Pay for tickets"
+			}
+		},
+		"ticketSelection": {
+			"description": "Please select how many tickets you would like to buy for this event. Make sure to double-check your ticket quantity before moving forward!",
+			"ticketLabel": "Event ticket"
+		},
+		"total": "Total",
+		"buttons": {
+			"back": "Back",
+			"continue": "Continue"
+		}
+	},
+	"postPage": {
+		"errors": {
+			"loadError": "Error loading post"
+		},
+		"notifications": {
+			"likeError": {
+				"title": "Error updating like"
+			}
+		},
+		"actions": {
+			"like": "Like this post",
+			"unlike": "Remove like"
+		}
+	}
+}

@@ -1,0 +1,646 @@
+{
+	"notFound": {
+		"title": "404",
+		"message": "Упс! Сторінка, яку ви шукаєте, не існує.",
+		"goHome": "На головну"
+	},
+	"login": {
+		"email": "Електронна пошта",
+		"password": "Пароль",
+		"or": "або продовжити з",
+		"google": "Google",
+		"forgot": "Забули пароль?",
+		"submit": "Увійти",
+		"noAccount": "Немає облікового запису?",
+		"register": "Зареєструватися",
+		"captcha": "Будь ласка, підтвердіть Captcha",
+		"success": "Вітаємо, {{username}}!",
+		"error": "Помилка входу"
+	},
+	"register": {
+		"title": "Реєстрація",
+		"username": "Ім'я користувача",
+		"email": "Електронна пошта",
+		"password": "Пароль",
+		"confirmPassword": "Підтвердіть пароль",
+		"or": "або продовжити з",
+		"google": "Google",
+		"submit": "Зареєструватися",
+		"alreadyHaveAccount": "Вже маєте обліковий запис?",
+		"login": "Увійти",
+		"captcha": "Будь ласка, підтвердіть Captcha",
+		"success": "Ви успішно зареєструвалися. Будь ласка, підтвердіть свій обліковий запис.",
+		"error": "Помилка реєстрації"
+	},
+	"verification": {
+		"title": "Перевірка",
+		"success": "Обліковий запис успішно підтверджено",
+		"error": "Помилка перевірки"
+	},
+	"passwordReset": {
+		"emailLabel": "Електронна пошта",
+		"submitButton": "Надіслати лист для скидання паролю",
+		"emailSent": "Лист для скидання паролю успішно надіслано на {{email}}.",
+		"resetSuccess": "Пароль успішно скинуто, тепер ви можете увійти до свого облікового запису",
+		"resetError": "Помилка скидання паролю",
+		"notificationTitle": "Відправлено лист для скидання паролю"
+	},
+	"verifyAccount": {
+		"emailLabel": "Електронна пошта",
+		"submitButton": "Надіслати лист підтвердження",
+		"verificationSent": "Лист підтвердження успішно надіслано",
+		"verificationError": "Помилка перевірки",
+		"verificationSuccess": "Ви успішно підтвердили свій обліковий запис. Тепер ви можете увійти."
+	},
+	"resetPasswordModal": {
+		"title": "Скинути пароль",
+		"message": "Ми надіслали код підтвердження на {{email}}. Будь ласка, введіть код нижче для скидання паролю.",
+		"passwordLabel": "Пароль",
+		"confirmPasswordLabel": "Підтвердіть пароль",
+		"resendCode": "Надіслати код повторно",
+		"changePassword": "Змінити пароль",
+		"resendSuccess": "Лист з кодом підтвердження успішно надіслано, перевірте свою електронну пошту",
+		"resendError": "Помилка надсилання коду підтвердження"
+	},
+	"verificationCodeModal": {
+		"title": "Підтвердіть свою електронну пошту",
+		"message": "Ми надіслали код підтвердження на {{email}}. Будь ласка, введіть код нижче, щоб підтвердити свій обліковий запис.",
+		"resendCode": "Надіслати код повторно",
+		"verify": "Підтвердити",
+		"resendSuccess": "Лист з кодом підтвердження успішно надіслано, перевірте свою електронну пошту",
+		"resendError": "Помилка надсилання коду підтвердження",
+		"invalidCode": "Недійсний код підтвердження"
+	},
+	"header": {
+		"verify": "Підтвердити"
+	},
+	"authPages": {
+		"login": "Увійти",
+		"register": "Зареєструватися",
+		"resetPassword": {
+			"title": "Скинути пароль",
+			"text": "Введіть свою електронну адресу для скидання паролю"
+		},
+		"verifyAccount": {
+			"title": "Підтвердити обліковий запис",
+			"text": "Введіть свою електронну адресу для підтвердження облікового запису"
+		}
+	},
+	"createCompany": {
+		"title": "Створити нову компанію",
+		"name": "Назва",
+		"namePlaceholder": "Введіть назву компанії",
+		"description": "Опис",
+		"descriptionPlaceholder": "Введіть опис компанії",
+		"email": "Електронна пошта",
+		"emailPlaceholder": "Введіть електронну пошту компанії",
+		"location": "Розташування",
+		"searchLocationPlaceholder": "Пошук місця проведення",
+		"createButton": "Створити",
+		"createTitle": "Створення компанії",
+		"createMessage": "Компанію успішно створено"
+	},
+	"updateCompany": {
+		"name": "Назва",
+		"description": "Опис",
+		"email": "Електронна пошта",
+		"location": "Розташування",
+		"cancel": "Скасувати",
+		"update": "Оновити",
+		"successTitle": "Оновлення компанії",
+		"successMessage": "Компанію успішно оновлено",
+		"errorLoad": "Помилка завантаження компанії",
+		"title": "Оновити",
+		"info": "Інформація"
+	},
+	"deleteCompany": {
+		"modalTitle": "Видалити компанію",
+		"successTitle": "Видалення компанії",
+		"successMessage": "Компанію успішно видалено.",
+		"errorTitle": "Помилка видалення компанії",
+		"confirmationMessage": "Ви дійсно хочете видалити \"{{company}}\"? Ця дія незворотна."
+	},
+	"addMember": {
+		"modalTitle": "Запросити учасників у компанію",
+		"selectLabel": "Вибрати користувачів",
+		"selectPlaceholder": "Почніть вводити ім'я користувача або електронну пошту...",
+		"inviteButton": "Запросити користувачів",
+		"successTitle": "Запрошення учасників",
+		"successMessage": "Учасників успішно запрошено до компанії.",
+		"errorTitle": "Помилка запрошення учасників"
+	},
+	"companyCard": {
+		"createdAt": "Створено: {{date}}"
+	},
+	"carousel": {
+		"noEvent": "Немає доступних подій."
+	},
+	"findModal": {
+		"company": "Компанії",
+		"event": "Події",
+		"placeholder": "Пошук подій або компаній"
+	},
+	"mainHeader": {
+		"home": "Головна",
+		"events": "Події",
+		"companies": "Компанії",
+		"allCompanies": "Всі компанії",
+		"createCompany": "Створити компанію",
+		"searchMobile": "Натисніть для пошуку",
+		"searchDesktop": "Натисніть або використовуйте Ctrl+K",
+		"news": "Новини"
+	},
+	"companiesPage": {
+		"searchPlaceholder": "Пошук за назвою...",
+		"selectLimit": "Вибрати ліміт",
+		"errorLoadingCompanies": "Помилка завантаження компаній"
+	},
+	"companyPage": {
+		"stripeAccount": "Будь ласка, підключіть обліковий запис Stripe, щоб розблокувати всі функції",
+		"errorLoadingCompany": "Помилка завантаження компанії",
+		"companyLocation": "Розташування",
+		"companyMembers": "Учасники",
+		"addMember": "Додати",
+		"companyEvents": "Події",
+		"createEvent": "Створити",
+		"noEventsAvailable": "Немає доступних подій.",
+		"loadingEvents": "Завантаження подій...",
+		"joined": "Приєднався",
+		"seeMore": "Дивитися більше",
+		"newsTitle": "Новини",
+		"reviews": "Відгуки та рейтинг",
+		"createReview": "Написати відгук"
+	},
+	"createEvent": {
+		"title": "Створити нову подію"
+	},
+	"eventPage": {
+		"loading": "Завантаження події...",
+		"errorLoadingEvent": "Помилка завантаження події",
+		"aboutEvent": "Про подію",
+		"buyTicket": "Купити квиток",
+		"visitors": "Відвідувачі",
+		"free": "БЕЗКОШТОВНО",
+		"buyNow": "Купити зараз",
+		"soldOut": "РОЗПРОДАНО",
+		"location": "Місце проведення",
+		"moreFromCompany": "Більше від цієї компанії",
+		"seeMore": "Дивитись більше",
+		"eventNotFound": "Подія не знайдена",
+		"adminZone": "Адмін зона",
+		"manageCode": "Керувати кодом",
+		"updateEvent": "Оновити подію",
+		"deleteEvent": "Видалити подію"
+	},
+	"eventsPage": {
+		"loading": "Завантаження подій...",
+		"errorLoadingEvents": "Помилка завантаження подій",
+		"searchFilters": "Пошук і фільтри",
+		"eventTitle": "Назва події",
+		"placeholderTitle": "Пошук...",
+		"format": "Формат",
+		"selectFormat": "Виберіть формат",
+		"theme": "Тема",
+		"selectTheme": "Виберіть тему",
+		"startDate": "Дата початку",
+		"endDate": "Дата завершення",
+		"minPrice": "Мін. ціна",
+		"maxPrice": "Макс. ціна",
+		"filterButton": "Фільтрувати",
+		"clearAllFilters": "Очистити всі фільтри",
+		"sortBy": "Сортувати за",
+		"order": "Порядок",
+		"limit": "Ліміт",
+		"error": "Помилка",
+		"pagination": "Сторінка",
+		"formats": {
+			"CONFERENCE": "Конференція",
+			"LECTURE": "Лекція",
+			"WORKSHOP": "Воркшоп",
+			"FEST": "Фестиваль",
+			"OTHER": "Інше"
+		},
+		"themes": {
+			"BUSINESS": "Бізнес",
+			"POLITICS": "Політика",
+			"PSYCHOLOGY": "Психологія",
+			"OTHER": "Інше"
+		},
+		"sorts": {
+			"title": "Назва",
+			"startDate": "Дата початку",
+			"endDate": "Дата завершення",
+			"publishDate": "Дата публікації",
+			"ticketPrice": "Ціна квитка",
+			"createdAt": "Дата створення",
+			"likes": "Вподобання"
+		},
+		"orders": {
+			"ASC": "За зростанням",
+			"DESC": "За спаданням"
+		}
+	},
+	"homepage": {
+		"welcomeMessage": "Ласкаво просимо на нашу платформу! Тут ви знайдете найактуальніші та захоплюючі події, а також познайомитеся з популярними компаніями, які рухають інновації. Приєднуйтесь до нас і не пропустіть можливість бути в центрі найважливіших подій!",
+		"popularCompanies": "Популярні компанії",
+		"comingSoon": "Незабаром",
+		"noUpcomingEvents": "На даний момент немає майбутніх подій.",
+		"conferences": "Конференції",
+		"noConferenceEvents": "Немає доступних конференцій.",
+		"lectures": "Лекції",
+		"noLectureEvents": "Немає доступних лекцій.",
+		"otherEvents": "Інші події",
+		"noOtherEvents": "Немає інших доступних подій."
+	},
+	"profile": {
+		"public": "Публічний",
+		"private": "Приватний",
+		"joined": "Приєднався",
+		"notLoggedIn": {
+			"title": "Ви не увійшли в систему",
+			"message": "Будь ласка, увійдіть, щоб переглянути свій профіль."
+		},
+		"buttons": {
+			"goBack": "Повернутися",
+			"login": "Перейти до входу"
+		},
+		"visibility": {
+			"public": "Публічний",
+			"private": "Приватний"
+		},
+		"joinedDate": "Приєднався",
+		"lastUpdated": "Останнє оновлення",
+		"actions": {
+			"editAvatar": "Редагувати аватар",
+			"notifications": "Сповіщення",
+			"editProfile": "Редагувати профіль",
+			"deleteAccount": "Видалити обліковий запис",
+			"logout": "Вийти"
+		},
+		"sections": {
+			"companies": "Компанії",
+			"tickets": "Квитки"
+		}
+	},
+	"deleteAccount": {
+		"cancel": "Скасувати",
+		"error": "Помилка",
+		"delete": "Видалити",
+		"title": "Видалити обліковий запис",
+		"confirmationText": "Видалення вашого облікового запису є постійним і не може бути скасовано. Ви втратите доступ до всіх своїх даних.",
+		"reasonPrompt": "Розкажіть нам, чому ви видаляєте свій обліковий запис?",
+		"accountDeletion": "Видалення облікового запису",
+		"accountDeletionSuccess": "Ваш обліковий запис успішно видалено.",
+		"accountDeletionError": "Помилка видалення облікового запису"
+	},
+	"uploadAvatar": {
+		"title": "Завантажити аватар",
+		"confirmationText": "Новий день, нова фотографія профілю! Виберіть зображення, яке найкраще представляє вас.",
+		"fileInputLabel": "Вибрати нову фотографію профілю",
+		"fileInputPlaceholder": "Завантажити зображення",
+		"avatarUploadSuccess": "Аватар успішно завантажено.",
+		"avatarUploadError": "Помилка завантаження аватара",
+		"uploadAvatarButton": "Завантажити аватар"
+	},
+	"updateUser": {
+		"title": "Оновити інформацію користувача",
+		"confirmationText": "Ви можете оновити свою електронну пошту або ім'я користувача нижче. Не забудьте зберегти зміни",
+		"usernameLabel": "Ім'я користувача",
+		"emailLabel": "Електронна пошта",
+		"saveChangesButton": "Зберегти зміни",
+		"accountUpdateSuccess": "Інформацію вашого облікового запису успішно оновлено.",
+		"accountUpdateError": "Помилка оновлення облікового запису"
+	},
+	"common": {
+		"cancel": "Скасувати",
+		"error": "Помилка",
+		"delete": "Видалити",
+		"free": "Безкоштовно",
+		"draft": "Чернетка",
+		"shareTitle": "Поділитися цією подією",
+		"copyLink": "Копіювати посилання",
+		"linkToCB": "Посилання скопійовано до буфера обміну.",
+		"promocode": "Керувати промокодами {{event}}",
+		"updateEvent": "Оновити подію"
+	},
+	"commentReply": {
+		"title": "Відповісти {{username}}",
+		"placeholder": "Напишіть свою відповідь...",
+		"cancel": "Скасувати",
+		"submit": "Відповісти",
+		"success": "Відповідь успішно опубліковано!",
+		"error": "Не вдалося опублікувати відповідь"
+	},
+	"commentForm": {
+		"title": "✏️ Залишити коментар",
+		"description": "Залиште відгук або задайте питання організатору про подію",
+		"placeholder": "Напишіть свій коментар...",
+		"submit": "Опублікувати коментар",
+		"success": "Коментар успішно опубліковано!",
+		"error": "Не вдалося опублікувати коментар"
+	},
+	"deleteComment": {
+		"title": "Видалити коментар",
+		"description": "Ви впевнені, що хочете видалити цей коментар? Цю дію неможливо скасувати.",
+		"cancel": "Скасувати",
+		"submit": "Видалити",
+		"success": "Коментар успішно видалено",
+		"error": "Помилка видалення коментаря"
+	},
+	"commentCard": {
+		"edit": "Редагувати",
+		"delete": "Видалити",
+		"cancel": "Скасувати",
+		"save": "Зберегти",
+		"reply": "Відповісти",
+		"showReplies": "Показати відповіді",
+		"hideReplies": "Приховати відповіді",
+		"updateSuccess": "Коментар успішно оновлено",
+		"updateError": "Помилка оновлення коментаря"
+	},
+	"commentList": {
+		"title": "{{count}} коментарів",
+		"errorTitle": "Не вдалося завантажити коментарі",
+		"loading": "Завантаження коментарів..."
+	},
+	"commentSection": {
+		"title": "Коментарі",
+		"loginPrompt": "Увійдіть, щоб залишити коментар"
+	},
+	"attendeesList": {
+		"title": "Список учасників",
+		"joined": "Приєднався",
+		"noAttendees": "Поки немає учасників",
+		"loading": "Завантаження учасників..."
+	},
+	"eventForm": {
+		"title": "Створити подію",
+		"poster": {
+			"label": "Постер",
+			"tooltip": "Завантажити постер"
+		},
+		"fields": {
+			"title": "Назва",
+			"titlePlaceholder": "Введіть назву події",
+			"format": "Формат",
+			"formatPlaceholder": "Виберіть формат події",
+			"theme": "Тема",
+			"themePlaceholder": "Виберіть тему",
+			"description": "Опис",
+			"descriptionPlaceholder": "Опишіть подію",
+			"visitorsVisibility": {
+				"label": "Видимість відвідувачів",
+				"description": "Виберіть, хто може бачити учасників майбутньої події",
+				"options": {
+					"EVERYONE": "Всі",
+					"VISITOR": "Учасники"
+				}
+			},
+			"location": {
+				"label": "Розташування",
+				"searchPlaceholder": "Пошук місця проведення"
+			},
+			"tickets": {
+				"label": "Квитки",
+				"price": "Ціна",
+				"pricePlaceholder": "Встановіть ціну квитка",
+				"quantity": "Кількість",
+				"quantityPlaceholder": "Скільки квитків?"
+			},
+			"date": {
+				"label": "Дата",
+				"start": "Початок",
+				"startPlaceholder": "Виберіть дату та час початку події",
+				"end": "Кінець",
+				"endPlaceholder": "Виберіть дату та час завершення події"
+			},
+			"publish": {
+				"later": "Опублікувати пізніше",
+				"date": "Дата публікації",
+				"datePlaceholder": "Виберіть, коли опублікувати"
+			},
+			"promocodes": {
+				"label": "Промокоди",
+				"description": "Ви можете додати промокоди, щоб запропонувати знижки на квитки для своїх учасників."
+			},
+			"notifications": {
+				"notifyOnAttendee": "Сповіщати про нових учасників",
+				"notifyDescription": "Ви отримуватимете електронний лист, коли приєднається новий учасник"
+			}
+		},
+		"actions": {
+			"cancel": "Скасувати",
+			"submit": "Створити",
+			"update": "Змінити"
+		}
+	},
+	"promocodeInput": {
+		"label": "Маєте промокод? Використайте його!",
+		"placeholder": "Введіть код тут...",
+		"submitButton": ">",
+		"errorSuggestion": "Будь ласка, спробуйте інший.",
+		"errors": {
+			"expired": "Промокод закінчився",
+			"notFound": "Промокод не знайдено",
+			"generic": "Щось пішло не так",
+			"codeExists": "Промокод {{code}} вже існує"
+		},
+		"fields": {
+			"code": "Код",
+			"discount": "Знижка",
+			"expiration": "Термін дії",
+			"expirationPlaceholder": "Виберіть, коли закінчується термін дії промокоду"
+		},
+		"actions": {
+			"add": "Додати промокод"
+		}
+	},
+	"notificationModal": {
+		"title": "Сповіщення",
+		"actions": {
+			"readAll": "Прочитати всі"
+		}
+	},
+	"notificationCard": {
+		"status": {
+			"read": "Прочитано",
+			"unread": "Непрочитано"
+		},
+		"actions": {
+			"delete": "Видалити сповіщення"
+		}
+	},
+	"notificationTypes": {
+		"NEW_POST": "Нова новина",
+		"NEW_PROMOCODE": "Новий промокод",
+		"NEW_ATTENDEE": "Новий відвідувач",
+		"EVENT_REMINDER": "Нагадування про подію",
+		"NEW_EVENT": "Нова подія"
+	},
+	"postCreateModal": {
+		"title": "Створити новину",
+		"fields": {
+			"title": {
+				"label": "Заголовок",
+				"placeholder": "Введіть заголовок новини"
+			},
+			"content": {
+				"placeholder": "Зміст новини"
+			},
+			"poster": {
+				"label": "Завантажити постер",
+				"placeholder": "Вибрати файл"
+			}
+		},
+		"actions": {
+			"submit": "Створити новину"
+		},
+		"notifications": {
+			"success": {
+				"title": "Створення новини",
+				"message": "Новину успішно створено"
+			},
+			"error": {
+				"title": "Помилка створення новини"
+			}
+		}
+	},
+	"companySection": {
+		"errors": {
+			"loadError": "Не вдалося завантажити компанії"
+		},
+		"emptyState": "Ви ще не створили та не приєдналися до жодної компанії."
+	},
+	"ticketCard": {
+		"fields": {
+			"purchaseDate": "Дата покупки",
+			"finalPrice": "Кінцева ціна"
+		},
+		"actions": {
+			"download": "Завантажити квиток",
+			"viewEvent": "Подія"
+		},
+		"notifications": {
+			"error": {
+				"title": "Помилка завантаження файлу"
+			}
+		}
+	},
+	"ticketSection": {
+		"errors": {
+			"loadError": "Не вдалося завантажити квитки"
+		},
+		"emptyState": "Ви ще не придбали жодного квитка на подію."
+	},
+	"reviewCreateModal": {
+		"title": "Створити відгук",
+		"fields": {
+			"comment": {
+				"label": "Коментар",
+				"placeholder": "Введіть текст коментаря"
+			},
+			"rating": {
+				"label": "Натисніть, щоб оцінити:"
+			}
+		},
+		"actions": {
+			"submit": "Створити відгук"
+		},
+		"notifications": {
+			"success": {
+				"title": "Створення відгуку",
+				"message": "Відгук успішно створено"
+			},
+			"error": {
+				"title": "Помилка створення відгуку"
+			}
+		}
+	},
+	"reviewCard": {
+		"actions": {
+			"delete": "Видалити відгук",
+			"confirmDelete": "Видалити"
+		},
+		"modal": {
+			"title": "Видалити відгук",
+			"confirmation": "Ви впевнені, що хочете видалити свій відгук?"
+		},
+		"notifications": {
+			"deleteSuccess": {
+				"title": "Видалення відгуку",
+				"message": "Відгук успішно видалено"
+			},
+			"deleteError": {
+				"title": "Помилка видалення відгуку"
+			}
+		}
+	},
+	"editRoleSelect": {
+		"notifications": {
+			"success": {
+				"title": "Зміна ролі",
+				"message": "Роль для {{username}} успішно змінено"
+			},
+			"error": {
+				"title": "Помилка зміни ролі"
+			}
+		}
+	},
+	"connectSuccessPage": {
+		"title": "Підключення успішне!",
+		"description": "Дякуємо за підключення облікового запису Stripe. Тепер у вас є повний доступ до всіх функцій компанії.",
+		"buttons": {
+			"home": "Головна сторінка",
+			"company": "Перейти до компанії"
+		}
+	},
+	"checkoutElement": {
+		"payButton": "Оплатити ${{amount}}"
+	},
+	"checkoutSuccessPage": {
+		"title": "Оплата успішна!",
+		"description": "Дякуємо за покупку. Ви можете переглянути свої квитки в електронній пошті або у своєму профілі.",
+		"buttons": {
+			"home": "Головна сторінка",
+			"profile": "Перейти до профілю"
+		}
+	},
+	"eventCheckoutPage": {
+		"errors": {
+			"loadError": "Помилка завантаження події"
+		},
+		"steps": {
+			"tickets": {
+				"label": "Перший крок",
+				"description": "Виберіть кількість квитків"
+			},
+			"payment": {
+				"label": "Оплата",
+				"description": "Оплатіть квитки"
+			}
+		},
+		"ticketSelection": {
+			"description": "Будь ласка, виберіть, скільки квитків ви хочете придбати на цю подію. Переконайтеся, що перевірили кількість квитків перед переходом далі!",
+			"ticketLabel": "Квиток на подію"
+		},
+		"total": "Загалом",
+		"buttons": {
+			"back": "Назад",
+			"continue": "Продовжити"
+		}
+	},
+	"postPage": {
+		"errors": {
+			"loadError": "Помилка завантаження публікації"
+		},
+		"notifications": {
+			"likeError": {
+				"title": "Помилка оновлення вподобання"
+			}
+		},
+		"actions": {
+			"like": "Вподобати цю публікацію",
+			"unlike": "Прибрати вподобання"
+		}
+	}
+}
